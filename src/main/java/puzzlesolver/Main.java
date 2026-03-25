@@ -1,6 +1,9 @@
 package puzzlesolver;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -8,9 +11,6 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-
-import static javafx.stage.FileChooser.ExtensionFilter;
-
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -18,27 +18,31 @@ import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.exceptions.InvalidPuzzleNameException;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Puzzle;
-import puzzlesolver.puzzles.binairo.puzzle.BinairoPuzzle;
-import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuPuzzle;
-import puzzlesolver.puzzles.sudoku.puzzle.SudokuPuzzle;
+import puzzlesolver.loc.GUIStrings;
+import puzzlesolver.puzzles.PuzzleFactory;
 import puzzlesolver.solvers.Solver;
 import puzzlesolver.solvers.SolverFactory;
+import puzzlesolver.ui.LocaleSelector;
 import puzzlesolver.ui.SolverConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.Scanner;
+
+import static javafx.stage.FileChooser.ExtensionFilter;
 
 @Slf4j
 public final class Main extends Application {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 400;
 
-    private @Nullable Puzzle<?> puzzle;
+    private static final String CSS = "styles.css";
+
+    private static final ObjectProperty<@Nullable Puzzle<?>> puzzle = new SimpleObjectProperty<>();
     private final CompoundCommand comms = new CompoundCommand();
     private final SolverFactory solverFactory = new SolverFactory();
-//    private final ObservableValue<ResourceBundle> bundle = new SimpleObjectProperty<>(ResourceBundle.getBundle());
 
     @Override
     public void start(Stage stage) {
@@ -47,9 +51,9 @@ public final class Main extends Application {
 
         // Create scene and update stage
         Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        stage.setTitle("Puzzle Solver");
+        stage.titleProperty().bind(GUIStrings.TITLE);
         stage.setScene(scene);
-        scene.getStylesheets().add("styles.css");
+        scene.getStylesheets().add(CSS);
 
         // Create menubar
         MenuBar menuBar = new MenuBar();
@@ -61,19 +65,23 @@ public final class Main extends Application {
         text.setStyle("-fx-font-family: 'monospaced';");
 
         // Create menus
-        Menu fileMenu = new Menu("File");
-        Menu editMenu = new Menu("Edit");
-        Menu puzzleMenu = new Menu("Puzzle");
+        Menu fileMenu = new Menu();
+        fileMenu.textProperty().bind(GUIStrings.FILE_MENU_NAME);
+        Menu editMenu = new Menu();
+        editMenu.textProperty().bind(GUIStrings.EDIT_MENU_NAME);
+        Menu puzzleMenu = new Menu();
+        puzzleMenu.textProperty().bind(GUIStrings.PUZZLE_MENU_NAME);
+        Menu settingsMenu = new Menu();
+        settingsMenu.textProperty().bind(GUIStrings.SETTINGS_MENU_NAME);
 
         // Put menus in their spots
-        menuBar.getMenus().add(fileMenu);
-        menuBar.getMenus().add(editMenu);
-        menuBar.getMenus().add(puzzleMenu);
+        menuBar.getMenus().addAll(fileMenu, editMenu, puzzleMenu, settingsMenu);
 
         // Create menu items
         MenuItem createPuzzleMenuItem = new MenuItem("create puzzle...");
         MenuItem loadPuzzleMenuItem = new MenuItem("load puzzle...");
         MenuItem savePuzzleMenuItem = new MenuItem("save puzzle...");
+        MenuItem closePuzzleMenuItem = new MenuItem("close puzzle...");
         MenuItem undoMenuItem = new MenuItem("undo");
         MenuItem redoMenuItem = new MenuItem("redo");
         MenuItem undoAllMenuItem = new MenuItem("undo all");
@@ -83,27 +91,22 @@ public final class Main extends Application {
         Menu solverConfSubMenu = new Menu("test");
         CheckMenuItem reasonToggleItem = new CheckMenuItem("Reasoning");
         CheckMenuItem backtrackToggleItem = new CheckMenuItem("Backtracking");
+        MenuItem localeMenuItem = new MenuItem("choose locale...");
 
         // Put menu items in their spots
-        fileMenu.getItems().add(createPuzzleMenuItem);
-        fileMenu.getItems().add(loadPuzzleMenuItem);
-        fileMenu.getItems().add(savePuzzleMenuItem);
-        editMenu.getItems().add(undoMenuItem);
-        editMenu.getItems().add(redoMenuItem);
-        editMenu.getItems().add(undoAllMenuItem);
-        editMenu.getItems().add(redoAllMenuItem);
-        puzzleMenu.getItems().add(solvePuzzleMenuItem);
-        puzzleMenu.getItems().add(modifySolverMenuItem);
-        puzzleMenu.getItems().add(solverConfSubMenu);
-        solverConfSubMenu.getItems().add(reasonToggleItem);
-        solverConfSubMenu.getItems().add(backtrackToggleItem);
+        fileMenu.getItems().addAll(createPuzzleMenuItem, loadPuzzleMenuItem, savePuzzleMenuItem, closePuzzleMenuItem);
+        editMenu.getItems().addAll(undoMenuItem, redoMenuItem, undoAllMenuItem, redoAllMenuItem);
+        puzzleMenu.getItems().addAll(solvePuzzleMenuItem, modifySolverMenuItem, solverConfSubMenu);
+        settingsMenu.getItems().addAll(localeMenuItem);
+        solverConfSubMenu.getItems().addAll(reasonToggleItem, backtrackToggleItem);
 
         // Set default states
-        undoMenuItem.setDisable(true);
-        redoMenuItem.setDisable(true);
-        undoAllMenuItem.setDisable(true);
-        redoAllMenuItem.setDisable(true);
-        solvePuzzleMenuItem.setDisable(true);
+        closePuzzleMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        undoMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        redoMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        undoAllMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        redoAllMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        solvePuzzleMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
 
         // Set actions
         createPuzzleMenuItem.setOnAction(e -> {});
@@ -117,15 +120,10 @@ public final class Main extends Application {
                 return;
             try {
                 Scanner sc = new Scanner(selectedFile);
-                this.puzzle = resolvePuzzleName(sc);
+                puzzle.setValue(PuzzleFactory.create(sc));
                 comms.clear();
                 text.setText("");
-                puzzle.print(text);
-                undoMenuItem.setDisable(false);
-                redoMenuItem.setDisable(false);
-                undoAllMenuItem.setDisable(false);
-                redoAllMenuItem.setDisable(false);
-                solvePuzzleMenuItem.setDisable(false);
+                puzzle.getValue().print(text);
             }
             catch (IOException err) {
                 Alert d = new Alert(Alert.AlertType.ERROR);
@@ -151,37 +149,47 @@ public final class Main extends Application {
             }
         });
         savePuzzleMenuItem.setOnAction(e -> {});
+        closePuzzleMenuItem.setOnAction(e -> {
+            text.setText("");
+            puzzle.setValue(null);
+        });
         undoMenuItem.setOnAction(e -> {
             comms.undo();
             text.setText("");
-            Objects.requireNonNull(this.puzzle).print(text);
+            puzzle.getValue().print(text);
         });
         redoMenuItem.setOnAction(e -> {
             comms.apply();
             text.setText("");
-            Objects.requireNonNull(this.puzzle).print(text);
+            puzzle.getValue().print(text);
         });
         undoAllMenuItem.setOnAction(e -> {
             comms.undoAll();
             text.setText("");
-            Objects.requireNonNull(this.puzzle).print(text);
+            puzzle.getValue().print(text);
         });
         redoAllMenuItem.setOnAction(e -> {
             comms.applyAll();
             text.setText("");
-            Objects.requireNonNull(this.puzzle).print(text);
+            puzzle.getValue().print(text);
         });
         solvePuzzleMenuItem.setOnAction(e -> {
-            Puzzle<?> puzzle = this.puzzle;
-            Solver s = solverFactory.withPuzzle(Objects.requireNonNull(puzzle)).build();
+            Puzzle<?> puzzle = Main.puzzle.getValue();
+            Solver s = solverFactory.withPuzzle(puzzle).build();
             s.solve(comms);
             text.setText("");
             puzzle.print(text);
         });
         modifySolverMenuItem.setOnAction(e -> {
             Stage sConfiguration = new SolverConfiguration(solverFactory);
-            sConfiguration.show();
+            sConfiguration.showAndWait();
         });
+        localeMenuItem.setOnAction(e -> {
+            Dialog<Locale> selector = new LocaleSelector();
+            Optional<Locale> newLocale = selector.showAndWait();
+            newLocale.ifPresent(GUIStrings::updateLocale);
+        });
+
         reasonToggleItem.selectedProperty().bindBidirectional(solverFactory.reasonerProperty());
         backtrackToggleItem.selectedProperty().bindBidirectional(solverFactory.backtrackProperty());
 
@@ -207,17 +215,6 @@ public final class Main extends Application {
 
         // Finish up
         stage.show();
-    }
-
-    private static Puzzle<?> resolvePuzzleName(Scanner sc)
-            throws InvalidPuzzleNameException, InvalidPuzzleSyntaxException {
-        String name = sc.next();
-        return switch (name.toLowerCase()) {
-            case "sudoku" -> new SudokuPuzzle(sc);
-            case "kakurasu" -> new KakurasuPuzzle(sc);
-            case "binairo" -> new BinairoPuzzle(sc);
-            default -> throw new InvalidPuzzleNameException("This name cannot be resolved");
-        };
     }
 
     public static void main(String[] args) {
