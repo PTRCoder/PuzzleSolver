@@ -1,27 +1,16 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
-import puzzlesolver.generics.puzzle.Group;
 import lombok.Value;
+import puzzlesolver.generics.puzzle.Group;
 
 import java.util.List;
 
 @Value
 public class SudokuGroup implements Group<Integer> {
     List<SudokuCell> cells;
-//    @Getter(value = AccessLevel.NONE)
-//    @NonFinal
-//    BooleanProperty valid = null;
 
     @Override
     public boolean validate() {
-//        if (valid == null) {
-//            valid = new SimpleBooleanProperty(true);
-//            ObservableList<Integer> uniques = 
-//            for (SudokuCell cell : cells) {
-//                ObjectProperty<Integer> value = cell.valueProperty();
-//            }
-//        }
-//        return valid.get();
         boolean[] checks = new boolean[getSize()];
         for (SudokuCell c : cells) {
             if (!c.isValid())
