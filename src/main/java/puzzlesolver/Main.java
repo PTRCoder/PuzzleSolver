@@ -19,6 +19,7 @@ import puzzlesolver.exceptions.InvalidPuzzleNameException;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.loc.GUIStrings;
+import puzzlesolver.loc.LocaleManager;
 import puzzlesolver.puzzles.PuzzleFactory;
 import puzzlesolver.solvers.Solver;
 import puzzlesolver.solvers.SolverFactory;
@@ -187,7 +188,7 @@ public final class Main extends Application {
         localeMenuItem.setOnAction(e -> {
             Dialog<Locale> selector = new LocaleSelector();
             Optional<Locale> newLocale = selector.showAndWait();
-            newLocale.ifPresent(GUIStrings::updateLocale);
+            newLocale.ifPresent(LocaleManager.LOCALE_PROPERTY::setValue);
         });
 
         reasonToggleItem.selectedProperty().bindBidirectional(solverFactory.reasonerProperty());

@@ -2,7 +2,7 @@ package puzzlesolver.ui;
 
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NonNls;
-import puzzlesolver.loc.GUIStrings;
+import puzzlesolver.loc.LocaleManager;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +16,7 @@ public class LocaleSelector extends ChoiceDialog<Locale> {
 
     public LocaleSelector() {
         super(
-                GUIStrings.getLocale(),
+                LocaleManager.LOCALE_PROPERTY.get(),
                 CHOICES
         );
     }
