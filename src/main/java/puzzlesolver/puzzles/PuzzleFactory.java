@@ -41,7 +41,7 @@ public final class PuzzleFactory {
         }
     }
 
-    private static Puzzle<?> resolvePuzzle(PuzzleName name, Scanner sc) throws InvalidPuzzleSyntaxException{
+    private static Puzzle<?> resolvePuzzle(PuzzleName name, Scanner sc) throws InvalidPuzzleSyntaxException {
         return switch (name) {
             case SUDOKU -> new SudokuPuzzle(sc);
             case KAKURASU -> new KakurasuPuzzle(sc);

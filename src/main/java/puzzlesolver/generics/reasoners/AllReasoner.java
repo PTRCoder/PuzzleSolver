@@ -1,5 +1,6 @@
 package puzzlesolver.generics.reasoners;
 
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.extern.slf4j.XSlf4j;
 import org.slf4j.ext.XLogger;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @XSlf4j
 @Value
+@EqualsAndHashCode(callSuper = true)
 public class AllReasoner<T> extends AbstractReasoner<T> {
     String name = this.getClass().getSimpleName();
     List<Reasoner<T>> reasoners;
