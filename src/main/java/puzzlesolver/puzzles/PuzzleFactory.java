@@ -1,5 +1,7 @@
 package puzzlesolver.puzzles;
 
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NonNls;
 import puzzlesolver.exceptions.InvalidPuzzleNameException;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Puzzle;
@@ -12,24 +14,33 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+@NonNls
+@UtilityClass
 public final class PuzzleFactory {
-    private PuzzleFactory() {}
+    private final String SUDOKU = "sudoku";
+    private final String KAKURASU = "kakurasu";
+    private final String BINAIRO = "binairo";
+    private final String STAR_BATTLE1 = "starbattle";
+    private final String STAR_BATTLE2 = "star_battle";
+    private final String STAR_ = "star";
+    @NonNls
+    private final String _BATTLE = "battle";
 
-    public static Puzzle<?> create(Scanner sc) throws InvalidPuzzleNameException, InvalidPuzzleSyntaxException {
+    public Puzzle<?> create(Scanner sc) throws InvalidPuzzleNameException, InvalidPuzzleSyntaxException {
         PuzzleName name = resolvePuzzleName(sc);
         return resolvePuzzle(name, sc);
     }
 
-    private static PuzzleName resolvePuzzleName(Scanner sc) throws InvalidPuzzleNameException {
+    private PuzzleName resolvePuzzleName(Scanner sc) throws InvalidPuzzleNameException {
         try {
             String name = sc.next();
             return switch (name.toLowerCase(Locale.ROOT)) {
-                case "sudoku" -> PuzzleName.SUDOKU;
-                case "kakurasu" -> PuzzleName.KAKURASU;
-                case "binairo" -> PuzzleName.BINAIRO;
-                case "starbattle", "star_battle" -> PuzzleName.STAR_BATTLE;
-                case "star" -> {
-                    if ("battle".equals(sc.next()))
+                case SUDOKU -> PuzzleName.SUDOKU;
+                case KAKURASU -> PuzzleName.KAKURASU;
+                case BINAIRO -> PuzzleName.BINAIRO;
+                case STAR_BATTLE1, STAR_BATTLE2 -> PuzzleName.STAR_BATTLE;
+                case STAR_ -> {
+                    if (_BATTLE.equals(sc.next()))
                         yield PuzzleName.STAR_BATTLE;
                     else throw new InvalidPuzzleNameException();
                 }
