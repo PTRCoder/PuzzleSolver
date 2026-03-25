@@ -4,11 +4,11 @@ import javafx.scene.control.Label;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.BinaryValue;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
 import java.util.*;
 
@@ -79,7 +79,7 @@ public class BinairoGrid implements Grid<BinaryValue> {
 
         }
         catch (NoSuchElementException e) {
-            throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class, "Not enough values", e);
+            throw InvalidPuzzleSyntaxException.notEnough(BinairoPuzzle.class, e);
         }
         catch (IllegalArgumentException e) {
             throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class, "Values must be either ' ', 'W', or 'B'", e);

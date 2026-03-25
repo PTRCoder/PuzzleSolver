@@ -1,13 +1,18 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
 import javafx.scene.control.Label;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Grid;
-import lombok.*;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 @Value
 public class SudokuGrid implements Grid<Integer> {
@@ -101,10 +106,10 @@ public class SudokuGrid implements Grid<Integer> {
             groups.addAll(blocks);
 
             if (sc.hasNext())
-                throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Too many values");
+                throw InvalidPuzzleSyntaxException.tooMany(SudokuPuzzle.class);
         }
         catch (NoSuchElementException e) {
-            throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Not enough values");
+            throw InvalidPuzzleSyntaxException.notEnough(SudokuPuzzle.class, e);
         }
     }
 

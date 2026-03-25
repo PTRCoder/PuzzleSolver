@@ -1,14 +1,17 @@
 package puzzlesolver.puzzles.kakurasu.puzzle;
 
 import javafx.scene.control.Label;
-import puzzlesolver.generics.puzzle.FillValue;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
+import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
+import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Grid;
-import lombok.*;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 @Value
 public class KakurasuGrid implements Grid<FillValue> {
@@ -70,10 +73,10 @@ public class KakurasuGrid implements Grid<FillValue> {
             groups.addAll(rows);
             groups.addAll(cols);
             if (sc.hasNext())
-                throw new InvalidPuzzleSyntaxException(KakurasuPuzzle.class, "Too many values");
+                throw InvalidPuzzleSyntaxException.tooMany(KakurasuPuzzle.class);
         }
         catch (NoSuchElementException e) {
-            throw new InvalidPuzzleSyntaxException(KakurasuPuzzle.class, "Not enough values");
+            throw InvalidPuzzleSyntaxException.notEnough(KakurasuPuzzle.class, e);
         }
     }
 

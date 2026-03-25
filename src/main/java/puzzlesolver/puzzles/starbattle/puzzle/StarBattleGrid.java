@@ -99,7 +99,7 @@ public class StarBattleGrid implements Grid<FillValue> {
             throw new InvalidPuzzleSyntaxException(StarBattlePuzzle.class, "This syntax is not correct", e);
         }
         catch (NoSuchElementException e) {
-            throw new InvalidPuzzleSyntaxException(StarBattlePuzzle.class, "Not enough values", e);
+            throw InvalidPuzzleSyntaxException.notEnough(StarBattlePuzzle.class, e);
         }
         catch (IllegalArgumentException | NullPointerException e) {
             throw new InvalidPuzzleSyntaxException(StarBattlePuzzle.class, "OOPSIES", e);
