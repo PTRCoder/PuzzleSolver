@@ -24,6 +24,8 @@ dependencies {
     implementation("org.slf4j:slf4j-ext:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
     implementation("org.slf4j:slf4j-jdk14:2.0.17")
+    // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
+    compileOnly("org.jetbrains:annotations:26.1.0")
 }
 
 application {
