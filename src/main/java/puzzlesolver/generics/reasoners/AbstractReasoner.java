@@ -2,26 +2,24 @@ package puzzlesolver.generics.reasoners;
 
 import lombok.extern.slf4j.XSlf4j;
 import org.slf4j.ext.XLogger;
-
-import java.util.ResourceBundle;
+import puzzlesolver.loc.LogStrings;
 
 @XSlf4j
 public abstract class AbstractReasoner<T> implements Reasoner<T> {
-    private final ResourceBundle bundle = ResourceBundle.getBundle("log");
 
     protected final void LOG_SUCCESS() {
-        getLog().info(bundle.getString(Production.REASONER_SUCCESS.toString().toLowerCase()), getClass());
+        getLog().info(LogStrings.REASONER_SUCCESS.get(), getClass());
         getLog().exit();
     }
 
     protected final void LOG_FAIL() {
-        getLog().info(bundle.getString("reason_fail"), getClass());
+        getLog().info(LogStrings.REASONER_FAIL.get(), getClass());
         getLog().exit();
     }
 
     protected final void LOG_START() {
         getLog().entry();
-        getLog().info(bundle.getString("reason_starter"), getClass());
+        getLog().info(LogStrings.REASONER_START.get(), getClass());
     }
 
     protected abstract XLogger getLog();
