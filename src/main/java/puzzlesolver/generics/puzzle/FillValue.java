@@ -1,7 +1,10 @@
 package puzzlesolver.generics.puzzle;
 
+import org.jetbrains.annotations.NonNls;
+
 import java.util.List;
 
+@NonNls
 public enum FillValue {
     EMPTY, FILLED, CROSSED;
 
