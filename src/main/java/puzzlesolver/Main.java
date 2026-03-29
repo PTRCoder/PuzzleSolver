@@ -53,15 +53,17 @@ public final class Main extends Application {
         // Create scene and update stage
         Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         stage.titleProperty().bind(GUIStrings.TITLE);
-        stage.setScene(scene);
         scene.getStylesheets().add(CSS);
+        stage.setScene(scene);
 
         // Create menubar
         MenuBar menuBar = new MenuBar();
         menuBar.setUseSystemMenuBar(true);
         root.getChildren().add(menuBar);
 
+        // Create text area
         Label text = new Label();
+        text.setId("puzzle-text");
         root.getChildren().add(text);
         text.setStyle("-fx-font-family: 'monospaced';");
 
