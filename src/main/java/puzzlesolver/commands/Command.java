@@ -8,4 +8,6 @@ public interface Command {
     void apply();
 
     void undo();
+
+    boolean isApplied();
 }

@@ -1,15 +1,21 @@
 package puzzlesolver.commands;
 
-import lombok.Value;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
-@Value
+@RequiredArgsConstructor
+@ToString
 public class MultiCommand implements Command {
-    List<Command> commands;
+    private final List<Command> commands;
+    @Getter
+    private boolean applied;
 
     @Override
     public void apply() {
+        applied = true;
         for (Command command : commands) {
             command.apply();
         }
@@ -17,6 +23,7 @@ public class MultiCommand implements Command {
 
     @Override
     public void undo() {
+        applied = false;
         for (Command command : commands.reversed()) {
             command.undo();
         }

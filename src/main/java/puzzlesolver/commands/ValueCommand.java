@@ -1,5 +1,6 @@
 package puzzlesolver.commands;
 
+import lombok.Getter;
 import lombok.ToString;
 import puzzlesolver.generics.puzzle.Cell;
 
@@ -12,6 +13,8 @@ public class ValueCommand<T> implements Command {
     private final Cell<T> cell;
     private final T value;
     private final T prevValue;
+    @Getter
+    private boolean applied;
 
     public ValueCommand(Cell<T> cell, T value) {
         this.cell = cell;
@@ -21,11 +24,13 @@ public class ValueCommand<T> implements Command {
 
     @Override
     public void apply() {
+        applied = true;
         cell.setValue(value);
     }
 
     @Override
     public void undo() {
+        applied = false;
         cell.setValue(prevValue);
     }
 }

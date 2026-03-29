@@ -18,7 +18,8 @@ public class CompoundCommand {
             todo.clear();
         }
         done.add(comm);
-        comm.apply();
+        if (!comm.isApplied())
+            comm.apply();
     }
 
     public void undo() {
