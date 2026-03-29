@@ -1,5 +1,7 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -59,7 +61,7 @@ public class SudokuGrid implements Grid<Integer> {
 
             // fill cells and rows
             for (int i = 0; i < size; i++) {
-                List<SudokuCell> row = new ArrayList<>();
+                ObservableList<SudokuCell> row = FXCollections.observableArrayList();
                 cells.add(row);
                 SudokuGroup g = new SudokuGroup(row);
                 rows.add(g);
@@ -76,7 +78,7 @@ public class SudokuGrid implements Grid<Integer> {
             }
             // fill cols
             for (int i = 0; i < size; i++) {
-                List<SudokuCell> col = new ArrayList<>();
+                ObservableList<SudokuCell> col = FXCollections.observableArrayList();
                 SudokuGroup g = new SudokuGroup(col);
                 cols.add(g);
                 for (int j = 0; j < size; j++) {
@@ -87,7 +89,7 @@ public class SudokuGrid implements Grid<Integer> {
             }
             // fill blocks
             for (int i = 0; i < size; i++) {
-                List<SudokuCell> block = new ArrayList<>();
+                ObservableList<SudokuCell> block = FXCollections.observableArrayList();
                 SudokuGroup g = new SudokuGroup(block);
                 blocks.add(g);
                 int x0 = (i % sqrt) * sqrt;

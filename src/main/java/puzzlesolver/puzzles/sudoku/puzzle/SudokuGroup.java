@@ -1,5 +1,6 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
+import javafx.collections.ObservableList;
 import lombok.Value;
 import puzzlesolver.generics.puzzle.Group;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Value
 public class SudokuGroup implements Group<Integer> {
-    List<SudokuCell> cells;
+    ObservableList<SudokuCell> cells;
 
     @Override
     public boolean validate() {
