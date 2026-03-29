@@ -1,12 +1,12 @@
 package puzzlesolver.solvers;
 
 import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 
-@Slf4j
+@XSlf4j
 @Value
 public class ReasonSolver<T> implements Solver {
     Puzzle<T> puzzle;

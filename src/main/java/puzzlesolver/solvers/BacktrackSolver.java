@@ -1,31 +1,29 @@
 package puzzlesolver.solvers;
 
-import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.loc.LogStrings;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
-@Value
-public class BacktrackSolver<T> implements Solver {
-    Puzzle<T> puzzle;
-    private static int count = 0;
-    private static boolean locked;
+@XSlf4j
+public record BacktrackSolver<T>(Puzzle<T> puzzle) implements Solver {
 
     @Override
     public boolean solve(CompoundCommand comms) {
-        log.info("The BacktrackSolver has started");
+        log.entry(comms);
+        log.info(LogStrings.SOLVER_START.get(), this.getClass());
         Grid<T> grid = puzzle.getGrid();
         List<Cell<T>> cells = new ArrayList<>();
         grid.iterator().forEachRemaining(cells::add);
         boolean result = solve(comms, cells, 0);
-        log.info("The BacktrackSolver has finished {}successfully", result ? "" : "un");
+        log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(), this.getClass());
+        log.exit(result);
         return result;
     }
 
