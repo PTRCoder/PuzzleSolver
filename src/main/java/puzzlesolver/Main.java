@@ -79,16 +79,26 @@ public final class Main extends Application {
         menuBar.getMenus().addAll(fileMenu, editMenu, puzzleMenu, settingsMenu);
 
         // Create menu items
-        MenuItem createPuzzleMenuItem = new MenuItem("create puzzle...");
-        MenuItem loadPuzzleMenuItem = new MenuItem("load puzzle...");
-        MenuItem savePuzzleMenuItem = new MenuItem("save puzzle...");
-        MenuItem closePuzzleMenuItem = new MenuItem("close puzzle...");
-        MenuItem undoMenuItem = new MenuItem("undo");
-        MenuItem redoMenuItem = new MenuItem("redo");
-        MenuItem undoAllMenuItem = new MenuItem("undo all");
-        MenuItem redoAllMenuItem = new MenuItem("redo all");
-        MenuItem solvePuzzleMenuItem = new MenuItem("solve");
-        MenuItem modifySolverMenuItem = new MenuItem("configure solver...");
+        MenuItem createPuzzleMenuItem = new MenuItem();
+        createPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_NEW_NAME);
+        MenuItem loadPuzzleMenuItem = new MenuItem();
+        loadPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_OPEN_NAME);
+        MenuItem savePuzzleMenuItem = new MenuItem();
+        savePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_SAVE_NAME);
+        MenuItem closePuzzleMenuItem = new MenuItem();
+        closePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_CLOSE_NAME);
+        MenuItem undoMenuItem = new MenuItem();
+        undoMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_NAME);
+        MenuItem redoMenuItem = new MenuItem();
+        redoMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_NAME);
+        MenuItem undoAllMenuItem = new MenuItem();
+        undoAllMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_ALL_NAME);
+        MenuItem redoAllMenuItem = new MenuItem();
+        redoAllMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_ALL_NAME);
+        MenuItem solvePuzzleMenuItem = new MenuItem();
+        solvePuzzleMenuItem.textProperty().bind(GUIStrings.SOLVE_SOLVE_NAME);
+        MenuItem modifySolverMenuItem = new MenuItem();
+        modifySolverMenuItem.textProperty().bind(GUIStrings.SOLVE_CONFIG_NAME);
         Menu solverConfSubMenu = new Menu("test");
         CheckMenuItem reasonToggleItem = new CheckMenuItem("Reasoning");
         CheckMenuItem backtrackToggleItem = new CheckMenuItem("Backtracking");
@@ -128,13 +138,13 @@ public final class Main extends Application {
             }
             catch (IOException err) {
                 Alert d = new Alert(Alert.AlertType.ERROR);
-                d.setTitle("Error occurred");
+                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
                 d.setContentText("This file does not exist or cannot be opened. Please try again.");
                 d.show();
             }
             catch (InvalidPuzzleNameException err) {
                 Alert d = new Alert(Alert.AlertType.ERROR);
-                d.setTitle("Error occurred");
+                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
                 d.setContentText(
                         "This file has an invalid puzzle name. Please fix the contents or try a different file."
                 );
@@ -142,7 +152,7 @@ public final class Main extends Application {
             }
             catch (InvalidPuzzleSyntaxException err) {
                 Alert d = new Alert(Alert.AlertType.ERROR);
-                d.setTitle("Error occurred");
+                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
                 d.setContentText(
                         "This file does not contain a valid puzzle. Please fix the contents or try a different file."
                 );
