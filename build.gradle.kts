@@ -4,6 +4,7 @@ plugins {
     id("io.freefair.lombok") version "9.2.0"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("de.infolektuell.jpackage") version "0.4.1"
+    id("org.checkerframework") version "1.0.2"
 }
 
 group = "PuzzleSolver"
@@ -26,6 +27,7 @@ dependencies {
     implementation("org.slf4j:slf4j-jdk14:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
     compileOnly("org.jetbrains:annotations:26.1.0")
+    implementation("org.controlsfx:controlsfx:11.2.3")
 }
 
 application {
@@ -49,4 +51,8 @@ tasks.test {
 
 jpackage {
     javafx
+}
+
+checkerFramework {
+    version = "3.53.1"
 }
