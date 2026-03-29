@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import lombok.AccessLevel;
@@ -21,7 +22,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public final class StarBattleSquare extends AbstractStarBattleGroup {
     IntegerProperty starCount = new SimpleIntegerProperty(0);
-    BooleanBinding validity = Bindings.lessThanOrEqual(1, starCount);
+    BooleanBinding validity = Bindings.lessThanOrEqual(starCount, 1);
     @Getter
     @Accessors(fluent = true)
     BooleanExpression allowsStarProperty = starCount.lessThan(1);
@@ -31,6 +32,7 @@ public final class StarBattleSquare extends AbstractStarBattleGroup {
         if (n == FillValue.FILLED)
             starCount.set(starCount.get() + 1);
     };
+    private static final BooleanExpression TRUE = new ReadOnlyBooleanWrapper(true);
 
     public StarBattleSquare(List<StarBattleCell> cells) {
         super(cells);
@@ -54,5 +56,10 @@ public final class StarBattleSquare extends AbstractStarBattleGroup {
     @Override
     public List<FillValue> getAllowedValues() {
         return List.of();
+    }
+
+    @Override
+    public BooleanExpression allowsCrossProperty() {
+        return TRUE;
     }
 }

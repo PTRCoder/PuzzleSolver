@@ -22,4 +22,6 @@ public sealed abstract class AbstractStarBattleGroup
     public abstract IntegerProperty starCountProperty();
 
     public abstract BooleanExpression allowsStarProperty();
+
+    public abstract BooleanExpression allowsCrossProperty();
 }

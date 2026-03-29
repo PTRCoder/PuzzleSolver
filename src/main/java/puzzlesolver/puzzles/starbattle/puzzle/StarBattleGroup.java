@@ -27,6 +27,9 @@ public final class StarBattleGroup extends AbstractStarBattleGroup {
     @Getter
     @Accessors(fluent = true)
     BooleanExpression allowsStarProperty;
+    @Getter
+    @Accessors(fluent = true)
+    BooleanExpression allowsCrossProperty;
     int maxCount;
     ChangeListener<FillValue> listener = (ov, o, n) -> {
         if (n == FillValue.FILLED)
@@ -47,6 +50,7 @@ public final class StarBattleGroup extends AbstractStarBattleGroup {
             c.valueProperty().addListener(listener);
         }
         this.allowsStarProperty = starCountProperty.lessThan(maxCount);
+        this.allowsCrossProperty = Bindings.add(emptyCountProperty, starCountProperty).greaterThan(maxCount);
         this.validity = Bindings.add(emptyCountProperty, starCountProperty).greaterThanOrEqualTo(maxCount)
                 .and(starCountProperty.lessThanOrEqualTo(maxCount));
     }
@@ -59,9 +63,5 @@ public final class StarBattleGroup extends AbstractStarBattleGroup {
     @Override
     public List<FillValue> getAllowedValues() {
         return FillValue.nonEmptyValues;
-    }
-
-    public int getStarCount() {
-        return starCountProperty.get();
     }
 }

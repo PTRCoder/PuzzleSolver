@@ -17,11 +17,30 @@ public class StarBattleCell extends AbstractCell<FillValue> {
 
     @Override
     public List<FillValue> getAllowedValues() {
+        boolean allowsStar = true;
+        boolean allowsCross = true;
         for (Group<FillValue> group : getGroups()) {
             AbstractStarBattleGroup g = (AbstractStarBattleGroup) group;
-            if (!g.allowsStarProperty().get())
-                return List.of(FillValue.CROSSED);
+            if (allowsStar && !g.allowsStarProperty().get()) {
+                allowsStar = false;
+            }
+            if (allowsCross && !g.allowsCrossProperty().get()) {
+                allowsCross = false;
+            }
+            if (!allowsCross && !allowsStar)
+                break;
         }
-        return FillValue.nonEmptyValues;
+        if (allowsStar) {
+            if (allowsCross)
+                return FillValue.nonEmptyValues;
+            else
+                return List.of(FillValue.FILLED);
+        }
+        else {
+            if (allowsCross)
+                return List.of(FillValue.CROSSED);
+            else
+                return List.of();
+        }
     }
 }
