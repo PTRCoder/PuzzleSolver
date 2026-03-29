@@ -5,6 +5,7 @@ import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
+import puzzlesolver.puzzles.starbattle.reasoners.DefaultStarBattleReasoner;
 
 import java.util.List;
 import java.util.Scanner;
@@ -24,7 +25,7 @@ public class StarBattlePuzzle implements Puzzle<FillValue> {
 
     @Override
     public Reasoner<FillValue> getDefaultReasoner() {
-        return null;
+        return new DefaultStarBattleReasoner();
     }
 
     @Override
