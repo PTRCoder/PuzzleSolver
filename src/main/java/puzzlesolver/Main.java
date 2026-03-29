@@ -127,7 +127,7 @@ public final class Main extends Application {
             FileChooser fc = new FileChooser();
             fc.setTitle("Load puzzle");
             fc.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
-            fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+            fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
                 return;
