@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.exceptions.InvalidPuzzleNameException;
@@ -34,7 +34,7 @@ import java.util.Scanner;
 
 import static javafx.stage.FileChooser.ExtensionFilter;
 
-@Slf4j
+@XSlf4j
 public final class Main extends Application {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 400;
