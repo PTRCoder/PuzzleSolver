@@ -65,7 +65,7 @@ public class StarBattleGrid implements Grid<FillValue> {
             for (int i = 0; i < size; i++) {
                 List<StarBattleCell> cCol = new LinkedList<>();
                 for (int j = 0; j < size; j++) {
-                    StarBattleCell c = cells.get(i).get(j);
+                    StarBattleCell c = cells.get(j).get(i);
                     cCol.add(c);
                 }
                 StarBattleGroup col = new StarBattleGroup(cCol, count);
