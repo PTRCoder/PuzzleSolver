@@ -1,13 +1,14 @@
 package puzzlesolver.exceptions;
 
+import puzzlesolver.loc.ExceptionStrings;
+
 public class InvalidPuzzleNameException extends Exception {
-    private static final String DEFAULT_MESSAGE = "This name cannot be resolved";
 
     public InvalidPuzzleNameException(String message) {
         super(message);
     }
 
     public InvalidPuzzleNameException() {
-        super(DEFAULT_MESSAGE);
+        super(ExceptionStrings.PUZZLE_NAME_DEFAULT.get());
     }
 }
