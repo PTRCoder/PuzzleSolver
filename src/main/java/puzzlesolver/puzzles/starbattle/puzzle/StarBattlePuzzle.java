@@ -26,4 +26,17 @@ public class StarBattlePuzzle implements Puzzle<FillValue> {
     public Reasoner<FillValue> getDefaultReasoner() {
         return null;
     }
+
+    @Override
+    public String valueToString(FillValue value) {
+        return valueToStringStatic(value);
+    }
+
+    private static String valueToStringStatic(FillValue value) {
+        return switch (value) {
+            case EMPTY -> " ";
+            case CROSSED -> "x";
+            case FILLED -> "★";
+        };
+    }
 }

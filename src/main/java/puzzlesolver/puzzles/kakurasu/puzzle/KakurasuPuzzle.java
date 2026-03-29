@@ -1,9 +1,9 @@
 package puzzlesolver.puzzles.kakurasu.puzzle;
 
+import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Puzzle;
-import lombok.Value;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.SimpleKakurasuReasoner;
 
@@ -29,4 +29,16 @@ public class KakurasuPuzzle implements Puzzle<FillValue> {
         return DEFAULT_REASONER;
     }
 
+    @Override
+    public String valueToString(FillValue value) {
+        return valueToStringStatic(value);
+    }
+
+    private static String valueToStringStatic(FillValue value) {
+        return switch (value) {
+            case EMPTY -> " ";
+            case CROSSED -> "x";
+            case FILLED -> "■";
+        };
+    }
 }

@@ -1,8 +1,8 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
+import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Puzzle;
-import lombok.Value;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.sudoku.reasoners.SimpleSudokuReasoner;
 
@@ -41,4 +41,18 @@ public class SudokuPuzzle implements Puzzle<Integer> {
         return DEFAULT_REASONER;
     }
 
+    @Override
+    public String valueToString(Integer value) {
+        return valueToStringStatic(value);
+    }
+
+    private static String valueToStringStatic(Integer value) {
+        if (value == SudokuCell.EMPTY) {
+            return " ";
+        }
+        if (value < 10)
+            return Integer.toString(value);
+        else
+            return Character.toString('A' + (value - 10));
+    }
 }

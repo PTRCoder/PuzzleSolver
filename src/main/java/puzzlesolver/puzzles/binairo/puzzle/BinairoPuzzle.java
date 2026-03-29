@@ -29,4 +29,13 @@ public class BinairoPuzzle implements Puzzle<BinaryValue> {
     public Reasoner<BinaryValue> getDefaultReasoner() {
         return DEFAULT_REASONER;
     }
+
+    @Override
+    public String valueToString(BinaryValue value) {
+        return valueToStringStatic(value);
+    }
+
+    private static String valueToStringStatic(BinaryValue value) {
+        return Character.toString(value.asChar());
+    }
 }

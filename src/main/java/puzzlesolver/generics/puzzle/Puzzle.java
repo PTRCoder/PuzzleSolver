@@ -19,4 +19,6 @@ public interface Puzzle<T> {
     List<T> getAllowedValues();
 
     Reasoner<T> getDefaultReasoner();
+
+    String valueToString(T value);
 }
