@@ -1,5 +1,6 @@
 package puzzlesolver.generics.puzzle;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 
@@ -19,6 +20,8 @@ public interface Cell<T> {
     boolean isEmpty();
 
     boolean isLocked();
+
+    BooleanProperty lockedProperty();
 
     void lock();
 
