@@ -16,7 +16,7 @@ public class StarBattleGrid implements Grid<FillValue> {
     static {
         printer.setToString(x ->
                 switch (x) {
-                    case FILLED -> "*";
+                    case FILLED -> "★";
                     case CROSSED -> "x";
                     case EMPTY -> " ";
                 }
