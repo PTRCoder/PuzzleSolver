@@ -40,7 +40,7 @@ java {
 
 javafx {
     version = "21"
-    modules = listOf("javafx.controls")
+    modules = listOf("javafx.base", "javafx.controls", "javafx.graphics")
 }
 
 tasks.test {
