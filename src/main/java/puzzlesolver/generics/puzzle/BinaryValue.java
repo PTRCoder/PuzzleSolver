@@ -5,10 +5,18 @@ import org.jetbrains.annotations.NonNls;
 import java.util.List;
 
 @NonNls
-public enum BinaryValue {
+public enum BinaryValue implements PuzzleValue {
     EMPTY, BLACK, WHITE;
 
     public char asChar() {
+        return switch (this) {
+            case EMPTY -> ' ';
+            case BLACK -> 'B';
+            case WHITE -> 'W';
+        };
+    }
+
+    public char toChar() {
         return switch (this) {
             case EMPTY -> ' ';
             case BLACK -> 'B';
