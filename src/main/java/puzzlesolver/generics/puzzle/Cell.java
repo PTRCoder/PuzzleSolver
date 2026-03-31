@@ -6,7 +6,7 @@ import javafx.beans.property.ObjectProperty;
 
 import java.util.List;
 
-public interface Cell<T> {
+public interface Cell<T extends PuzzleValue> {
     List<T> getAllowedValues();
 
     T getValue();

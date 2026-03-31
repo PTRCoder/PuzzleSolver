@@ -6,9 +6,10 @@ import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 
 @XSlf4j
-public abstract class EmptyCellReasoner<T> extends AbstractReasoner<T> {
+public abstract class EmptyCellReasoner<T extends PuzzleValue> extends AbstractReasoner<T> {
     private final String name = this.getClass().getSimpleName();
 
     public abstract boolean applyToCell(Cell<T> cell, CompoundCommand comms);

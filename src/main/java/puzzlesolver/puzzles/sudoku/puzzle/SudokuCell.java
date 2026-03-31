@@ -14,26 +14,26 @@ import java.util.List;
 @ToString(callSuper = true)
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class SudokuCell extends AbstractCell<Integer> {
-    public static final int EMPTY = 0;
+public class SudokuCell extends AbstractCell<HexValue> {
+    public static final HexValue EMPTY = new HexValue(0);
     int size;
-    List<Integer> candidates;
+    List<HexValue> candidates;
 
-    public SudokuCell(Grid<Integer> grid, int size, Position pos) {
+    public SudokuCell(Grid<HexValue> grid, int size, Position pos) {
         super(grid, pos);
         this.size = size;
         candidates = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));
     }
 
     @Override
-    public List<Integer> getAllowedValues() {
+    public List<HexValue> getAllowedValues() {
         if (isLocked() || !valueProperty().getValue().equals(EMPTY))
             return List.of(valueProperty().getValue());
-        List<Integer> allowed = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));
+        List<HexValue> allowed = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));
         allowed.removeIf(
                 x -> {
-                    for (Group<Integer> g : groupsProperty()) {
-                        for (Cell<Integer> c : g) {
+                    for (Group<HexValue> g : groupsProperty()) {
+                        for (Cell<HexValue> c : g) {
                             if (c.getValue().equals(x))
                                 return true;
                         }
@@ -46,7 +46,7 @@ public class SudokuCell extends AbstractCell<Integer> {
 
 
     @Override
-    protected Integer getEmpty() {
+    protected HexValue getEmpty() {
         return EMPTY;
     }
 

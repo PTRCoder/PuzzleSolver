@@ -3,11 +3,12 @@ package puzzlesolver.solvers;
 import lombok.extern.slf4j.XSlf4j;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.loc.LogStrings;
 
 @XSlf4j
-public record ReasonSolver<T>(Puzzle<T> puzzle, Reasoner<T> reasoner) implements Solver {
+public record ReasonSolver<T extends PuzzleValue>(Puzzle<T> puzzle, Reasoner<T> reasoner) implements Solver {
 
     public ReasonSolver(Puzzle<T> puzzle) {
         this(puzzle, puzzle.getDefaultReasoner());

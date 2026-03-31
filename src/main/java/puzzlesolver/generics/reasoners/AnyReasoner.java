@@ -6,13 +6,14 @@ import lombok.extern.slf4j.XSlf4j;
 import org.slf4j.ext.XLogger;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @XSlf4j
 @Value
-public class AnyReasoner<T> extends AbstractReasoner<T> {
+public class AnyReasoner<T extends PuzzleValue> extends AbstractReasoner<T> {
     String name = this.getClass().getSimpleName();
     List<Reasoner<T>> reasoners;
 

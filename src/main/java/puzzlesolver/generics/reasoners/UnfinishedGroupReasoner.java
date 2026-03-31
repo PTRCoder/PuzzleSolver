@@ -6,9 +6,10 @@ import org.slf4j.ext.XLogger;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Group;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 
 @XSlf4j
-public abstract class UnfinishedGroupReasoner<T> extends AbstractReasoner<T> {
+public abstract class UnfinishedGroupReasoner<T extends PuzzleValue> extends AbstractReasoner<T> {
     private final String name = this.getClass().getSimpleName();
 
     public abstract boolean applyToGroup(Group<T> group, CompoundCommand comms);

@@ -3,13 +3,14 @@ package puzzlesolver.commands;
 import lombok.Getter;
 import lombok.ToString;
 import puzzlesolver.generics.puzzle.Cell;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 
 /**
  * Simple command that sets the value of a given cell.
  * @param <T>
  */
 @ToString
-public class ValueCommand<T> implements Command {
+public class ValueCommand<T extends PuzzleValue> implements Command {
     private final Cell<T> cell;
     private final T value;
     private final T prevValue;

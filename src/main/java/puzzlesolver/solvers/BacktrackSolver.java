@@ -6,13 +6,14 @@ import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Puzzle;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 import puzzlesolver.loc.LogStrings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @XSlf4j
-public record BacktrackSolver<T>(Puzzle<T> puzzle) implements Solver {
+public record BacktrackSolver<T extends PuzzleValue>(Puzzle<T> puzzle) implements Solver {
 
     @Override
     public boolean solve(CompoundCommand comms) {

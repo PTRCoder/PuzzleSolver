@@ -3,11 +3,12 @@ package puzzlesolver.puzzles.sudoku.puzzle;
 import javafx.collections.ObservableList;
 import lombok.Value;
 import puzzlesolver.generics.puzzle.Group;
+import puzzlesolver.generics.puzzle.HexValue;
 
 import java.util.List;
 
 @Value
-public class SudokuGroup implements Group<Integer> {
+public class SudokuGroup implements Group<HexValue> {
     ObservableList<SudokuCell> cells;
 
     @Override
@@ -16,18 +17,18 @@ public class SudokuGroup implements Group<Integer> {
         for (SudokuCell c : cells) {
             if (!c.isValid())
                 return false;
-            int x = c.getValue();
+            HexValue x = c.getValue();
             if (x == SudokuCell.EMPTY)
                 continue;
-            if (checks[x - 1])
+            if (checks[x.value() - 1])
                 return false;
-            checks[x - 1] = true;
+            checks[x.value() - 1] = true;
         }
         return true;
     }
 
     @Override
-    public List<Integer> getAllowedValues() {
+    public List<HexValue> getAllowedValues() {
         return SudokuPuzzle.staticAllowedValues(getSize());
     }
 }

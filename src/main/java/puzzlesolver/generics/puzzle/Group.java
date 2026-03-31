@@ -1,9 +1,9 @@
 package puzzlesolver.generics.puzzle;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
-public interface Group<T> extends Iterable<Cell<T>> {
+public interface Group<T extends PuzzleValue> extends Iterable<Cell<T>> {
     List<? extends Cell<T>> getCells();
 
     default int getSize() {
@@ -27,7 +27,7 @@ public interface Group<T> extends Iterable<Cell<T>> {
 
     List<T> getAllowedValues();
 
-    class GroupIterator<T> implements Iterator<Cell<T>> {
+    class GroupIterator<T extends PuzzleValue> implements Iterator<Cell<T>> {
         private final Iterator<? extends Cell<T>> cells;
 
         public GroupIterator(List<? extends Cell<T>> cells) {

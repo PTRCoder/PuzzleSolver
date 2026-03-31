@@ -5,7 +5,7 @@ import puzzlesolver.generics.reasoners.Reasoner;
 
 import java.util.List;
 
-public interface Puzzle<T> {
+public interface Puzzle<T extends PuzzleValue> {
     Grid<T> getGrid();
 
     default void print(Label parent) {

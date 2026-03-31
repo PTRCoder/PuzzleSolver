@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Grid;
+import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Position;
 import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
@@ -17,20 +18,11 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @Value
-public class SudokuGrid implements Grid<Integer> {
-    private static final PuzzlePrinter<Integer> printer = new PuzzlePrinter<>();
+public class SudokuGrid implements Grid<HexValue> {
+    private static final PuzzlePrinter<HexValue> printer = new PuzzlePrinter<>();
 
     static {
-        printer.setToString(x -> {
-            if (x == SudokuCell.EMPTY)
-                return " ";
-            if (x > 9) {
-                return Character.toString((char) ((x - 9) + 'A'));
-            }
-            if (0 <= x)
-                return Integer.toString(x);
-            throw new IllegalArgumentException();
-        });
+        printer.setToString(HexValue::toText);
         printer.setUseBorder(true);
         printer.setUseSpaces(true);
         printer.setConnect(false);
@@ -48,9 +40,13 @@ public class SudokuGrid implements Grid<Integer> {
         try (sc) {
             // get size and check validity
             this.size = sc.nextInt();
+            if (size < 4)
+                throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Size must be at least 4");
             int sqrt = (int) Math.sqrt(size);
             if (sqrt * sqrt != size)
                 throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Size must be a square number");
+            if (sqrt > 4)
+                throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Sudokus larger than 16×16 are not supported");
 
             // init collections
             this.cells = new ArrayList<>();
@@ -66,7 +62,7 @@ public class SudokuGrid implements Grid<Integer> {
                 SudokuGroup g = new SudokuGroup(row);
                 rows.add(g);
                 for (int j = 0; j < size; j++) {
-                    int val = sc.nextInt();
+                    HexValue val = new HexValue(sc.nextInt());
                     SudokuCell c = new SudokuCell(this, size, new Position(j, i));
                     c.setValue(val);
                     if (val != SudokuCell.EMPTY) {

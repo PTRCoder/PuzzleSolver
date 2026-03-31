@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public abstract class AbstractCell<T> implements Cell<T> {
+public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
     private final Grid<T> grid;
     private final Position pos;
     @Accessors(fluent = true)

@@ -4,10 +4,10 @@ import javafx.scene.control.Label;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
-public interface Grid<T> extends Iterable<Cell<T>> {
+public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
     List<? extends List<? extends Cell<T>>> getCells();
 
     int getWidth();
@@ -69,7 +69,7 @@ public interface Grid<T> extends Iterable<Cell<T>> {
     List<? extends Group<T>> getGroups();
 
 
-    class GridIterator<T> implements Iterator<Cell<T>> {
+    class GridIterator<T extends PuzzleValue> implements Iterator<Cell<T>> {
         private final Iterator<? extends Collection<? extends Cell<T>>> cells;
         private Iterator<? extends Cell<T>> current;
 

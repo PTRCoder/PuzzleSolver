@@ -2,10 +2,11 @@ package puzzlesolver.commands;
 
 import lombok.Getter;
 import puzzlesolver.generics.puzzle.Cell;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 
 import java.util.List;
 
-public class CandidateCommand<T> implements Command {
+public class CandidateCommand<T extends PuzzleValue> implements Command {
     private final Cell<T> cell;
     private final List<T> removedCandidates;
     @Getter

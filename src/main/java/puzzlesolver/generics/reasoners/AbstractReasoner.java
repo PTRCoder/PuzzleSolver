@@ -1,9 +1,10 @@
 package puzzlesolver.generics.reasoners;
 
 import org.slf4j.ext.XLogger;
+import puzzlesolver.generics.puzzle.PuzzleValue;
 import puzzlesolver.loc.LogStrings;
 
-public abstract class AbstractReasoner<T> implements Reasoner<T> {
+public abstract class AbstractReasoner<T extends PuzzleValue> implements Reasoner<T> {
 
     protected final void LOG_SUCCESS() {
         getLog().info(LogStrings.REASONER_SUCCESS.get(), getClass());

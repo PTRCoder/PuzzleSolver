@@ -12,7 +12,7 @@ import java.util.function.Function;
 @NoArgsConstructor
 @Setter
 @Getter
-public class PuzzlePrinter<T> {
+public class PuzzlePrinter<T extends PuzzleValue> {
     private boolean useBorder;
     private boolean useSpaces;
     private int vBlockSize;
