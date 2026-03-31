@@ -43,6 +43,14 @@ public final class GUIStrings {
             LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.solve.solve");
     public static final ObservableStringValue SOLVE_CONFIG_NAME =
             LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.solve.config");
+    public static final ObservableStringValue FC_LOAD_PUZZLE_TITLE =
+            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "fc.puzzle.load.title");
     public static final ObservableStringValue ERROR_TITLE =
             LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.title");
+    public static final ObservableStringValue ERROR_PUZZLE_SYNTAX_MESSAGE =
+            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.syntax.message");
+    public static final ObservableStringValue ERROR_PUZZLE_NAME_MESSAGE =
+            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.name.message");
+    public static final ObservableStringValue ERROR_PUZZLE_FILE_MESSAGE =
+            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.nsf.message");
 }

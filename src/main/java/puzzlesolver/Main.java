@@ -13,21 +13,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.XSlf4j;
+import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
-import puzzlesolver.exceptions.InvalidPuzzleNameException;
-import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.loc.GUIStrings;
 import puzzlesolver.loc.LocaleManager;
 import puzzlesolver.puzzles.PuzzleFactory;
 import puzzlesolver.solvers.Solver;
 import puzzlesolver.solvers.SolverFactory;
+import puzzlesolver.ui.ExceptionAlertFactory;
 import puzzlesolver.ui.LocaleSelector;
 import puzzlesolver.ui.SolverConfiguration;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Scanner;
@@ -39,7 +38,8 @@ public final class Main extends Application {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 400;
 
-    private static final String CSS = "styles.css";
+    private static final @NonNls String CSS = "styles.css";
+    private static final @NonNls String EXT_TXT = "*.txt";
 
     private static final ObjectProperty<@Nullable Puzzle<?>> puzzle = new SimpleObjectProperty<>();
     private final CompoundCommand comms = new CompoundCommand();
@@ -125,8 +125,8 @@ public final class Main extends Application {
         createPuzzleMenuItem.setOnAction(e -> {});
         loadPuzzleMenuItem.setOnAction(e -> {
             FileChooser fc = new FileChooser();
-            fc.setTitle("Load puzzle");
-            fc.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
+            fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.get());
+            fc.getExtensionFilters().add(new ExtensionFilter("Text Files", EXT_TXT));
             fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
@@ -138,26 +138,9 @@ public final class Main extends Application {
                 text.setText("");
                 puzzle.getValue().print(text);
             }
-            catch (IOException err) {
-                Alert d = new Alert(Alert.AlertType.ERROR);
-                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
-                d.setContentText("This file does not exist or cannot be opened. Please try again.");
-                d.show();
-            }
-            catch (InvalidPuzzleNameException err) {
-                Alert d = new Alert(Alert.AlertType.ERROR);
-                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
-                d.setContentText(
-                        "This file has an invalid puzzle name. Please fix the contents or try a different file."
-                );
-                d.show();
-            }
-            catch (InvalidPuzzleSyntaxException err) {
-                Alert d = new Alert(Alert.AlertType.ERROR);
-                d.titleProperty().bind(GUIStrings.ERROR_TITLE);
-                d.setContentText(
-                        "This file does not contain a valid puzzle. Please fix the contents or try a different file."
-                );
+            catch (Exception err) {
+                Alert d = ExceptionAlertFactory.getInstance(err);
+                d.setTitle(GUIStrings.ERROR_TITLE.get());
                 d.show();
             }
         });
