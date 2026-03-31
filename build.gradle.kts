@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "PuzzleSolver"
-version = "1.0-SNAPSHOT"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-ext
     implementation("org.slf4j:slf4j-ext:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
-    implementation("org.slf4j:slf4j-jdk14:2.0.17")
+    runtimeOnly("org.slf4j:slf4j-jdk14:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
     compileOnly("org.jetbrains:annotations:26.1.0")
     implementation("org.controlsfx:controlsfx:11.2.3")
@@ -32,7 +32,7 @@ dependencies {
 
 application {
     mainClass = "puzzlesolver.Main"
-    applicationName = "Puzzle Solver"
+    applicationName = "PuzzleSolver"
 }
 
 java {
