@@ -10,13 +10,14 @@ import java.util.ResourceBundle;
 @UtilityClass
 public class ExceptionStrings {
     @NonNls
-    private static final String BUNDLE_NAME = "exceptions";
-    private static final Property<ResourceBundle> RESOURCE_BUNDLE_PROPERTY = LocaleManager.bundleProperty(BUNDLE_NAME);
+    private final String BUNDLE_NAME = "exceptions";
+    private final Property<ResourceBundle> RESOURCE_BUNDLE_PROPERTY = LocaleManager.bundleProperty(BUNDLE_NAME);
 
-    public static final ObservableStringValue PUZZLE_NAME_DEFAULT =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "puzzle.name.default");
-    public static final ObservableStringValue PUZZLE_SYNTAX_LONG =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "puzzle.syntax.long");
-    public static final ObservableStringValue PUZZLE_SYNTAX_SHORT =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "puzzle.syntax.short");
+    private ObservableStringValue get(String key) {
+        return LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, key);
+    }
+
+    public final ObservableStringValue PUZZLE_NAME_DEFAULT = get("puzzle.name.default");
+    public final ObservableStringValue PUZZLE_SYNTAX_LONG = get("puzzle.syntax.long");
+    public final ObservableStringValue PUZZLE_SYNTAX_SHORT = get("puzzle.syntax.short");
 }

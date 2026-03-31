@@ -10,47 +10,31 @@ import java.util.ResourceBundle;
 @UtilityClass
 public final class GUIStrings {
     @NonNls
-    private static final String BUNDLE_NAME = "gui";
-    private static final Property<ResourceBundle> RESOURCE_BUNDLE_PROPERTY = LocaleManager.bundleProperty(BUNDLE_NAME);
+    private final String BUNDLE_NAME = "gui";
+    private final Property<ResourceBundle> RESOURCE_BUNDLE_PROPERTY = LocaleManager.bundleProperty(BUNDLE_NAME);
 
-    public static final ObservableStringValue TITLE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "title");
-    public static final ObservableStringValue FILE_MENU_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.file");
-    public static final ObservableStringValue EDIT_MENU_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.edit");
-    public static final ObservableStringValue PUZZLE_MENU_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.puzzle");
-    public static final ObservableStringValue SETTINGS_MENU_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.settings");
-    public static final ObservableStringValue FILE_OPEN_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.file.open");
-    public static final ObservableStringValue FILE_CLOSE_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.file.close");
-    public static final ObservableStringValue FILE_SAVE_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.file.save");
-    public static final ObservableStringValue FILE_NEW_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.file.new");
-    public static final ObservableStringValue EDIT_UNDO_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.edit.undo");
-    public static final ObservableStringValue EDIT_REDO_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.edit.redo");
-    public static final ObservableStringValue EDIT_UNDO_ALL_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.edit.undo_all");
-    public static final ObservableStringValue EDIT_REDO_ALL_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.edit.redo_all");
-    public static final ObservableStringValue SOLVE_SOLVE_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.solve.solve");
-    public static final ObservableStringValue SOLVE_CONFIG_NAME =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "menu.solve.config");
-    public static final ObservableStringValue FC_LOAD_PUZZLE_TITLE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "fc.puzzle.load.title");
-    public static final ObservableStringValue ERROR_TITLE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.title");
-    public static final ObservableStringValue ERROR_PUZZLE_SYNTAX_MESSAGE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.syntax.message");
-    public static final ObservableStringValue ERROR_PUZZLE_NAME_MESSAGE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.name.message");
-    public static final ObservableStringValue ERROR_PUZZLE_FILE_MESSAGE =
-            LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, "error.puzzle.nsf.message");
+    private ObservableStringValue get(String key) {
+        return LocaleManager.localizedString(RESOURCE_BUNDLE_PROPERTY, key);
+    }
+
+    public final ObservableStringValue TITLE = get("title");
+    public final ObservableStringValue FILE_MENU_NAME = get("menu.file");
+    public final ObservableStringValue EDIT_MENU_NAME = get("menu.edit");
+    public final ObservableStringValue PUZZLE_MENU_NAME = get("menu.puzzle");
+    public final ObservableStringValue SETTINGS_MENU_NAME = get("menu.settings");
+    public final ObservableStringValue FILE_OPEN_NAME = get("menu.file.open");
+    public final ObservableStringValue FILE_CLOSE_NAME = get("menu.file.close");
+    public final ObservableStringValue FILE_SAVE_NAME = get("menu.file.save");
+    public final ObservableStringValue FILE_NEW_NAME = get("menu.file.new");
+    public final ObservableStringValue EDIT_UNDO_NAME = get("menu.edit.undo");
+    public final ObservableStringValue EDIT_REDO_NAME = get("menu.edit.redo");
+    public final ObservableStringValue EDIT_UNDO_ALL_NAME = get("menu.edit.undo_all");
+    public final ObservableStringValue EDIT_REDO_ALL_NAME = get("menu.edit.redo_all");
+    public final ObservableStringValue SOLVE_SOLVE_NAME = get("menu.solve.solve");
+    public final ObservableStringValue SOLVE_CONFIG_NAME = get("menu.solve.config");
+    public final ObservableStringValue FC_LOAD_PUZZLE_TITLE = get("fc.puzzle.load.title");
+    public final ObservableStringValue ERROR_TITLE = get("error.title");
+    public final ObservableStringValue ERROR_PUZZLE_SYNTAX_MESSAGE = get("error.puzzle.syntax.message");
+    public final ObservableStringValue ERROR_PUZZLE_NAME_MESSAGE = get("error.puzzle.name.message");
+    public final ObservableStringValue ERROR_PUZZLE_FILE_MESSAGE = get("error.puzzle.nsf.message");
 }
