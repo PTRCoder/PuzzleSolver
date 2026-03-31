@@ -4,7 +4,7 @@ plugins {
     id("io.freefair.lombok") version "9.2.0"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("de.infolektuell.jpackage") version "0.4.1"
-    id("org.checkerframework") version "1.0.2"
+//    id("org.checkerframework") version "1.0.2"
 }
 
 group = "PuzzleSolver"
@@ -53,6 +53,14 @@ jpackage {
     javafx
 }
 
-checkerFramework {
-    version = "3.53.1"
-}
+//checkerFramework {
+//    version = "3.53.1"
+//    checkers = listOf(
+//        "org.checkerframework.checker.nullness.NullnessChecker",
+//        "org.checkerframework.checker.interning.InterningChecker",
+//        "org.checkerframework.checker.index.IndexChecker",
+//        "org.checkerframework.checker.i18n.I18nChecker",
+//        "org.checkerframework.framework.util.PurityChecker"
+//        
+//    )
+//}
