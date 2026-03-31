@@ -1,28 +1,26 @@
 package puzzlesolver.solvers;
 
-import lombok.Value;
 import lombok.extern.slf4j.XSlf4j;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
+import puzzlesolver.loc.LogStrings;
 
 @XSlf4j
-@Value
-public class ReasonSolver<T> implements Solver {
-    Puzzle<T> puzzle;
-    Reasoner<T> reasoner;
+public record ReasonSolver<T>(Puzzle<T> puzzle, Reasoner<T> reasoner) implements Solver {
 
     public ReasonSolver(Puzzle<T> puzzle) {
-        this.puzzle = puzzle;
-        this.reasoner = puzzle.getDefaultReasoner();
+        this(puzzle, puzzle.getDefaultReasoner());
     }
 
     @Override
     public boolean solve(CompoundCommand commands) {
-        log.info("The ReasonSolver has started");
+        log.entry(commands);
+        log.info(LogStrings.SOLVER_START.get(), this.getClass());
         reasoner.apply(puzzle, commands);
         boolean result = puzzle.isFinished();
-        log.info("The ReasonSolver has finished {}successfully", result ? "" : "un");
+        log.info(result ? LogStrings.REASONER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(), this.getClass());
+        log.exit(result);
         return result;
     }
 }
