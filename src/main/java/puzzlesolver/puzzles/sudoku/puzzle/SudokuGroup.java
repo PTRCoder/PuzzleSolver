@@ -20,9 +20,9 @@ public class SudokuGroup implements Group<HexValue> {
             HexValue x = c.getValue();
             if (x == SudokuCell.EMPTY)
                 continue;
-            if (checks[x.value() - 1])
+            if (checks[x.ordinal() - 1])
                 return false;
-            checks[x.value() - 1] = true;
+            checks[x.ordinal() - 1] = true;
         }
         return true;
     }

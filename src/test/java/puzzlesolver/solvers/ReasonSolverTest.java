@@ -3,17 +3,16 @@ package puzzlesolver.solvers;
 import org.junit.jupiter.api.Test;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
-import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuPuzzle;
 import puzzlesolver.generics.puzzle.FillValue;
-import puzzlesolver.puzzles.sudoku.puzzle.SudokuPuzzle;
 import puzzlesolver.generics.reasoners.AnyReasoner;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.generics.reasoners.RepeatedReasoner;
+import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuPuzzle;
 import puzzlesolver.puzzles.kakurasu.reasoners.BigReasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.EqualityReasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.SmallReasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.SubsetReasoner;
-import puzzlesolver.puzzles.sudoku.reasoners.SimpleSudokuReasoner;
+import puzzlesolver.puzzles.sudoku.puzzle.SudokuPuzzle;
 
 import java.util.List;
 import java.util.Scanner;
@@ -36,7 +35,6 @@ public class ReasonSolverTest {
                 0 0 6 0 0 0 0 0 8
                 """);
         SudokuPuzzle s = new SudokuPuzzle(sc);
-        Reasoner<Integer> reasoner = new SimpleSudokuReasoner();
         Solver solver = new SolverFactory().withPuzzle(s).withUseReasoner(true).build();
         CompoundCommand commands = new CompoundCommand();
         solver.solve(commands);

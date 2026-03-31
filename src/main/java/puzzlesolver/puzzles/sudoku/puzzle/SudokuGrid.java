@@ -62,7 +62,7 @@ public class SudokuGrid implements Grid<HexValue> {
                 SudokuGroup g = new SudokuGroup(row);
                 rows.add(g);
                 for (int j = 0; j < size; j++) {
-                    HexValue val = new HexValue(sc.nextInt());
+                    HexValue val = HexValue.valueOf(sc.nextInt());
                     SudokuCell c = new SudokuCell(this, size, new Position(j, i));
                     c.setValue(val);
                     if (val != SudokuCell.EMPTY) {

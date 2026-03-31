@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SudokuCell extends AbstractCell<HexValue> {
-    public static final HexValue EMPTY = new HexValue(0);
+    public static final HexValue EMPTY = HexValue.EMPTY;
     int size;
     List<HexValue> candidates;
 

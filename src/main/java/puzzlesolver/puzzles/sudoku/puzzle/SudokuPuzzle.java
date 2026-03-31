@@ -33,7 +33,7 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
         if (size == cachedSize)
             return cachedAllowed;
         cachedSize = size;
-        cachedAllowed = IntStream.rangeClosed(1, size).mapToObj(HexValue::new).toList();
+        cachedAllowed = IntStream.rangeClosed(1, size).mapToObj(HexValue::valueOf).toList();
         return cachedAllowed;
     }
 
