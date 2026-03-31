@@ -32,7 +32,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: chmod +x gradlew && ./gradlew appImage
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: puzzlesolver-linux
+
   windows:
     runs-on: windows-latest
     permissions: 
@@ -51,8 +56,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
-
+        run: ./gradlew appImage
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: puzzlesolver-windows
+  
   macos:
     runs-on: macos-latest
     permissions: 
@@ -71,8 +80,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
-
+        run: chmod +x gradlew && ./gradlew appImage
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: puzzlesolver-macos
+  
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
