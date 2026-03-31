@@ -33,6 +33,7 @@ public final class GUIStrings {
     public final ObservableStringValue SOLVE_SOLVE_NAME = get("menu.solve.solve");
     public final ObservableStringValue SOLVE_CONFIG_NAME = get("menu.solve.config");
     public final ObservableStringValue FC_LOAD_PUZZLE_TITLE = get("fc.puzzle.load.title");
+    public final ObservableStringValue FC_FILETYPE_TEXT = get("fc.types.txt");
     public final ObservableStringValue ERROR_TITLE = get("error.title");
     public final ObservableStringValue ERROR_PUZZLE_SYNTAX_MESSAGE = get("error.puzzle.syntax.message");
     public final ObservableStringValue ERROR_PUZZLE_NAME_MESSAGE = get("error.puzzle.name.message");

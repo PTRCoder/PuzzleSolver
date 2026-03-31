@@ -126,7 +126,7 @@ public final class Main extends Application {
         loadPuzzleMenuItem.setOnAction(e -> {
             FileChooser fc = new FileChooser();
             fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.get());
-            fc.getExtensionFilters().add(new ExtensionFilter("Text Files", EXT_TXT));
+            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.get(), EXT_TXT));
             fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
@@ -193,6 +193,7 @@ public final class Main extends Application {
         KeyCombination createKeys = new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN);
         KeyCombination loadKeys = new KeyCodeCombination(KeyCode.L, KeyCombination.SHORTCUT_DOWN);
         KeyCombination saveKeys = new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN);
+        KeyCombination closeKeys = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination undoKeys = new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN);
         KeyCombination redoKeys = new KeyCodeCombination(KeyCode.Y, KeyCombination.SHORTCUT_DOWN);
         KeyCombination undoAllKeys = new KeyCodeCombination(KeyCode.Z,
@@ -204,6 +205,7 @@ public final class Main extends Application {
         createPuzzleMenuItem.setAccelerator(createKeys);
         loadPuzzleMenuItem.setAccelerator(loadKeys);
         savePuzzleMenuItem.setAccelerator(saveKeys);
+        closePuzzleMenuItem.setAccelerator(closeKeys);
         undoMenuItem.setAccelerator(undoKeys);
         redoMenuItem.setAccelerator(redoKeys);
         undoAllMenuItem.setAccelerator(undoAllKeys);
