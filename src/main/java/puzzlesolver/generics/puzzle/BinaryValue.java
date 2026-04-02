@@ -6,13 +6,20 @@ import java.util.List;
 
 @NonNls
 public enum BinaryValue implements PuzzleValue {
-    EMPTY, BLACK, WHITE;
+    EMPTY, BLACK, WHITE, BLOCKED;
+
+    private static final BinaryValue[] values = values();
+    private static final List<BinaryValue> ALLOWED_VALUES = List.of(BLACK, WHITE);
+    private static final List<BinaryValue> VALID_VALUES = List.of(EMPTY, BLACK, WHITE);
+    private static final List<BinaryValue> EMPTY_VALUES = List.of(EMPTY);
+    private static final List<BinaryValue> BLOCKED_VALUES = List.of(BLOCKED);
 
     public char asChar() {
         return switch (this) {
             case EMPTY -> ' ';
             case BLACK -> 'B';
             case WHITE -> 'W';
+            case BLOCKED -> '-';
         };
     }
 
@@ -21,6 +28,7 @@ public enum BinaryValue implements PuzzleValue {
             case EMPTY -> ' ';
             case BLACK -> 'B';
             case WHITE -> 'W';
+            case BLOCKED -> '-';
         };
     }
 
@@ -33,21 +41,37 @@ public enum BinaryValue implements PuzzleValue {
         };
     }
 
-    public int asInt() {
-        return switch (this) {
-            case EMPTY -> -1;
-            case BLACK -> 1;
-            case WHITE -> 0;
-        };
-    }
-
     public BinaryValue getComplement() {
         return switch (this) {
             case EMPTY -> EMPTY;
             case BLACK -> WHITE;
             case WHITE -> BLACK;
+            case BLOCKED -> BLOCKED;
         };
     }
 
-    public static final List<BinaryValue> nonEmptyValues = List.of(BLACK, WHITE);
+    @Override
+    public List<BinaryValue> getEmptyValues() {
+        return EMPTY_VALUES;
+    }
+
+    @Override
+    public List<BinaryValue> getAllowedValues() {
+        return ALLOWED_VALUES;
+    }
+
+    @Override
+    public List<BinaryValue> getBlockedValues() {
+        return BLOCKED_VALUES;
+    }
+
+    @Override
+    public List<BinaryValue> getValidValues() {
+        return VALID_VALUES;
+    }
+
+    @Override
+    public PuzzleValue getDefaultEmptyValue() {
+        return EMPTY;
+    }
 }
