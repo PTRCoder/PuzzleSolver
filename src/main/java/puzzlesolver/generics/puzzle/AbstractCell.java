@@ -27,7 +27,7 @@ public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
         this.grid = grid;
         this.position = position;
         this.lockedProperty = new SimpleBooleanProperty(false);
-        this.valueProperty = new LockableObjectProperty();
+        this.valueProperty = new LockableProperty<>(this.lockedProperty);
     }
 
     @Override
@@ -43,25 +43,5 @@ public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
     @Override
     public String toString() {
         return getPosition().toString();
-    }
-
-    private class LockableObjectProperty extends SimpleObjectProperty<T> {
-        public LockableObjectProperty(T value) {super(value);}
-
-        public LockableObjectProperty() {
-            super();
-        }
-
-        @Override
-        public void set(T val) {
-            if (!lockedProperty().get())
-                super.set(val);
-        }
-
-        @Override
-        public void setValue(T val) {
-            if (!lockedProperty().get())
-                super.setValue(val);
-        }
     }
 }
