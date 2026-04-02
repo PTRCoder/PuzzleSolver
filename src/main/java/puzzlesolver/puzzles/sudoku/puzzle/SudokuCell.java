@@ -1,33 +1,49 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import puzzlesolver.generics.puzzle.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@EqualsAndHashCode
+@ToString
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class SudokuCell extends AbstractCell<HexValue> {
-    public static final HexValue EMPTY = HexValue.EMPTY;
-    int size;
+public class SudokuCell implements Cell<HexValue> {
     List<HexValue> candidates;
+    @Accessors(fluent = true)
+    private final BooleanProperty lockedProperty = new SimpleBooleanProperty();
+    @Accessors(fluent = true)
+    private final LockableProperty<HexValue> valueProperty = new LockableProperty<>(lockedProperty);
+    @Accessors(fluent = true)
+    private final ListProperty<Group<HexValue>> groupsProperty =
+            new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));
+    private final SudokuGrid grid;
+    private final Position position;
+    int size;
 
-    public SudokuCell(Grid<HexValue> grid, int size, Position pos) {
-        super(grid, pos);
+    public SudokuCell(SudokuGrid grid, int size, Position position) {
         this.size = size;
+        this.grid = grid;
+        this.position = position;
         candidates = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));
     }
 
     @Override
     public List<HexValue> getAllowedValues() {
-        if (isLocked() || !valueProperty().getValue().equals(EMPTY))
+        if (isLocked() || !valueProperty().getValue().isEmpty() && !valueProperty().getValue().isBlocked())
             return List.of(valueProperty().getValue());
         List<HexValue> allowed = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));
         allowed.removeIf(

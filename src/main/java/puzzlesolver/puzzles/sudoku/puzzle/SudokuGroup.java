@@ -18,7 +18,7 @@ public class SudokuGroup implements Group<HexValue> {
             if (!c.isValid())
                 return false;
             HexValue x = c.getValue();
-            if (x == SudokuCell.EMPTY)
+            if (x.isEmpty() || x.isBlocked())
                 continue;
             if (checks[x.ordinal() - 1])
                 return false;

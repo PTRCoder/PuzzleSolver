@@ -47,11 +47,15 @@ public interface Cell<T extends PuzzleValue> {
         return groupsProperty().get();
     }
 
-    ListProperty<? extends Group<T>> groupsProperty();
+    ListProperty<Group<T>> groupsProperty();
 
-    void addGroup(Group<T> group);
+    default void addGroup(Group<T> group) {
+        groupsProperty().add(group);
+    }
 
     Grid<T> getGrid();
 
-    List<T> getCandidates();
+    default List<T> getCandidates() {
+        throw new UnsupportedOperationException();
+    }
 }

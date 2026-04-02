@@ -12,10 +12,7 @@ import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Position;
 import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 @Value
 public class SudokuGrid implements Grid<HexValue> {
@@ -46,7 +43,8 @@ public class SudokuGrid implements Grid<HexValue> {
             if (sqrt * sqrt != size)
                 throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Size must be a square number");
             if (sqrt > 4)
-                throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "Sudokus larger than 16×16 are not supported");
+                throw new InvalidPuzzleSyntaxException
+                        (SudokuPuzzle.class, "Sudokus larger than 16×16 are not supported");
 
             // init collections
             this.cells = new ArrayList<>();
@@ -65,7 +63,7 @@ public class SudokuGrid implements Grid<HexValue> {
                     HexValue val = HexValue.valueOf(sc.nextInt());
                     SudokuCell c = new SudokuCell(this, size, new Position(j, i));
                     c.setValue(val);
-                    if (val != SudokuCell.EMPTY) {
+                    if (!val.isEmpty()) {
                         c.lock();
                     }
                     row.add(c);
@@ -105,6 +103,9 @@ public class SudokuGrid implements Grid<HexValue> {
 
             if (sc.hasNext())
                 throw InvalidPuzzleSyntaxException.tooMany(SudokuPuzzle.class);
+        }
+        catch (InputMismatchException e) {
+            throw new InvalidPuzzleSyntaxException(SudokuPuzzle.class, "", e);
         }
         catch (NoSuchElementException e) {
             throw InvalidPuzzleSyntaxException.notEnough(SudokuPuzzle.class, e);

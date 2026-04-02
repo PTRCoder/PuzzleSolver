@@ -1,14 +1,34 @@
 package puzzlesolver.puzzles.starbattle.puzzle;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import puzzlesolver.generics.puzzle.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public class StarBattleCell extends AbstractCell<FillValue> {
-
-    public StarBattleCell(Grid<FillValue> grid, Position pos) {
-        super(grid, pos);
-    }
+@EqualsAndHashCode
+@Getter
+@ToString
+@RequiredArgsConstructor
+public class StarBattleCell implements Cell<FillValue> {
+    @Accessors(fluent = true)
+    private final BooleanProperty lockedProperty = new SimpleBooleanProperty();
+    @Accessors(fluent = true)
+    private final LockableProperty<FillValue> valueProperty = new LockableProperty<>(lockedProperty);
+    @Accessors(fluent = true)
+    private final ListProperty<Group<FillValue>> groupsProperty =
+            new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));
+    private final StarBattleGrid grid;
+    private final Position position;
 
     @Override
     public List<FillValue> getAllowedValues() {
