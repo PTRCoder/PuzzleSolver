@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -32,45 +31,8 @@ public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
     }
 
     @Override
-    public void lock() {
-        lockedProperty().set(true);
-    }
-
-    @Override
-    public void unlock() {
-        lockedProperty().set(false);
-    }
-
-    @Override
-    public boolean isLocked() {
-        return lockedProperty().get();
-    }
-
-    abstract protected T getEmpty();
-
-    @Override
-    public boolean isEmpty() {
-        return Objects.equals(this.getEmpty(), valueProperty().get());
-    }
-
-    @Override
-    public void setValue(T value) {
-        this.valueProperty().set(value);
-    }
-
-    @Override
-    public T getValue() {
-        return valueProperty().get();
-    }
-
-    @Override
     public void addGroup(Group<T> group) {
         this.groupsProperty().add(group);
-    }
-
-    @Override
-    public List<? extends Group<T>> getGroups() {
-        return groupsProperty().get();
     }
 
     @Override

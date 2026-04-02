@@ -9,29 +9,43 @@ import java.util.List;
 public interface Cell<T extends PuzzleValue> {
     List<T> getAllowedValues();
 
-    T getValue();
+    default T getValue() {
+        return valueProperty().get();
+    }
 
-    void setValue(T value);
+    default void setValue(T value) {
+        valueProperty().setValue(value);
+    }
 
     ObjectProperty<T> valueProperty();
 
     Position getPos();
 
-    boolean isEmpty();
+    default boolean isEmpty() {
+        return valueProperty().get().isEmpty();
+    }
 
-    boolean isLocked();
+    default boolean isLocked() {
+        return lockedProperty().get();
+    }
 
     BooleanProperty lockedProperty();
 
-    void lock();
+    default void lock() {
+        lockedProperty().set(true);
+    }
 
-    void unlock();
+    default void unlock() {
+        lockedProperty().set(false);
+    }
 
     default boolean isValid() {
         return this.isEmpty() || this.getAllowedValues().contains(this.getValue());
     }
 
-    List<? extends Group<T>> getGroups();
+    default List<? extends Group<T>> getGroups() {
+        return groupsProperty().get();
+    }
 
     ListProperty<? extends Group<T>> groupsProperty();
 
