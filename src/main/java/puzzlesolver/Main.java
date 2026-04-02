@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -42,8 +43,9 @@ public final class Main extends Application {
     private static final @NonNls String EXT_TXT = "*.txt";
 
     private static final ObjectProperty<@Nullable Puzzle<?>> puzzle = new SimpleObjectProperty<>();
-    private final CompoundCommand comms = new CompoundCommand();
-    private final SolverFactory solverFactory = new SolverFactory();
+    private static final ObservableBooleanValue noPuzzle = Bindings.isNull(puzzle);
+    private static final CompoundCommand comms = new CompoundCommand();
+    private static final SolverFactory solverFactory = new SolverFactory();
 
     @Override
     public void start(Stage stage) {
@@ -114,12 +116,12 @@ public final class Main extends Application {
         solverConfSubMenu.getItems().addAll(reasonToggleItem, backtrackToggleItem);
 
         // Set default states
-        closePuzzleMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
-        undoMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
-        redoMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
-        undoAllMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
-        redoAllMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
-        solvePuzzleMenuItem.disableProperty().bind(Bindings.isNull(puzzle));
+        closePuzzleMenuItem.disableProperty().bind(noPuzzle);
+        undoMenuItem.disableProperty().bind(noPuzzle);
+        redoMenuItem.disableProperty().bind(noPuzzle);
+        undoAllMenuItem.disableProperty().bind(noPuzzle);
+        redoAllMenuItem.disableProperty().bind(noPuzzle);
+        solvePuzzleMenuItem.disableProperty().bind(noPuzzle);
 
         // Set actions
         createPuzzleMenuItem.setOnAction(e -> {});
