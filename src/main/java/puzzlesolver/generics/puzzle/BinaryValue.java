@@ -2,17 +2,19 @@ package puzzlesolver.generics.puzzle;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Set;
 
 @NonNls
 public enum BinaryValue implements PuzzleValue {
     EMPTY, BLACK, WHITE, BLOCKED;
 
     private static final BinaryValue[] values = values();
-    private static final EnumSet<BinaryValue> ALLOWED_VALUES = EnumSet.of(BLACK, WHITE);
-    private static final EnumSet<BinaryValue> VALID_VALUES = EnumSet.of(EMPTY, BLACK, WHITE);
-    private static final EnumSet<BinaryValue> EMPTY_VALUES = EnumSet.of(EMPTY);
-    private static final EnumSet<BinaryValue> BLOCKED_VALUES = EnumSet.of(BLOCKED);
+    public static final Set<BinaryValue> ALLOWED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLACK, WHITE));
+    public static final Set<BinaryValue> VALID_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY, BLACK, WHITE));
+    public static final Set<BinaryValue> EMPTY_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY));
+    public static final Set<BinaryValue> BLOCKED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLOCKED));
 
     public char asChar() {
         return switch (this) {
@@ -70,22 +72,22 @@ public enum BinaryValue implements PuzzleValue {
     }
 
     @Override
-    public EnumSet<BinaryValue> getEmptyValues() {
+    public Set<BinaryValue> getEmptyValues() {
         return EMPTY_VALUES;
     }
 
     @Override
-    public EnumSet<BinaryValue> getAllowedValues() {
+    public Set<BinaryValue> getAllowedValues() {
         return ALLOWED_VALUES;
     }
 
     @Override
-    public EnumSet<BinaryValue> getBlockedValues() {
+    public Set<BinaryValue> getBlockedValues() {
         return BLOCKED_VALUES;
     }
 
     @Override
-    public EnumSet<BinaryValue> getValidValues() {
+    public Set<BinaryValue> getValidValues() {
         return VALID_VALUES;
     }
 

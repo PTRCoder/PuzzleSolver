@@ -8,6 +8,7 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.binairo.reasoners.SimpleBinairoReasoner;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class BinairoPuzzle implements Puzzle<BinaryValue> {
     }
 
     @Override
-    public List<BinaryValue> getAllowedValues() {
+    public Collection<BinaryValue> getAllowedValues() {
         return List.of(BinaryValue.BLACK, BinaryValue.WHITE);
     }
 

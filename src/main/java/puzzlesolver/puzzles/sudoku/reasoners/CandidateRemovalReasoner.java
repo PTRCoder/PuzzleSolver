@@ -8,13 +8,14 @@ import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.reasoners.EmptyCellReasoner;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CandidateRemovalReasoner extends EmptyCellReasoner<HexValue> {
     @Override
     public boolean applyToCell(Cell<HexValue> cell, CompoundCommand comms) {
         List<HexValue> candidates = new ArrayList<>(cell.getCandidates());
-        List<HexValue> allowed = cell.getAllowedValues();
+        Collection<HexValue> allowed = cell.getAllowedValues();
         candidates.removeAll(allowed);
         if (!candidates.isEmpty()) {
             Command command = new CandidateCommand<>(cell, candidates);

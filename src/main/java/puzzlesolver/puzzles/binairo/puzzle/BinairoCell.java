@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import puzzlesolver.generics.puzzle.*;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class BinairoCell implements Cell<BinaryValue> {
     private final Position position;
 
     @Override
-    public List<BinaryValue> getAllowedValues() {
+    public Collection<BinaryValue> getAllowedValues() {
         boolean white = true;
         boolean black = true;
         for (Group<BinaryValue> group : groupsProperty()) {

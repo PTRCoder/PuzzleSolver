@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import puzzlesolver.generics.puzzle.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SudokuCell implements Cell<HexValue> {
     }
 
     @Override
-    public List<HexValue> getAllowedValues() {
+    public Collection<HexValue> getAllowedValues() {
         if (isLocked() || !valueProperty().getValue().isEmpty() && !valueProperty().getValue().isBlocked())
             return List.of(valueProperty().getValue());
         List<HexValue> allowed = new ArrayList<>(SudokuPuzzle.staticAllowedValues(size));

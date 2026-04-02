@@ -10,6 +10,7 @@ import puzzlesolver.generics.puzzle.PuzzleValue;
 import puzzlesolver.loc.LogStrings;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @XSlf4j
@@ -34,7 +35,7 @@ public record BacktrackSolver<T extends PuzzleValue>(Puzzle<T> puzzle) implement
         Cell<T> c = cells.get(index);
         if (c.isLocked())
             return solve(comms, cells, index + 1);
-        List<T> vals = c.getAllowedValues();
+        Collection<T> vals = c.getAllowedValues();
         for (T x : vals) {
             comms.add(new ValueCommand<>(c, x));
             if (solve(comms, cells, index + 1))

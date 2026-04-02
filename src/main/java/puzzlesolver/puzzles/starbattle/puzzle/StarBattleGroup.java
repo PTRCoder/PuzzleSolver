@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import puzzlesolver.generics.puzzle.FillValue;
 
+import java.util.Collection;
 import java.util.List;
 
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -61,7 +62,7 @@ public final class StarBattleGroup extends AbstractStarBattleGroup {
     }
 
     @Override
-    public List<FillValue> getAllowedValues() {
-        return FillValue.nonEmptyValues;
+    public Collection<FillValue> getAllowedValues() {
+        return FillValue.ALLOWED_VALUES;
     }
 }

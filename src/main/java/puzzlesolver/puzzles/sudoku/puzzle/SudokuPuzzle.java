@@ -7,6 +7,7 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.sudoku.reasoners.SimpleSudokuReasoner;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
     }
 
     @Override
-    public List<HexValue> getAllowedValues() {
+    public Collection<HexValue> getAllowedValues() {
         return staticAllowedValues(grid.getWidth());
     }
 

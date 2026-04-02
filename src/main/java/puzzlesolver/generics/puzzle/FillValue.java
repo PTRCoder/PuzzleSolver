@@ -2,17 +2,19 @@ package puzzlesolver.generics.puzzle;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Set;
 
 @NonNls
 public enum FillValue implements PuzzleValue {
     EMPTY, FILLED, CROSSED, BLOCKED;
 
     private static final FillValue[] values = values();
-    private static final EnumSet<FillValue> ALLOWED_VALUES = EnumSet.of(FILLED, CROSSED);
-    private static final EnumSet<FillValue> VALID_VALUES = EnumSet.of(EMPTY, FILLED, CROSSED);
-    private static final EnumSet<FillValue> EMPTY_VALUES = EnumSet.of(EMPTY);
-    private static final EnumSet<FillValue> BLOCKED_VALUES = EnumSet.of(BLOCKED);
+    public static final Set<FillValue> ALLOWED_VALUES = Collections.unmodifiableSet(EnumSet.of(FILLED, CROSSED));
+    public static final Set<FillValue> VALID_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY, FILLED, CROSSED));
+    public static final Set<FillValue> EMPTY_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY));
+    public static final Set<FillValue> BLOCKED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLOCKED));
 
     public char asChar() {
         return switch (this) {
@@ -23,7 +25,7 @@ public enum FillValue implements PuzzleValue {
         };
     }
 
-    public static final EnumSet<FillValue> nonEmptyValues = EnumSet.of(CROSSED, FILLED);
+    public static final Set<FillValue> nonEmptyValues = EnumSet.of(CROSSED, FILLED);
 
     @Override
     public char toChar() {
@@ -36,22 +38,22 @@ public enum FillValue implements PuzzleValue {
     }
 
     @Override
-    public EnumSet<FillValue> getEmptyValues() {
+    public Set<FillValue> getEmptyValues() {
         return EMPTY_VALUES;
     }
 
     @Override
-    public EnumSet<FillValue> getBlockedValues() {
+    public Set<FillValue> getBlockedValues() {
         return BLOCKED_VALUES;
     }
 
     @Override
-    public EnumSet<FillValue> getValidValues() {
+    public Set<FillValue> getValidValues() {
         return VALID_VALUES;
     }
 
     @Override
-    public EnumSet<FillValue> getAllowedValues() {
+    public Set<FillValue> getAllowedValues() {
         return ALLOWED_VALUES;
     }
 

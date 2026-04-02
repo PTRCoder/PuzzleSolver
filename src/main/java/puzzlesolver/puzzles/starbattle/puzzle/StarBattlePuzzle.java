@@ -7,7 +7,7 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.starbattle.reasoners.DefaultStarBattleReasoner;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Scanner;
 
 @Value
@@ -19,8 +19,8 @@ public class StarBattlePuzzle implements Puzzle<FillValue> {
     }
 
     @Override
-    public List<FillValue> getAllowedValues() {
-        return FillValue.nonEmptyValues;
+    public Collection<FillValue> getAllowedValues() {
+        return FillValue.ALLOWED_VALUES;
     }
 
     @Override

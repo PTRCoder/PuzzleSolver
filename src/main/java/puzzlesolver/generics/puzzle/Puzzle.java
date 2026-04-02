@@ -3,7 +3,7 @@ package puzzlesolver.generics.puzzle;
 import javafx.scene.control.Label;
 import puzzlesolver.generics.reasoners.Reasoner;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface Puzzle<T extends PuzzleValue> {
     Grid<T> getGrid();
@@ -16,7 +16,7 @@ public interface Puzzle<T extends PuzzleValue> {
         return getGrid().isFinished();
     }
 
-    List<T> getAllowedValues();
+    Collection<T> getAllowedValues();
 
     Reasoner<T> getDefaultReasoner();
 

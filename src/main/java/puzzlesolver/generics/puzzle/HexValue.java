@@ -1,18 +1,20 @@
 package puzzlesolver.generics.puzzle;
 
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Set;
 
 public enum HexValue implements PuzzleValue {
     EMPTY, V_1, V_2, V_3, V_4, V_5, V_6, V_7, V_8, V_9, V_A, V_B, V_C, V_D, V_E, V_F, BLOCKED;
 
     private static final HexValue[] values = values();
-    private static final EnumSet<HexValue> ALLOWED_VALUES =
-            EnumSet.of(V_1, V_2, V_3, V_4, V_5, V_6, V_7, V_8, V_9, V_A, V_B, V_C, V_D, V_E);
-    private static final EnumSet<HexValue> VALID_VALUES =
-            EnumSet.of(EMPTY, V_1, V_2, V_3, V_4, V_5, V_6, V_7, V_8, V_9, V_A, V_B, V_C, V_D, V_E);
-    private static final EnumSet<HexValue> EMPTY_VALUES = EnumSet.of(EMPTY);
-    private static final EnumSet<HexValue> BLOCKED_VALUES = EnumSet.of(BLOCKED);
-    private static final int RADIX = 16;
+    public static final Set<HexValue> ALLOWED_VALUES = Collections.unmodifiableSet
+            (EnumSet.of(V_1, V_2, V_3, V_4, V_5, V_6, V_7, V_8, V_9, V_A, V_B, V_C, V_D, V_E));
+    public static final Set<HexValue> VALID_VALUES = Collections.unmodifiableSet
+            (EnumSet.of(EMPTY, V_1, V_2, V_3, V_4, V_5, V_6, V_7, V_8, V_9, V_A, V_B, V_C, V_D, V_E));
+    public static final Set<HexValue> EMPTY_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY));
+    public static final Set<HexValue> BLOCKED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLOCKED));
+    public static final int RADIX = 16;
 
     @Override
     public char toChar() {
@@ -45,22 +47,22 @@ public enum HexValue implements PuzzleValue {
     }
 
     @Override
-    public EnumSet<HexValue> getAllowedValues() {
+    public Set<HexValue> getAllowedValues() {
         return ALLOWED_VALUES;
     }
 
     @Override
-    public EnumSet<HexValue> getBlockedValues() {
+    public Set<HexValue> getBlockedValues() {
         return BLOCKED_VALUES;
     }
 
     @Override
-    public EnumSet<HexValue> getEmptyValues() {
+    public Set<HexValue> getEmptyValues() {
         return EMPTY_VALUES;
     }
 
     @Override
-    public EnumSet<HexValue> getValidValues() {
+    public Set<HexValue> getValidValues() {
         return VALID_VALUES;
     }
 

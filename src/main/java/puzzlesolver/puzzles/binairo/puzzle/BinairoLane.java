@@ -13,6 +13,7 @@ import puzzlesolver.generics.puzzle.BinaryValue;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Group;
 
+import java.util.Collection;
 import java.util.List;
 
 @Value
@@ -73,7 +74,7 @@ public class BinairoLane implements Group<BinaryValue> {
     }
 
     @Override
-    public List<BinaryValue> getAllowedValues() {
+    public Collection<BinaryValue> getAllowedValues() {
         return List.of(BinaryValue.BLACK, BinaryValue.WHITE);
     }
 

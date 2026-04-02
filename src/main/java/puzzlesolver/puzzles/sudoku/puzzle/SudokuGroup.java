@@ -5,7 +5,7 @@ import lombok.Value;
 import puzzlesolver.generics.puzzle.Group;
 import puzzlesolver.generics.puzzle.HexValue;
 
-import java.util.List;
+import java.util.Collection;
 
 @Value
 public class SudokuGroup implements Group<HexValue> {
@@ -28,7 +28,7 @@ public class SudokuGroup implements Group<HexValue> {
     }
 
     @Override
-    public List<HexValue> getAllowedValues() {
+    public Collection<HexValue> getAllowedValues() {
         return SudokuPuzzle.staticAllowedValues(getSize());
     }
 }

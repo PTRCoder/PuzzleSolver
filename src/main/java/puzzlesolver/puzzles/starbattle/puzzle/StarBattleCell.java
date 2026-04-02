@@ -12,6 +12,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import puzzlesolver.generics.puzzle.*;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class StarBattleCell implements Cell<FillValue> {
     private final Position position;
 
     @Override
-    public List<FillValue> getAllowedValues() {
+    public Collection<FillValue> getAllowedValues() {
         boolean allowsStar = true;
         boolean allowsCross = true;
         for (Group<FillValue> group : getGroups()) {
@@ -47,7 +48,7 @@ public class StarBattleCell implements Cell<FillValue> {
         }
         if (allowsStar) {
             if (allowsCross)
-                return FillValue.nonEmptyValues;
+                return FillValue.ALLOWED_VALUES;
             else
                 return List.of(FillValue.FILLED);
         }

@@ -10,7 +10,7 @@ public class SingularReasoner extends EmptyCellReasoner<FillValue> {
     @Override
     public boolean applyToCell(Cell<FillValue> cell, CompoundCommand comms) {
         if (cell.getAllowedValues().size() == 1) {
-            FillValue x = cell.getAllowedValues().getFirst();
+            FillValue x = cell.getAllowedValues().iterator().next();
             comms.add(new ValueCommand<>(cell, x));
             return true;
         }

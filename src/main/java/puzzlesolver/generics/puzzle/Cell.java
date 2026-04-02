@@ -4,10 +4,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface Cell<T extends PuzzleValue> {
-    List<T> getAllowedValues();
+    Collection<T> getAllowedValues();
 
     default T getValue() {
         return valueProperty().get();
