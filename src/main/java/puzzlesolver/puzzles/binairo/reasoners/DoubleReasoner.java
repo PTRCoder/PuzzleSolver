@@ -6,9 +6,9 @@ import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.BinaryValue;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.generics.reasoners.EmptyCellReasoner;
 import puzzlesolver.puzzles.binairo.puzzle.BinairoCell;
 import puzzlesolver.puzzles.binairo.puzzle.BinairoGrid;
-import puzzlesolver.generics.reasoners.EmptyCellReasoner;
 
 import java.util.function.Function;
 
@@ -16,7 +16,7 @@ public class DoubleReasoner extends EmptyCellReasoner<BinaryValue> {
     @Override
     public boolean applyToCell(Cell<BinaryValue> cell, CompoundCommand comms) {
         BinairoGrid grid = (BinairoGrid) cell.getGrid();
-        Position pos = cell.getPos();
+        Position pos = cell.getPosition();
         for (Dir d : Dir.values()) {
             Doubles x = getDoubles(grid, pos, d);
             if (x != null && x.v1 == x.v2 && x.v1 != BinaryValue.EMPTY) {

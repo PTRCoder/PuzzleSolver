@@ -5,15 +5,15 @@ import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.BinaryValue;
 import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.generics.reasoners.EmptyCellReasoner;
 import puzzlesolver.puzzles.binairo.puzzle.BinairoCell;
 import puzzlesolver.puzzles.binairo.puzzle.BinairoGrid;
-import puzzlesolver.generics.reasoners.EmptyCellReasoner;
 
 public class GapReasoner extends EmptyCellReasoner<BinaryValue> {
     @Override
     public boolean applyToCell(Cell<BinaryValue> cell, CompoundCommand comms) {
         BinairoGrid grid = (BinairoGrid) cell.getGrid();
-        Position pos = cell.getPos();
+        Position pos = cell.getPosition();
         int x = pos.x();
         int y = pos.y();
         BinairoCell left = (BinairoCell) grid.getCell(new Position(x - 1, y));

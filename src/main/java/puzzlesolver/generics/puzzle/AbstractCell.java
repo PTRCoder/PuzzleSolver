@@ -14,7 +14,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
     private final Grid<T> grid;
-    private final Position pos;
+    private final Position position;
     @Accessors(fluent = true)
     private final BooleanProperty lockedProperty;
     @Accessors(fluent = true)
@@ -23,11 +23,11 @@ public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
     private final ListProperty<Group<T>> groupsProperty =
             new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));
 
-    protected AbstractCell(Grid<T> grid, Position pos) {
+    protected AbstractCell(Grid<T> grid, Position position) {
         this.grid = grid;
-        this.pos = pos;
+        this.position = position;
         this.lockedProperty = new SimpleBooleanProperty(false);
-        this.valueProperty = new LockableObjectProperty(getEmpty());
+        this.valueProperty = new LockableObjectProperty();
     }
 
     @Override
@@ -42,11 +42,15 @@ public abstract class AbstractCell<T extends PuzzleValue> implements Cell<T> {
 
     @Override
     public String toString() {
-        return getPos().toString();
+        return getPosition().toString();
     }
 
     private class LockableObjectProperty extends SimpleObjectProperty<T> {
         public LockableObjectProperty(T value) {super(value);}
+
+        public LockableObjectProperty() {
+            super();
+        }
 
         @Override
         public void set(T val) {

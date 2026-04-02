@@ -19,7 +19,7 @@ public interface Cell<T extends PuzzleValue> {
 
     ObjectProperty<T> valueProperty();
 
-    Position getPos();
+    Position getPosition();
 
     default boolean isEmpty() {
         return valueProperty().get().isEmpty();
