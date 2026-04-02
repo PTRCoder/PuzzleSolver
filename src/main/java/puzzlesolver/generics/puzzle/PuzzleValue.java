@@ -1,6 +1,6 @@
 package puzzlesolver.generics.puzzle;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * The general value type allowed to be used in puzzles. Implementations are expected to be interned,
@@ -25,30 +25,30 @@ public interface PuzzleValue {
     char toChar();
 
     /**
-     * The list of allowed values.
+     * The collection of allowed values.
      * These should only contain values that can be filled in,
      * so not containing the empty value or any blocked-like values. As such, one could state that
      * {@code x \in getAllowedValues() <==> !x.isEmpty() && !x.isBlocked()}.
      * <p>
-     * Implementors are heavily encourage to use a static immutable list to store these values.
+     * Implementors are heavily encourage to use a static immutable collection to store these values.
      * </p>
      *
-     * @return List of allowed values.
+     * @return Collection of allowed values.
      */
-    List<? extends PuzzleValue> getAllowedValues();
+    Collection<? extends PuzzleValue> getAllowedValues();
 
     /**
-     * The list of valid values.
+     * The collection of valid values.
      * These should only contain values that can be considered valid within a given group,
      * so not containing any blocked-like values. As such, one could state that
      * * {@code x \in getAllowedValues() <==> !x.isBlocked()}.
      * <p>
-     * Implementors are heavily encourage to use a static immutable list to store these values.
+     * Implementors are heavily encourage to use a static immutable collection to store these values.
      * </p>
      *
-     * @return List of valid values.
+     * @return LiCost of valid values.
      */
-    List<? extends PuzzleValue> getValidValues();
+    Collection<? extends PuzzleValue> getValidValues();
 
     /**
      * Indicates whether the value symbolizes an empty cell or not.
@@ -77,24 +77,33 @@ public interface PuzzleValue {
     }
 
     /**
-     * Yields a list of values that can be used to represent empty cells.
-     * <p>
-     * Implementors are heavily encourage to use a static immutable list to store these values.
-     * </p>
-     *
-     * @return List of values representing emptiness.
+     * Indicates whether this is an allowed value.
+     * This allows for more concise code when verifying if something is (not) blocked or empty.
+     * @return Whether this is an allowed value.
      */
-    List<? extends PuzzleValue> getEmptyValues();
+    default boolean isAllowed() {
+        return getAllowedValues().contains(this);
+    }
 
     /**
-     * Yields a list of values that can be used to represent non-input cells.
+     * Yields a collection of values that can be used to represent empty cells.
      * <p>
-     * Implementors are heavily encourage to use a static immutable list to store these values.
+     * Implementors are heavily encourage to use a static immutable collection to store these values.
      * </p>
      *
-     * @return List of values representing no input allowed.
+     * @return Collection of values representing emptiness.
      */
-    List<? extends PuzzleValue> getBlockedValues();
+    Collection<? extends PuzzleValue> getEmptyValues();
+
+    /**
+     * Yields a collection of values that can be used to represent non-input cells.
+     * <p>
+     * Implementors are heavily encourage to use a static immutable collection to store these values.
+     * </p>
+     *
+     * @return Collection of values representing no input allowed.
+     */
+    Collection<? extends PuzzleValue> getBlockedValues();
 
     /**
      * Default empty value.

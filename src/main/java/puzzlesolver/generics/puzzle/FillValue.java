@@ -2,17 +2,17 @@ package puzzlesolver.generics.puzzle;
 
 import org.jetbrains.annotations.NonNls;
 
-import java.util.List;
+import java.util.EnumSet;
 
 @NonNls
 public enum FillValue implements PuzzleValue {
     EMPTY, FILLED, CROSSED, BLOCKED;
 
     private static final FillValue[] values = values();
-    private static final List<FillValue> ALLOWED_VALUES = List.of(FILLED, CROSSED);
-    private static final List<FillValue> VALID_VALUES = List.of(EMPTY, FILLED, CROSSED);
-    private static final List<FillValue> EMPTY_VALUES = List.of(EMPTY);
-    private static final List<FillValue> BLOCKED_VALUES = List.of(BLOCKED);
+    private static final EnumSet<FillValue> ALLOWED_VALUES = EnumSet.of(FILLED, CROSSED);
+    private static final EnumSet<FillValue> VALID_VALUES = EnumSet.of(EMPTY, FILLED, CROSSED);
+    private static final EnumSet<FillValue> EMPTY_VALUES = EnumSet.of(EMPTY);
+    private static final EnumSet<FillValue> BLOCKED_VALUES = EnumSet.of(BLOCKED);
 
     public char asChar() {
         return switch (this) {
@@ -23,7 +23,7 @@ public enum FillValue implements PuzzleValue {
         };
     }
 
-    public static final List<FillValue> nonEmptyValues = List.of(CROSSED, FILLED);
+    public static final EnumSet<FillValue> nonEmptyValues = EnumSet.of(CROSSED, FILLED);
 
     @Override
     public char toChar() {
@@ -36,22 +36,22 @@ public enum FillValue implements PuzzleValue {
     }
 
     @Override
-    public List<FillValue> getEmptyValues() {
+    public EnumSet<FillValue> getEmptyValues() {
         return EMPTY_VALUES;
     }
 
     @Override
-    public List<FillValue> getBlockedValues() {
+    public EnumSet<FillValue> getBlockedValues() {
         return BLOCKED_VALUES;
     }
 
     @Override
-    public List<FillValue> getValidValues() {
+    public EnumSet<FillValue> getValidValues() {
         return VALID_VALUES;
     }
 
     @Override
-    public List<FillValue> getAllowedValues() {
+    public EnumSet<FillValue> getAllowedValues() {
         return ALLOWED_VALUES;
     }
 
