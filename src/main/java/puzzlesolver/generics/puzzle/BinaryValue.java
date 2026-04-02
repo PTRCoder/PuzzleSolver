@@ -90,7 +90,7 @@ public enum BinaryValue implements PuzzleValue {
     }
 
     @Override
-    public PuzzleValue getDefaultEmptyValue() {
+    public BinaryValue getDefaultEmptyValue() {
         return EMPTY;
     }
 }

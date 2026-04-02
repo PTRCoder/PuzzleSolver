@@ -56,7 +56,7 @@ public enum FillValue implements PuzzleValue {
     }
 
     @Override
-    public PuzzleValue getDefaultEmptyValue() {
+    public FillValue getDefaultEmptyValue() {
         return EMPTY;
     }
 }

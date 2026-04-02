@@ -65,7 +65,7 @@ public enum HexValue implements PuzzleValue {
     }
 
     @Override
-    public PuzzleValue getDefaultEmptyValue() {
+    public HexValue getDefaultEmptyValue() {
         return EMPTY;
     }
 }
