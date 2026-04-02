@@ -3,18 +3,9 @@ package puzzlesolver.solvers;
 import org.junit.jupiter.api.Test;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
-import puzzlesolver.generics.puzzle.FillValue;
-import puzzlesolver.generics.reasoners.AnyReasoner;
-import puzzlesolver.generics.reasoners.Reasoner;
-import puzzlesolver.generics.reasoners.RepeatedReasoner;
 import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuPuzzle;
-import puzzlesolver.puzzles.kakurasu.reasoners.BigReasoner;
-import puzzlesolver.puzzles.kakurasu.reasoners.EqualityReasoner;
-import puzzlesolver.puzzles.kakurasu.reasoners.SmallReasoner;
-import puzzlesolver.puzzles.kakurasu.reasoners.SubsetReasoner;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuPuzzle;
 
-import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,7 +26,7 @@ public class ReasonSolverTest {
                 0 0 6 0 0 0 0 0 8
                 """);
         SudokuPuzzle s = new SudokuPuzzle(sc);
-        Solver solver = new SolverFactory().withPuzzle(s).withUseReasoner(true).build();
+        Solver solver = new ReasonSolver<>(s);
         CompoundCommand commands = new CompoundCommand();
         solver.solve(commands);
         assertTrue(s.isFinished());
@@ -50,15 +41,9 @@ public class ReasonSolverTest {
                 48 20 23 42 29 12 45 6 31 49
                 """);
         KakurasuPuzzle k = new KakurasuPuzzle(sc);
-        Reasoner<FillValue> reasoner = new RepeatedReasoner<>(
-                new AnyReasoner<>(
-                        List.of(new SmallReasoner(), new BigReasoner(), new EqualityReasoner(), new SubsetReasoner())
-                )
-        );
-        Solver solver = new SolverFactory().withPuzzle(k).withUseReasoner(true).build();
+        Solver solver = new ReasonSolver<>(k);
         CompoundCommand commands = new CompoundCommand();
         solver.solve(commands);
-        reasoner.apply(k, commands);
         assertTrue(k.isFinished());
         assertTrue(k.getGrid().validate());
     }
