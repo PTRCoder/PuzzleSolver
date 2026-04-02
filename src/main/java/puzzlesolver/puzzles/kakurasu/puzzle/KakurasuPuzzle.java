@@ -31,14 +31,6 @@ public class KakurasuPuzzle implements Puzzle<FillValue> {
 
     @Override
     public String valueToString(FillValue value) {
-        return valueToStringStatic(value);
-    }
-
-    private static String valueToStringStatic(FillValue value) {
-        return switch (value) {
-            case EMPTY -> " ";
-            case CROSSED -> "x";
-            case FILLED -> "■";
-        };
+        return value.toText();
     }
 }

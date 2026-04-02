@@ -14,13 +14,7 @@ public class StarBattleGrid implements Grid<FillValue> {
     private static final PuzzlePrinter<FillValue> printer = new PuzzlePrinter<>();
 
     static {
-        printer.setToString(x ->
-                switch (x) {
-                    case FILLED -> "★";
-                    case CROSSED -> "x";
-                    case EMPTY -> " ";
-                }
-        );
+        printer.setToString(FillValue::toText);
         printer.setUseBorder(true);
         printer.setUseSpaces(true);
         printer.setConnect(false);
