@@ -5,7 +5,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -68,7 +67,6 @@ public final class Main extends Application {
         Label text = new Label();
         text.setId("puzzle-text");
         root.getChildren().add(text);
-        text.setStyle("-fx-font-family: 'monospaced';");
 
         // Create menus
         Menu fileMenu = new Menu();
