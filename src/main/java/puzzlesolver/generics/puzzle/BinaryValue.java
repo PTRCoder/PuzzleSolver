@@ -41,6 +41,25 @@ public enum BinaryValue implements PuzzleValue {
         };
     }
 
+    public static BinaryValue decode(char c) {
+        return switch (c) {
+            case '0', 'W' -> WHITE;
+            case '1', 'B' -> BLACK;
+            case '~', '-', 'E' -> EMPTY;
+            case '.' -> BLOCKED;
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
+    public static char encode(BinaryValue v) {
+        return switch (v) {
+            case WHITE -> '0';
+            case BLACK -> '1';
+            case EMPTY -> '-';
+            case BLOCKED -> '.';
+        };
+    }
+
     public BinaryValue getComplement() {
         return switch (this) {
             case EMPTY -> EMPTY;
