@@ -16,10 +16,4 @@ public class KakurasuCell extends AbstractCell<FillValue> {
     public List<FillValue> getAllowedValues() {
         return List.of(FillValue.FILLED, FillValue.CROSSED);
     }
-
-
-    @Override
-    protected FillValue getEmpty() {
-        return FillValue.EMPTY;
-    }
 }

@@ -17,11 +17,6 @@ public class BinairoCell extends AbstractCell<BinaryValue> {
     }
 
     @Override
-    protected BinaryValue getEmpty() {
-        return BinaryValue.EMPTY;
-    }
-
-    @Override
     public List<BinaryValue> getAllowedValues() {
         boolean white = true;
         boolean black = true;

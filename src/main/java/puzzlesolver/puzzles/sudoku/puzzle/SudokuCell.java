@@ -44,10 +44,4 @@ public class SudokuCell extends AbstractCell<HexValue> {
         return allowed;
     }
 
-
-    @Override
-    protected HexValue getEmpty() {
-        return EMPTY;
-    }
-
 }

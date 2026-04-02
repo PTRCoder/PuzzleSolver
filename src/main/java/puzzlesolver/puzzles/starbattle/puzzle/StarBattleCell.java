@@ -11,11 +11,6 @@ public class StarBattleCell extends AbstractCell<FillValue> {
     }
 
     @Override
-    protected FillValue getEmpty() {
-        return FillValue.EMPTY;
-    }
-
-    @Override
     public List<FillValue> getAllowedValues() {
         boolean allowsStar = true;
         boolean allowsCross = true;
