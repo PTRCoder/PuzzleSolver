@@ -7,7 +7,6 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.starbattle.reasoners.DefaultStarBattleReasoner;
 
-import java.util.Collection;
 import java.util.Scanner;
 
 @Value
@@ -19,17 +18,7 @@ public class StarBattlePuzzle implements Puzzle<FillValue> {
     }
 
     @Override
-    public Collection<FillValue> getAllowedValues() {
-        return FillValue.ALLOWED_VALUES;
-    }
-
-    @Override
     public Reasoner<FillValue> getDefaultReasoner() {
         return new DefaultStarBattleReasoner();
-    }
-
-    @Override
-    public String valueToString(FillValue value) {
-        return value.toText();
     }
 }

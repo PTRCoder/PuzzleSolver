@@ -10,22 +10,10 @@ import java.util.Set;
 public enum FillValue implements PuzzleValue {
     EMPTY, FILLED, CROSSED, BLOCKED;
 
-    private static final FillValue[] values = values();
     public static final Set<FillValue> ALLOWED_VALUES = Collections.unmodifiableSet(EnumSet.of(FILLED, CROSSED));
     public static final Set<FillValue> VALID_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY, FILLED, CROSSED));
     public static final Set<FillValue> EMPTY_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY));
     public static final Set<FillValue> BLOCKED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLOCKED));
-
-    public char asChar() {
-        return switch (this) {
-            case EMPTY -> ' ';
-            case FILLED -> 'O';
-            case CROSSED -> 'X';
-            case BLOCKED -> '-';
-        };
-    }
-
-    public static final Set<FillValue> nonEmptyValues = EnumSet.of(CROSSED, FILLED);
 
     @Override
     public char toChar() {

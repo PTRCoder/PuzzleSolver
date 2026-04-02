@@ -23,7 +23,7 @@ public class KakurasuGrid implements Grid<FillValue> {
         printer.setConnect(false);
         printer.setUseBorder(true);
         printer.setUseSpaces(false);
-        printer.setToString(x -> Character.toString(x.asChar()));
+        printer.setToString(x -> Character.toString(x.toChar()));
     }
 
     int width;

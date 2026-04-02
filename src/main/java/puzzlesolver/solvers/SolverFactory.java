@@ -2,7 +2,9 @@ package puzzlesolver.solvers;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.generics.puzzle.Puzzle;
 
@@ -28,24 +30,6 @@ public final class SolverFactory {
     public SolverFactory withPuzzle(Puzzle<?> puzzle) {
         this.puzzle = puzzle;
         return this;
-    }
-
-    public SolverFactory withUseReasoner(boolean use) {
-        this.useReasoner.set(use);
-        return this;
-    }
-
-    public SolverFactory withUseBacktrack(boolean use) {
-        this.useBacktrack.set(use);
-        return this;
-    }
-
-    public boolean usesReasoner() {
-        return useReasoner.get();
-    }
-
-    public boolean usesBacktrack() {
-        return useBacktrack.get();
     }
 
     public Solver build() {

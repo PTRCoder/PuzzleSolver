@@ -7,7 +7,6 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.sudoku.reasoners.SimpleSudokuReasoner;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -25,11 +24,6 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
         this.grid = new SudokuGrid(sc);
     }
 
-    @Override
-    public Collection<HexValue> getAllowedValues() {
-        return staticAllowedValues(grid.getWidth());
-    }
-
     public static List<HexValue> staticAllowedValues(int size) {
         if (size == cachedSize)
             return cachedAllowed;
@@ -41,11 +35,6 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
     @Override
     public Reasoner<HexValue> getDefaultReasoner() {
         return DEFAULT_REASONER;
-    }
-
-    @Override
-    public String valueToString(HexValue value) {
-        return value.toText();
     }
 
 }

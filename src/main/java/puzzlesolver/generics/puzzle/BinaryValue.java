@@ -10,7 +10,6 @@ import java.util.Set;
 public enum BinaryValue implements PuzzleValue {
     EMPTY, BLACK, WHITE, BLOCKED;
 
-    private static final BinaryValue[] values = values();
     public static final Set<BinaryValue> ALLOWED_VALUES = Collections.unmodifiableSet(EnumSet.of(BLACK, WHITE));
     public static final Set<BinaryValue> VALID_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY, BLACK, WHITE));
     public static final Set<BinaryValue> EMPTY_VALUES = Collections.unmodifiableSet(EnumSet.of(EMPTY));

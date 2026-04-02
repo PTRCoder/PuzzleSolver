@@ -8,8 +8,6 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.binairo.reasoners.SimpleBinairoReasoner;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
 
 @Value
@@ -22,21 +20,7 @@ public class BinairoPuzzle implements Puzzle<BinaryValue> {
     }
 
     @Override
-    public Collection<BinaryValue> getAllowedValues() {
-        return List.of(BinaryValue.BLACK, BinaryValue.WHITE);
-    }
-
-    @Override
     public Reasoner<BinaryValue> getDefaultReasoner() {
         return DEFAULT_REASONER;
-    }
-
-    @Override
-    public String valueToString(BinaryValue value) {
-        return valueToStringStatic(value);
-    }
-
-    private static String valueToStringStatic(BinaryValue value) {
-        return Character.toString(value.asChar());
     }
 }

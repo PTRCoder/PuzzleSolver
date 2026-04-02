@@ -7,7 +7,6 @@ import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.SimpleKakurasuReasoner;
 
-import java.util.List;
 import java.util.Scanner;
 
 @Value
@@ -20,17 +19,8 @@ public class KakurasuPuzzle implements Puzzle<FillValue> {
     }
 
     @Override
-    public List<FillValue> getAllowedValues() {
-        return List.of(FillValue.FILLED, FillValue.CROSSED);
-    }
-
-    @Override
     public Reasoner<FillValue> getDefaultReasoner() {
         return DEFAULT_REASONER;
     }
 
-    @Override
-    public String valueToString(FillValue value) {
-        return value.toText();
-    }
 }
