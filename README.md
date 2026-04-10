@@ -11,8 +11,8 @@ open-source mainly so others can give me feedback on my code and so they can req
 ## Running locally
 
 Since I do not yet have a proper packaging setup in Gradle, the only way to run this is to
-run the gradle build locally. This can be done by using the command
+run the Gradle build locally. This can be done by using the command
 
 ```bash
-PuzzleSolver> ./gradlew run
+./gradlew run
 ```
