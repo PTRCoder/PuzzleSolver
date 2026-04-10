@@ -2,15 +2,15 @@ package puzzlesolver.generics.reasoners;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import lombok.extern.slf4j.XSlf4j;
-import org.slf4j.ext.XLogger;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.puzzle.PuzzleValue;
 
 import java.util.List;
 
-@XSlf4j
+@Slf4j
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class AllReasoner<T extends PuzzleValue> extends AbstractReasoner<T> {
@@ -30,7 +30,7 @@ public class AllReasoner<T extends PuzzleValue> extends AbstractReasoner<T> {
     }
 
     @Override
-    protected XLogger getLog() {
+    protected Logger getLog() {
         return log;
     }
 }

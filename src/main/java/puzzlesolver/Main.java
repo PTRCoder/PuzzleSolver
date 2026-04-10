@@ -13,7 +13,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.XSlf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
@@ -34,7 +34,7 @@ import java.util.Scanner;
 
 import static javafx.stage.FileChooser.ExtensionFilter;
 
-@XSlf4j
+@Slf4j
 public final class Main extends Application {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 400;
@@ -117,10 +117,12 @@ public final class Main extends Application {
         // Set default states
         savePuzzleMenuItem.disableProperty().bind(noPuzzle);
         closePuzzleMenuItem.disableProperty().bind(noPuzzle);
-        undoMenuItem.disableProperty().bind(noPuzzle);
-        redoMenuItem.disableProperty().bind(noPuzzle);
-        undoAllMenuItem.disableProperty().bind(noPuzzle);
-        redoAllMenuItem.disableProperty().bind(noPuzzle);
+        ObservableBooleanValue cannotUndo = Bindings.or(noPuzzle, comms.allNotDoneProperty());
+        ObservableBooleanValue cannotDo = Bindings.or(noPuzzle, comms.allDoneProperty());
+        undoMenuItem.disableProperty().bind(cannotUndo);
+        redoMenuItem.disableProperty().bind(cannotDo);
+        undoAllMenuItem.disableProperty().bind(cannotUndo);
+        redoAllMenuItem.disableProperty().bind(cannotDo);
         solvePuzzleMenuItem.disableProperty().bind(noPuzzle);
 
         // Set actions
@@ -231,9 +233,5 @@ public final class Main extends Application {
 
         // Finish up
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

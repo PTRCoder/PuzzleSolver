@@ -3,12 +3,12 @@ plugins {
     id("application")
     id("io.freefair.lombok") version "9.2.0"
     id("org.openjfx.javafxplugin") version "0.1.0"
-    id("de.infolektuell.jpackage") version "0.4.1"
+    id("org.beryx.jlink") version "4.0.0"
 //    id("org.checkerframework") version "1.0.2"
 }
 
 group = "PuzzleSolver"
-version = "0.1"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -21,8 +21,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-runner:1.14.3")
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation("org.slf4j:slf4j-api:2.0.17")
-    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-ext
-    implementation("org.slf4j:slf4j-ext:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
     runtimeOnly("org.slf4j:slf4j-jdk14:2.0.17")
     // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
@@ -31,7 +29,7 @@ dependencies {
 }
 
 application {
-    mainClass = "puzzlesolver.Main"
+    mainClass = "puzzlesolver.Launcher"
     applicationName = "PuzzleSolver"
 }
 
@@ -42,15 +40,18 @@ java {
 
 javafx {
     version = "21"
-    modules = listOf("javafx.base", "javafx.controls", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.graphics")
+}
+
+jlink {
+    options = listOf("--strip-debug", "--compress", "zip-6", "--no-header-files", "--no-man-pages")
+    launcher {
+        name = "PuzzleSolver"
+    }
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-
-jpackage {
-    javafx
 }
 
 //checkerFramework {

@@ -1,6 +1,6 @@
 package puzzlesolver.puzzles.binairo.reasoners;
 
-import lombok.extern.slf4j.XSlf4j;
+import lombok.extern.slf4j.Slf4j;
 import puzzlesolver.commands.Command;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.commands.MultiCommand;
@@ -14,7 +14,7 @@ import puzzlesolver.puzzles.binairo.puzzle.BinairoLane;
 import java.util.LinkedList;
 import java.util.List;
 
-@XSlf4j
+@Slf4j
 public class CountReasoner extends UnfinishedGroupReasoner<BinaryValue> {
 
     @Override

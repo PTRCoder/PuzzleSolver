@@ -1,6 +1,6 @@
 package puzzlesolver.puzzles.starbattle.reasoners;
 
-import lombok.extern.slf4j.XSlf4j;
+import lombok.extern.slf4j.Slf4j;
 import puzzlesolver.commands.Command;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.commands.ValueCommand;
@@ -10,7 +10,7 @@ import puzzlesolver.generics.puzzle.Group;
 import puzzlesolver.generics.reasoners.UnfinishedGroupReasoner;
 import puzzlesolver.puzzles.starbattle.puzzle.StarBattleGroup;
 
-@XSlf4j
+@Slf4j
 public class BruteGroupReasoner extends UnfinishedGroupReasoner<FillValue> {
 //    private static final SquareReasoner sqr = new SquareReasoner();
 
@@ -35,7 +35,6 @@ public class BruteGroupReasoner extends UnfinishedGroupReasoner<FillValue> {
     }
 
     private boolean brute(StarBattleGroup g) {
-        log.entry(g);
         boolean result;
         for (Cell<FillValue> c : g) {
             if (!c.isEmpty())
@@ -45,12 +44,10 @@ public class BruteGroupReasoner extends UnfinishedGroupReasoner<FillValue> {
                 result = brute(g);
                 c.setValue(FillValue.EMPTY);
                 if (result) {
-                    log.exit(true);
                     return true;
                 }
             }
         }
-        log.exit(false);
         return false;
     }
 }

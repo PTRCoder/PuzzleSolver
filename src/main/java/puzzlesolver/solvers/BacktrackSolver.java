@@ -1,6 +1,6 @@
 package puzzlesolver.solvers;
 
-import lombok.extern.slf4j.XSlf4j;
+import lombok.extern.slf4j.Slf4j;
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.Cell;
@@ -13,19 +13,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@XSlf4j
+@Slf4j
 public record BacktrackSolver<T extends PuzzleValue>(Puzzle<T> puzzle) implements Solver {
 
     @Override
     public boolean solve(CompoundCommand comms) {
-        log.entry(comms);
         log.info(LogStrings.SOLVER_START.get(), this.getClass());
         Grid<T> grid = puzzle.getGrid();
         List<Cell<T>> cells = new ArrayList<>();
         grid.iterator().forEachRemaining(cells::add);
         boolean result = solve(comms, cells, 0);
         log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(), this.getClass());
-        log.exit(result);
         return result;
     }
 
