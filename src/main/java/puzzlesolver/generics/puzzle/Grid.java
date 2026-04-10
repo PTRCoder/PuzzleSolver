@@ -1,6 +1,7 @@
 package puzzlesolver.generics.puzzle;
 
 import javafx.scene.control.Label;
+import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -100,4 +101,7 @@ public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
             return current.next();
         }
     }
+
+    @NonNls
+    String encode();
 }

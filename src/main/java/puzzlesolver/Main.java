@@ -27,7 +27,7 @@ import puzzlesolver.ui.ExceptionAlertFactory;
 import puzzlesolver.ui.LocaleSelector;
 import puzzlesolver.ui.SolverConfiguration;
 
-import java.io.File;
+import java.io.*;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Scanner;
@@ -115,6 +115,7 @@ public final class Main extends Application {
         solverConfSubMenu.getItems().addAll(reasonToggleItem, backtrackToggleItem);
 
         // Set default states
+        savePuzzleMenuItem.disableProperty().bind(noPuzzle);
         closePuzzleMenuItem.disableProperty().bind(noPuzzle);
         undoMenuItem.disableProperty().bind(noPuzzle);
         redoMenuItem.disableProperty().bind(noPuzzle);
@@ -145,7 +146,23 @@ public final class Main extends Application {
                 d.show();
             }
         });
-        savePuzzleMenuItem.setOnAction(e -> {});
+        savePuzzleMenuItem.setOnAction(e -> {
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Save puzzle");
+            fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
+            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.get(), EXT_TXT));
+            File selected = fc.showSaveDialog(stage);
+            if (selected == null) {
+                return;
+            }
+            try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(selected)))) {
+                writer.print(puzzle.get().encodeCurrentState());
+                writer.flush();
+            }
+            catch (IOException err) {
+                log.error(err.getLocalizedMessage());
+            }
+        });
         closePuzzleMenuItem.setOnAction(e -> {
             text.setText("");
             puzzle.setValue(null);

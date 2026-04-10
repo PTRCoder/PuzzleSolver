@@ -22,7 +22,7 @@ import java.util.List;
 @ToString
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class SudokuCell implements Cell<HexValue> {
+public final class SudokuCell implements Cell<HexValue> {
     List<HexValue> candidates;
     @Accessors(fluent = true)
     private final BooleanProperty lockedProperty = new SimpleBooleanProperty();

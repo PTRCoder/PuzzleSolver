@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 import puzzlesolver.generics.puzzle.*;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,17 +47,11 @@ public class StarBattleCell implements Cell<FillValue> {
             if (!allowsCross && !allowsStar)
                 break;
         }
-        if (allowsStar) {
-            if (allowsCross)
-                return FillValue.ALLOWED_VALUES;
-            else
-                return List.of(FillValue.FILLED);
-        }
-        else {
-            if (allowsCross)
-                return List.of(FillValue.CROSSED);
-            else
-                return List.of();
-        }
+        List<FillValue> list = new LinkedList<>();
+        if (allowsStar)
+            list.add(FillValue.FILLED);
+        if (allowsCross)
+            list.add(FillValue.CROSSED);
+        return Collections.unmodifiableList(list);
     }
 }

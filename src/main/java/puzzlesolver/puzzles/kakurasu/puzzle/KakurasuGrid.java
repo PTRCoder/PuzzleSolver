@@ -85,4 +85,9 @@ public class KakurasuGrid implements Grid<FillValue> {
         printer.print(this, parent);
     }
 
+    @Override
+    public String encode() {
+        throw new UnsupportedOperationException();
+    }
+
 }

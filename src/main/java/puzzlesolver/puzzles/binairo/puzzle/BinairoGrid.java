@@ -52,7 +52,7 @@ public class BinairoGrid implements Grid<BinaryValue> {
                         throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class,
                                 "Symbols must be properly separated by spaces");
                     BinairoCell cell = new BinairoCell(this, new Position(j, i));
-                    cell.setValue(BinaryValue.fromChar(c.charAt(0)));
+                    cell.setValue(BinaryValue.decode(c.charAt(0)));
                     row.add(cell);
                 }
                 BinairoLane g = new BinairoLane(Collections.unmodifiableList(row));
@@ -104,5 +104,10 @@ public class BinairoGrid implements Grid<BinaryValue> {
     @Override
     public void print(Label parent) {
         printer.print(this, parent);
+    }
+
+    @Override
+    public String encode() {
+        throw new UnsupportedOperationException();
     }
 }

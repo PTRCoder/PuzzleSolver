@@ -130,4 +130,22 @@ public class SudokuGrid implements Grid<HexValue> {
         printer.print(this, parent);
     }
 
+    @Override
+    public String encode() {
+        StringBuilder sb = new StringBuilder("sudoku" + System.lineSeparator());
+        sb.append("%d%n".formatted(size));
+        for (List<SudokuCell> row : getCells()) {
+            char[] cs = new char[2 * row.size() - 1];
+            int i = 1;
+            Iterator<SudokuCell> it = row.iterator();
+            cs[0] = HexValue.encode(it.next().getValue());
+            while (it.hasNext()) {
+                cs[i++] = ' ';
+                cs[i++] = HexValue.encode(it.next().getValue());
+            }
+            sb.append(String.copyValueOf(cs));
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
 }

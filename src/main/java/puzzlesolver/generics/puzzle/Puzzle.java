@@ -1,6 +1,7 @@
 package puzzlesolver.generics.puzzle;
 
 import javafx.scene.control.Label;
+import org.jetbrains.annotations.NonNls;
 import puzzlesolver.generics.reasoners.Reasoner;
 
 public interface Puzzle<T extends PuzzleValue> {
@@ -15,4 +16,9 @@ public interface Puzzle<T extends PuzzleValue> {
     }
 
     Reasoner<T> getDefaultReasoner();
+
+    @NonNls
+    default String encodeCurrentState() {
+        return getGrid().encode();
+    }
 }

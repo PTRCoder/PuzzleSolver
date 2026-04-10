@@ -114,4 +114,9 @@ public class StarBattleGrid implements Grid<FillValue> {
     public void print(Label parent) {
         printer.print(this, parent);
     }
+
+    @Override
+    public String encode() {
+        throw new UnsupportedOperationException();
+    }
 }
