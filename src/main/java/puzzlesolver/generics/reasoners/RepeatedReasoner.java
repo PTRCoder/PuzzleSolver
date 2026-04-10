@@ -16,13 +16,13 @@ public class RepeatedReasoner<T extends PuzzleValue> extends AbstractReasoner<T>
 
     @Override
     public boolean apply(Puzzle<T> puzzle, CompoundCommand comms) {
-        log.info("Started applying the RepeatedReasoner");
+        LOG_START();
         final boolean result = reasoner.apply(puzzle, comms);
         boolean x = result;
         while (x) {
             x = reasoner.apply(puzzle, comms);
         }
-        log.info("The RepeatedReasoner has {}been successful", result ? "" : "not ");
+        LOG_FAIL();
         return result;
     }
 
