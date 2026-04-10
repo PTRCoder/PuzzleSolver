@@ -1,9 +1,12 @@
+import io.freefair.gradle.plugins.compress.tasks.SevenZip
+
 plugins {
     id("java")
     id("application")
     id("io.freefair.lombok") version "9.2.0"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("org.beryx.jlink") version "4.0.0"
+    id("io.freefair.compress.7z") version "9.2.0"
 //    id("org.checkerframework") version "1.0.2"
 }
 
@@ -48,6 +51,15 @@ jlink {
     launcher {
         name = "PuzzleSolver"
     }
+}
+
+tasks.register<SevenZip>("artifact") {
+    dependsOn("jpackageImage")
+    archiveFileName = "${application.applicationName}-$version-${javafx.platform}-artifact.zip"
+    destinationDirectory = rootProject.layout.buildDirectory.dir("artifact")
+    from(rootProject.layout.buildDirectory.dir("jpackage/PuzzleSolver"))
+
+    contentCompression = org.apache.commons.compress.archivers.sevenz.SevenZMethod.LZMA2
 }
 
 tasks.test {
