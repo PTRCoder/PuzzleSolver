@@ -59,9 +59,9 @@ public class BinairoLane implements Group<BinaryValue> {
                 }
             });
             switch (value.get()) {
-                case EMPTY -> {}
                 case BLACK -> bs++;
                 case WHITE -> ws++;
+                default -> {/* do nothing */}
             }
         }
         this.bSum.set(bs);

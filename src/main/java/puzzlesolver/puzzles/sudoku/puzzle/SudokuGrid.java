@@ -132,7 +132,7 @@ public class SudokuGrid implements Grid<HexValue> {
 
     @Override
     public String encode() {
-        StringBuilder sb = new StringBuilder("sudoku" + System.lineSeparator());
+        StringBuilder sb = new StringBuilder("sudoku").append(System.lineSeparator());
         sb.append("%d%n".formatted(size));
         for (List<SudokuCell> row : getCells()) {
             char[] cs = new char[2 * row.size() - 1];

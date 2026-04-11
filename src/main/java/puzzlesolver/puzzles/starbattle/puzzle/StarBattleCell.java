@@ -25,7 +25,7 @@ public class StarBattleCell implements Cell<FillValue> {
     @Accessors(fluent = true)
     private final BooleanProperty lockedProperty = new SimpleBooleanProperty();
     @Accessors(fluent = true)
-    private final LockableProperty<FillValue> valueProperty = new LockableProperty<>(lockedProperty);
+    private final LockableProperty<FillValue> valueProperty = new LockableProperty<>(FillValue.EMPTY, lockedProperty);
     @Accessors(fluent = true)
     private final ListProperty<Group<FillValue>> groupsProperty =
             new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));

@@ -27,7 +27,7 @@ public final class SudokuCell implements Cell<HexValue> {
     @Accessors(fluent = true)
     private final BooleanProperty lockedProperty = new SimpleBooleanProperty();
     @Accessors(fluent = true)
-    private final LockableProperty<HexValue> valueProperty = new LockableProperty<>(lockedProperty);
+    private final LockableProperty<HexValue> valueProperty = new LockableProperty<>(HexValue.EMPTY, lockedProperty);
     @Accessors(fluent = true)
     private final ListProperty<Group<HexValue>> groupsProperty =
             new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));

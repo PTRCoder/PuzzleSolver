@@ -11,10 +11,6 @@ public class LockableProperty<T extends PuzzleValue> extends SimpleObjectPropert
         this.lock = lock;
     }
 
-    public LockableProperty(ObservableBooleanValue lock) {
-        this(null, lock);
-    }
-
     @Override
     public void setValue(T t) {
         if (!lock.get())

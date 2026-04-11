@@ -114,7 +114,8 @@ public final class Main extends Application {
         settingsMenu.getItems().addAll(localeMenuItem);
         solverConfSubMenu.getItems().addAll(reasonToggleItem, backtrackToggleItem);
 
-        // Set default states
+        // Set disabled states
+        // Important result is that any action performed with these items directly indicate puzzle != null
         savePuzzleMenuItem.disableProperty().bind(noPuzzle);
         closePuzzleMenuItem.disableProperty().bind(noPuzzle);
         ObservableBooleanValue cannotUndo = Bindings.or(noPuzzle, comms.allNotDoneProperty());
@@ -126,11 +127,13 @@ public final class Main extends Application {
         solvePuzzleMenuItem.disableProperty().bind(noPuzzle);
 
         // Set actions
-        createPuzzleMenuItem.setOnAction(e -> {});
+        createPuzzleMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
+        });
         loadPuzzleMenuItem.setOnAction(e -> {
             FileChooser fc = new FileChooser();
-            fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.get());
-            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.get(), EXT_TXT));
+            fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.getValue());
+            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
             fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
@@ -138,27 +141,29 @@ public final class Main extends Application {
             try {
                 Scanner sc = new Scanner(selectedFile);
                 puzzle.setValue(PuzzleFactory.create(sc));
+                assert puzzle.getValue() != null;
                 comms.clear();
                 text.setText("");
                 puzzle.getValue().print(text);
             }
             catch (Exception err) {
                 Alert d = ExceptionAlertFactory.getInstance(err);
-                d.setTitle(GUIStrings.ERROR_TITLE.get());
+                d.setTitle(GUIStrings.ERROR_TITLE.getValue());
                 d.show();
             }
         });
         savePuzzleMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             FileChooser fc = new FileChooser();
             fc.setTitle("Save puzzle");
             fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
-            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.get(), EXT_TXT));
+            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
             File selected = fc.showSaveDialog(stage);
             if (selected == null) {
                 return;
             }
             try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(selected)))) {
-                writer.print(puzzle.get().encodeCurrentState());
+                writer.print(puzzle.getValue().encodeCurrentState());
                 writer.flush();
             }
             catch (IOException err) {
@@ -166,30 +171,36 @@ public final class Main extends Application {
             }
         });
         closePuzzleMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             text.setText("");
             puzzle.setValue(null);
         });
         undoMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             comms.undo();
             text.setText("");
             puzzle.getValue().print(text);
         });
         redoMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             comms.apply();
             text.setText("");
             puzzle.getValue().print(text);
         });
         undoAllMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             comms.undoAll();
             text.setText("");
             puzzle.getValue().print(text);
         });
         redoAllMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             comms.applyAll();
             text.setText("");
             puzzle.getValue().print(text);
         });
         solvePuzzleMenuItem.setOnAction(e -> {
+            assert puzzle.getValue() != null;
             Puzzle<?> puzzle = Main.puzzle.getValue();
             Solver s = solverFactory.withPuzzle(puzzle).build();
             s.solve(comms);
