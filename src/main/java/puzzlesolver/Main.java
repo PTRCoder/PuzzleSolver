@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
+import puzzlesolver.fs.FileSystem;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.loc.GUIStrings;
 import puzzlesolver.loc.LocaleManager;
@@ -134,7 +135,10 @@ public final class Main extends Application {
             FileChooser fc = new FileChooser();
             fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.getValue());
             fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
-            fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
+            fc.setInitialDirectory(
+                    FileSystem.WORKING_FOLDER
+                    //        .toPath().resolve("puzzles").toFile()
+            );
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
                 return;
@@ -156,7 +160,10 @@ public final class Main extends Application {
             assert puzzle.getValue() != null;
             FileChooser fc = new FileChooser();
             fc.setTitle("Save puzzle");
-            fc.setInitialDirectory(new File(System.getProperty("user.dir")).toPath().resolve("puzzles").toFile());
+            fc.setInitialDirectory(
+                    FileSystem.WORKING_FOLDER
+                    //        .toPath().resolve("puzzles").toFile()
+            );
             fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
             File selected = fc.showSaveDialog(stage);
             if (selected == null) {

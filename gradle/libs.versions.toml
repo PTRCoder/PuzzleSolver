@@ -9,6 +9,7 @@ javafxPlugin = "0.1.0"
 jlinkPlugin = "4.0.0"
 freefairPlugin = "9.2.0"
 checkerPlugin = "1.0.2"
+jackson = "3.1.1"
 
 [libraries]
 jspecify-jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
@@ -19,6 +20,10 @@ junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", v
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-jdk14 = { module = "org.slf4j:slf4j-jdk14", version.ref = "slf4j" }
 controlsfx-controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" }
+jackson-core = { module = "tools.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-toml = { module = "tools.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }
+jackson-base = { module = "tools.jackson:jackson-base", version.ref = "jackson" }
 
 [plugins]
 lombok = { id = "io.freefair.lombok", version.ref = "freefairPlugin" }

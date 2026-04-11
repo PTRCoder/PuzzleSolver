@@ -26,6 +26,10 @@ dependencies {
     implementation(libs.slf4j.api)
     // Source: https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation(libs.controlsfx.controlsfx)
+    implementation(libs.jackson.toml)
+    implementation(libs.jackson.core)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.base)
 
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
     runtimeOnly(libs.slf4j.jdk14)
@@ -43,6 +47,10 @@ application {
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+lombok {
+    version = "1.18.44"
 }
 
 javafx {

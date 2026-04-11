@@ -9,6 +9,9 @@ module puzzlesolver {
     requires static org.jetbrains.annotations;
     requires static org.jspecify;
     requires org.slf4j;
+    requires tools.jackson.dataformat.toml;
+    requires tools.jackson.databind;
 
     exports puzzlesolver;
+    exports puzzlesolver.fs;
 }
