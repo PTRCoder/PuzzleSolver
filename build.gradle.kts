@@ -3,11 +3,10 @@ import io.freefair.gradle.plugins.compress.tasks.SevenZip
 plugins {
     id("java")
     id("application")
-    id("io.freefair.lombok") version "9.2.0"
-    id("org.openjfx.javafxplugin") version "0.1.0"
-    id("org.beryx.jlink") version "4.0.0"
-    id("io.freefair.compress.7z") version "9.2.0"
-//    id("org.checkerframework") version "1.0.2"
+    alias(libs.plugins.lombok)
+    alias(libs.plugins.javafx)
+    alias(libs.plugins.jlink)
+    alias(libs.plugins.sevenZ)
 }
 
 group = "PuzzleSolver"
@@ -18,17 +17,22 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jspecify:jspecify:1.0.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-runner:1.14.3")
-    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation("org.slf4j:slf4j-api:2.0.17")
-    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
-    runtimeOnly("org.slf4j:slf4j-jdk14:2.0.17")
+    // Source: https://mvnrepository.com/artifact/org.jspecify/jspecify
+    compileOnly(libs.jspecify.jspecify)
     // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
-    compileOnly("org.jetbrains:annotations:26.1.0")
-    implementation("org.controlsfx:controlsfx:11.2.3")
+    compileOnly(libs.jetbrains.annotations)
+
+    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation(libs.slf4j.api)
+    // Source: https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    implementation(libs.controlsfx.controlsfx)
+
+    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
+    runtimeOnly(libs.slf4j.jdk14)
+
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.runner)
 }
 
 application {
@@ -54,6 +58,8 @@ jlink {
 }
 
 tasks.register<SevenZip>("artifact") {
+    group = "build"
+    description = "Build PuzzleSolver artifact. This creates a zip file from the result of the jpackageImage task"
     dependsOn("jpackageImage")
     archiveFileName = "${application.applicationName}-$version-${javafx.platform}-artifact.zip"
     destinationDirectory = rootProject.layout.buildDirectory.dir("artifact")
