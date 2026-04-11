@@ -1,8 +1,8 @@
 package puzzlesolver.puzzles.kakurasu.reasoners;
 
 import puzzlesolver.commands.CompoundCommand;
-import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.puzzle.FillValue;
+import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.AnyReasoner;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.generics.reasoners.RepeatedReasoner;

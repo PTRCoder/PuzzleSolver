@@ -5,10 +5,10 @@ import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.commands.MultiCommand;
 import puzzlesolver.commands.ValueCommand;
 import puzzlesolver.generics.puzzle.Cell;
-import puzzlesolver.generics.puzzle.Group;
-import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuGroup;
 import puzzlesolver.generics.puzzle.FillValue;
+import puzzlesolver.generics.puzzle.Group;
 import puzzlesolver.generics.reasoners.UnfinishedGroupReasoner;
+import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuGroup;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,14 +1,13 @@
 package puzzlesolver.solvers;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import puzzlesolver.commands.CompoundCommand;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuPuzzle;
 
 import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BacktrackSolverTest {
 
