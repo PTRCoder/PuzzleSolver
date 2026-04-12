@@ -21,9 +21,9 @@ dependencies {
     compileOnly(libs.jspecify.jspecify)
     // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
     compileOnly(libs.jetbrains.annotations)
-
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation(libs.slf4j.api)
+    compileOnly(libs.slf4j.api)
+
     // Source: https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation(libs.controlsfx.controlsfx)
     implementation(libs.jackson.toml)
@@ -63,7 +63,7 @@ javafx {
 }
 
 jlink {
-    options = listOf("--strip-debug", "--compress", "zip-6", "--no-header-files", "--no-man-pages")
+    options = listOf("--bind-services", "--strip-debug", "--compress", "zip-6", "--no-header-files", "--no-man-pages")
     launcher {
         name = "PuzzleSolver"
     }
