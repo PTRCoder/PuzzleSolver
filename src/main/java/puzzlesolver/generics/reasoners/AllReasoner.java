@@ -12,7 +12,7 @@ import java.util.List;
 public record AllReasoner<T extends PuzzleValue>(List<Reasoner<T>> reasoners) implements Reasoner<T> {
     @Override
     public boolean apply(Puzzle<T> puzzle, CompoundCommand comms) {
-        log.info(LogStrings.REASONER_SUCCESS.get(), getClass());
+        log.info(LogStrings.REASONER_START.get(), getClass());
         boolean result = false;
         for (Reasoner<T> r : reasoners) {
             result |= r.apply(puzzle, comms);

@@ -14,7 +14,7 @@ public abstract class EmptyCellReasoner<T extends PuzzleValue> implements Reason
 
     @Override
     public boolean apply(Puzzle<T> puzzle, CompoundCommand comms) {
-        log.info(LogStrings.REASONER_SUCCESS.get(), getClass());
+        log.info(LogStrings.REASONER_START.get(), getClass());
         long t0 = System.nanoTime();
         Grid<T> grid = puzzle.getGrid();
         for (Cell<T> cell : grid) {
