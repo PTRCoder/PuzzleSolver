@@ -228,8 +228,8 @@ public final class Main extends Application {
             newLocale.ifPresent(LocaleManager.LOCALE_PROPERTY::setValue);
         });
 
-        reasonToggleItem.selectedProperty().bindBidirectional(solverFactory.reasonerProperty());
-        backtrackToggleItem.selectedProperty().bindBidirectional(solverFactory.backtrackProperty());
+        solverFactory.reasonerProperty().bind(reasonToggleItem.selectedProperty());
+        solverFactory.backtrackProperty().bind(backtrackToggleItem.selectedProperty());
 
         // Create accelerator keys
         KeyCombination createKeys = new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN);

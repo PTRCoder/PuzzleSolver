@@ -77,7 +77,6 @@ public class Config {
 
     private static Config createInstance() {
         Config config;
-        log.warn(MAPPER.getClass().getCanonicalName());
         try {
             if (CONFIG_FILE.createNewFile()) {
                 config = builder().build();
