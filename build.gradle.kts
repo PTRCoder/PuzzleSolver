@@ -44,6 +44,10 @@ application {
     applicationName = "PuzzleSolver"
 }
 
+tasks.run {
+    notCompatibleWithConfigurationCache("Filters configurations at execution time")
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
