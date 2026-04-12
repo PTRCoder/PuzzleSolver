@@ -6,7 +6,7 @@ import java.io.File;
 
 @UtilityClass
 public class FileSystem {
-    public final File WORKING_FOLDER = new File(System.getProperty("user.dir"));
-    public final File DEFAULT_PUZZLES_FOLDER = WORKING_FOLDER.toPath().resolve("puzzles").toFile();
-    public final File CONFIG_FILE = WORKING_FOLDER.toPath().resolve("config.toml").toFile();
+    public static final File WORKING_FOLDER = new File(System.getProperty("user.dir"));
+    public static final File DEFAULT_PUZZLES_FOLDER = WORKING_FOLDER.toPath().resolve("puzzles").toFile();
+    public static final File CONFIG_FILE = WORKING_FOLDER.toPath().resolve("config.toml").toFile();
 }
