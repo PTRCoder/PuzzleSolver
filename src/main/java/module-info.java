@@ -11,7 +11,7 @@ module puzzlesolver {
     requires org.slf4j;
     requires tools.jackson.dataformat.toml;
     requires tools.jackson.databind;
+    requires tools.jackson.core;
 
     exports puzzlesolver;
-    exports puzzlesolver.fs;
 }

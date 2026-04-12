@@ -127,6 +127,10 @@ public final class Main extends Application {
         redoAllMenuItem.disableProperty().bind(cannotDo);
         solvePuzzleMenuItem.disableProperty().bind(noPuzzle);
 
+        // Set config bindings
+        reasonToggleItem.selectedProperty().bindBidirectional(Config.getInstance().reasoningProperty());
+        backtrackToggleItem.selectedProperty().bindBidirectional(Config.getInstance().backtrackingProperty());
+
         // Set actions
         createPuzzleMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
