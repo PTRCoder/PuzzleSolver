@@ -1,99 +1,63 @@
 package puzzlesolver;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import lombok.AccessLevel;
-import lombok.Builder;
+import javafx.beans.property.*;
 import lombok.Value;
 import lombok.experimental.Accessors;
-import lombok.extern.jackson.Jacksonized;
 import lombok.extern.slf4j.Slf4j;
-import puzzlesolver.fs.modules.BooleanPropertyModule;
-import tools.jackson.dataformat.toml.TomlFactory;
-import tools.jackson.dataformat.toml.TomlMapper;
 
-import java.io.IOException;
+import java.io.File;
 
 import static puzzlesolver.fs.FileSystem.CONFIG_FILE;
 
 
 @Value
 @Accessors(fluent = true)
-@Builder(toBuilder = true, access = AccessLevel.PACKAGE)
-@Jacksonized
 @Slf4j
 public class Config {
-    private static final InvalidationListener AUTO_SAVE = (e) -> save();
-    private static final TomlMapper MAPPER = new TomlMapper.Builder(new TomlFactory()).addModule(
-            new BooleanPropertyModule()
-    ).build();
     private static final Config INSTANCE = createInstance();
 
-    @JsonProperty("reasoning")
     BooleanProperty reasoningProperty;
-    @JsonProperty("backtracking")
     BooleanProperty backtrackingProperty;
+    IntegerProperty windowWidthProperty;
+    IntegerProperty windowHeightProperty;
+    BooleanProperty maximizedProperty;
+    Property<File> lastFolderProperty;
 
-    public void setReasoning(boolean r) {
-        this.reasoningProperty.set(r);
-    }
-
-    public boolean getReasoning() {
-        return reasoningProperty.get();
-    }
-
-    public void setBacktracking(boolean b) {
-        this.backtrackingProperty.set(b);
-    }
-
-    public boolean getBacktracking() {
-        return backtrackingProperty.get();
-    }
-
-    private Config() {
-        this(true, true);
-    }
-
-    private Config(boolean r, boolean b) {
-        this(new SimpleBooleanProperty(r), new SimpleBooleanProperty(b));
-    }
-
-    private Config(BooleanProperty r, BooleanProperty b) {
-        this.reasoningProperty = r;
-        this.backtrackingProperty = b;
-        this.reasoningProperty.addListener(AUTO_SAVE);
-        this.backtrackingProperty.addListener(AUTO_SAVE);
+    private Config(ConfigPojo pojo) {
+        this.reasoningProperty = new SimpleBooleanProperty(pojo.reasoning);
+        this.backtrackingProperty = new SimpleBooleanProperty(pojo.backtracking);
+        this.windowHeightProperty = new SimpleIntegerProperty(pojo.windowHeight);
+        this.windowWidthProperty = new SimpleIntegerProperty(pojo.windowWidth);
+        this.maximizedProperty = new SimpleBooleanProperty(pojo.maximized);
+        this.lastFolderProperty = new SimpleObjectProperty<>(new File(pojo.lastFolder));
     }
 
     public static Config getInstance() {
         return INSTANCE;
     }
 
-    private static void save() {
-        MAPPER.writeValue(CONFIG_FILE.toPath(), getInstance());
+    public ConfigPojo toPojo() {
+        return ConfigPojo.builder()
+                .withBacktracking(backtrackingProperty().get())
+                .withReasoning(reasoningProperty.get())
+                .withWindowHeight(windowHeightProperty.get())
+                .withWindowWidth(windowWidthProperty.get())
+                .withMaximized(maximizedProperty.get())
+                .withLastFolder(lastFolderProperty.getValue().toString()).build();
+    }
+
+    public static void saveInstance() {
+        getInstance().toPojo().saveToFile(CONFIG_FILE);
     }
 
     private static Config createInstance() {
-        Config config;
-        try {
-            if (CONFIG_FILE.createNewFile()) {
-                config = builder().build();
-                MAPPER.writeValue(CONFIG_FILE, config);
-            }
-            else {
-                config = MAPPER.readValue(CONFIG_FILE, Config.class);
-            }
+        ConfigPojo config;
+        if (CONFIG_FILE.exists()) {
+            config = ConfigPojo.loadFromFile(CONFIG_FILE);
         }
-        catch (IOException e) {
-            log.error("Could not create config file");
-            throw new RuntimeException();
+        else {
+            config = new ConfigPojo();
         }
-        return config;
-    }
-
-    private static ConfigBuilder builder() {
-        return (new Config()).toBuilder();
+        return new Config(config);
     }
 }

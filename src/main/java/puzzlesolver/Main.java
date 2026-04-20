@@ -37,8 +37,6 @@ import static javafx.stage.FileChooser.ExtensionFilter;
 
 @Slf4j
 public final class Main extends Application {
-    private static final int DEFAULT_WIDTH = 600;
-    private static final int DEFAULT_HEIGHT = 400;
 
     private static final @NonNls String CSS = "styles.css";
     private static final @NonNls String EXT_TXT = "*.txt";
@@ -54,7 +52,7 @@ public final class Main extends Application {
         VBox root = new VBox();
 
         // Create scene and update stage
-        Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        Scene scene = new Scene(root);
         stage.titleProperty().bind(GUIStrings.TITLE);
         scene.getStylesheets().add(CSS);
         stage.setScene(scene);
@@ -139,13 +137,14 @@ public final class Main extends Application {
             FileChooser fc = new FileChooser();
             fc.setTitle(GUIStrings.FC_LOAD_PUZZLE_TITLE.getValue());
             fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
+            File lastFolder = Config.getInstance().lastFolderProperty().getValue();
             fc.setInitialDirectory(
-                    FileSystem.WORKING_FOLDER
-                    //        .toPath().resolve("puzzles").toFile()
+                    lastFolder.exists() && lastFolder.isDirectory() ? lastFolder : FileSystem.DEFAULT_PUZZLES_FOLDER
             );
             File selectedFile = fc.showOpenDialog(stage);
             if (selectedFile == null)
                 return;
+            Config.getInstance().lastFolderProperty().setValue(selectedFile.getParentFile());
             try {
                 Scanner sc = new Scanner(selectedFile);
                 puzzle.setValue(PuzzleFactory.create(sc));
@@ -253,7 +252,21 @@ public final class Main extends Application {
         undoAllMenuItem.setAccelerator(undoAllKeys);
         redoAllMenuItem.setAccelerator(redoAllKeys);
 
+        // Setup stage config
+        stage.setWidth(Config.getInstance().windowWidthProperty().get());
+        stage.setHeight(Config.getInstance().windowHeightProperty().get());
+        stage.setMaximized(Config.getInstance().maximizedProperty().get());
+        Config.getInstance().maximizedProperty().bind(stage.maximizedProperty());
+        Config.getInstance().windowWidthProperty().bind(stage.widthProperty().when(stage.maximizedProperty().not()));
+        Config.getInstance().windowHeightProperty().bind(stage.heightProperty().when(stage.maximizedProperty().not()));
+
         // Finish up
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        Config.saveInstance();
     }
 }
