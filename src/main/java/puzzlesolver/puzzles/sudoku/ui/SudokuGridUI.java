@@ -23,7 +23,9 @@ public final class SudokuGridUI extends GridView<SudokuCell> {
         double w = data.getWidth() * (this.getCellWidth() + 2);
         double h = data.getHeight() * (this.getCellHeight() + 2);
         this.setPrefWidth(w);
+        this.setMinWidth(w);
         this.setPrefHeight(h);
+        this.setMinHeight(h);
         log.info(this.getStyleClass().toString());
         log.info(this.getCssMetaData().toString());
         log.info("w: {}, h: {}", this.getCellWidth(), this.getCellHeight());
