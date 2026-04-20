@@ -5,6 +5,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.controlsfx.control.GridView;
 import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
@@ -45,6 +47,9 @@ public final class Main extends Application {
     private static final ObservableBooleanValue noPuzzle = Bindings.isNull(puzzle);
     private static final CompoundCommand comms = new CompoundCommand();
     private static final SolverFactory solverFactory = new SolverFactory();
+    private static final ObservableValue<GridView<?>> gridProperty = puzzle.map(
+            p -> p != null ? p.getView() : new GridView<>()
+    );
 
     @Override
     public void start(Stage stage) {
@@ -65,7 +70,11 @@ public final class Main extends Application {
         // Create text area
         Label text = new Label();
         text.setId("puzzle-text");
+        text.setMinHeight(150);
+        Label grid = new Label();
+        grid.graphicProperty().bind(gridProperty);
         root.getChildren().add(text);
+        root.getChildren().add(grid);
 
         // Create menus
         Menu fileMenu = new Menu();

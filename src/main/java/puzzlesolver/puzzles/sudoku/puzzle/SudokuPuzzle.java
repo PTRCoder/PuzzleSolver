@@ -1,11 +1,13 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
 import lombok.Value;
+import org.controlsfx.control.GridView;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.sudoku.reasoners.SimpleSudokuReasoner;
+import puzzlesolver.puzzles.sudoku.ui.SudokuGridUI;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +21,11 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
     private static int cachedSize;
 
     SudokuGrid grid;
+    GridView<SudokuCell> view;
 
     public SudokuPuzzle(Scanner sc) throws InvalidPuzzleSyntaxException {
         this.grid = new SudokuGrid(sc);
+        this.view = new SudokuGridUI(grid);
     }
 
     public static List<HexValue> staticAllowedValues(int size) {
