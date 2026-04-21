@@ -32,7 +32,7 @@ dependencies {
     implementation(libs.jackson.base)
 
     // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
-    runtimeOnly(libs.slf4j.jdk14)
+    runtimeOnly(libs.slf4j.logback)
 
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
