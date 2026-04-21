@@ -15,7 +15,7 @@ public class BinairoGrid implements Grid<BinaryValue> {
 
     @Getter(AccessLevel.NONE)
     int size;
-    List<List<BinairoCell>> cells;
+    Map<Position, BinairoCell> positionMap;
     List<BinairoLane> groups;
     List<BinairoLane> rows;
     List<BinairoLane> cols;
@@ -26,22 +26,23 @@ public class BinairoGrid implements Grid<BinaryValue> {
             if ((size & 1) == 1)
                 throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class, "Size must be an even number");
 
-            this.cells = new ArrayList<>();
             this.groups = new ArrayList<>();
             this.rows = new ArrayList<>();
             this.cols = new ArrayList<>();
+            this.positionMap = new HashMap<>();
 
             for (int i = 0; i < size; i++) {
                 List<BinairoCell> row = new ArrayList<>();
-                cells.add(row);
                 for (int j = 0; j < size; j++) {
                     String c = sc.next();
                     if (c.length() > 1)
                         throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class,
                                 "Symbols must be properly separated by spaces");
-                    BinairoCell cell = new BinairoCell(this, new Position(j, i));
+                    Position pos = new Position(j, i);
+                    BinairoCell cell = new BinairoCell(this, pos);
                     cell.setValue(BinaryValue.decode(c.charAt(0)));
                     row.add(cell);
+                    positionMap.put(pos, cell);
                 }
                 BinairoLane g = new BinairoLane(Collections.unmodifiableList(row));
                 groups.add(g);
@@ -51,7 +52,7 @@ public class BinairoGrid implements Grid<BinaryValue> {
             for (int i = 0; i < size; i++) {
                 List<BinairoCell> col = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    col.add(cells.get(j).get(i));
+                    col.add(positionMap.get(new Position(i, j)));
                 }
                 BinairoLane g = new BinairoLane(Collections.unmodifiableList(col));
                 cols.add(g);
@@ -60,7 +61,7 @@ public class BinairoGrid implements Grid<BinaryValue> {
 
             for (int i = 0; i < size; i++)
                 for (int j = 0; j < size; j++) {
-                    BinairoCell c = cells.get(i).get(j);
+                    BinairoCell c = positionMap.get(new Position(j, i));
                     c.addGroup(rows.get(i));
                     c.addGroup(cols.get(j));
                 }
@@ -72,6 +73,11 @@ public class BinairoGrid implements Grid<BinaryValue> {
         catch (IllegalArgumentException e) {
             throw new InvalidPuzzleSyntaxException(BinairoPuzzle.class, "Values must be either ' ', 'W', or 'B'", e);
         }
+    }
+
+    @Override
+    public Collection<BinairoCell> getCells() {
+        return Collections.unmodifiableCollection(positionMap.values());
     }
 
     @Override

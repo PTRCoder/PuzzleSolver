@@ -6,10 +6,11 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Line;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NonNls;
+import puzzlesolver.generics.puzzle.Position;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuCell;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuGrid;
 
-import java.util.List;
+import java.util.Collection;
 
 @Slf4j
 public final class SudokuGridUI extends GridPane {
@@ -19,7 +20,7 @@ public final class SudokuGridUI extends GridPane {
     private static final int HLINE_OFFSET = -(CELL_SIZE / 2 + 1);
     private static final int HLINE_OFFSET2 = CELL_SIZE / 2 - 1;
     private static final int VLINE_OFFSET = -(BORDER_WIDTH / 2);
-    private static final int VLINE_OFFSET2 = BORDER_WIDTH - BORDER_WIDTH / 2;
+    private static final int VLINE_OFFSET2 = CELL_SIZE - BORDER_WIDTH / 2;
 
     public SudokuGridUI(SudokuGrid data) {
         super();
@@ -33,14 +34,15 @@ public final class SudokuGridUI extends GridPane {
         int size = data.getWidth();
         int sqrt = (int) Math.sqrt(size);
 
-        List<List<SudokuCell>> cells = data.getCells();
+        Collection<SudokuCell> cells = data.getCells();
 
         for (int i = 0; i < size; i++) {
             this.getColumnConstraints().add(cCons);
             this.getRowConstraints().add(rCons);
-            for (int j = 0; j < size; j++) {
-                this.add(new SudokuCellUI(cells.get(i).get(j)), i, j);
-            }
+        }
+        for (var cell : cells) {
+            Position pos = cell.getPosition();
+            this.add(new SudokuCellUI(cell), pos.x(), pos.y());
         }
 
         for (int i = 0; i < sqrt; i++) {

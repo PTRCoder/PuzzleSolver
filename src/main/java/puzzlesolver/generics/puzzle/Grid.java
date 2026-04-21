@@ -1,15 +1,17 @@
 package puzzlesolver.generics.puzzle;
 
-import javafx.scene.control.Label;
 import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
-    List<? extends List<? extends Cell<T>>> getCells();
+    Collection<? extends Cell<T>> getCells();
+
+    Map<Position, ? extends Cell<T>> getPositionMap();
 
     int getWidth();
 
@@ -28,15 +30,11 @@ public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
     }
 
     default @Nullable Cell<T> getCell(Position pos) {
-        List<? extends List<? extends Cell<T>>> cells = this.getCells();
         int y = pos.y();
-        if (cells.size() <= y || y < 0)
-            return null;
-        List<? extends Cell<T>> row = cells.get(y);
         int x = pos.x();
-        if (row.size() <= x || x < 0)
+        if (this.getHeight() <= y || y < 0 || this.getWidth() <= x || x < 0)
             return null;
-        return row.get(x);
+        return getPositionMap().get(pos);
     }
 
     default boolean isFinished() {
@@ -60,45 +58,13 @@ public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     default Iterator<Cell<T>> iterator() {
-        return new GridIterator<>(getCells());
+        return (Iterator<Cell<T>>) getCells().iterator();
     }
 
     List<? extends Group<T>> getGroups();
-
-
-    class GridIterator<T extends PuzzleValue> implements Iterator<Cell<T>> {
-        private final Iterator<? extends Collection<? extends Cell<T>>> cells;
-        private Iterator<? extends Cell<T>> current;
-
-        public GridIterator(Collection<? extends Collection<? extends Cell<T>>> cells) {
-            this.cells = cells.iterator();
-            this.current = this.cells.next().iterator();
-        }
-
-        @Override
-        public boolean hasNext() {
-            if (current.hasNext())
-                return true;
-            if (cells.hasNext()) {
-                current = cells.next().iterator();
-                return hasNext();
-            }
-            return false;
-        }
-
-        @Override
-        public Cell<T> next() {
-            if (current.hasNext())
-                return current.next();
-            if (cells.hasNext()) {
-                current = cells.next().iterator();
-                return next();
-            }
-            return current.next();
-        }
-    }
 
     @NonNls
     String encode();
