@@ -10,6 +10,7 @@ import puzzlesolver.generics.puzzle.Cell;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Position;
+import puzzlesolver.puzzles.PuzzleFactory;
 
 import java.util.*;
 
@@ -121,7 +122,7 @@ public class SudokuGrid implements Grid<HexValue> {
 
     @Override
     public String encode() {
-        StringBuilder sb = new StringBuilder("sudoku").append(System.lineSeparator());
+        StringBuilder sb = new StringBuilder(PuzzleFactory.ID_SUDOKU).append(System.lineSeparator());
         sb.append("%d%n".formatted(size));
         for (SudokuGroup row : rows) {
             char[] cs = new char[2 * size - 1];
