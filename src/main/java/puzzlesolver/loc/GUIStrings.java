@@ -31,8 +31,11 @@ public final class GUIStrings {
     public final ObservableStringValue EDIT_UNDO_ALL_NAME = get("menu.edit.undo_all");
     public final ObservableStringValue EDIT_REDO_ALL_NAME = get("menu.edit.redo_all");
     public final ObservableStringValue SOLVE_SOLVE_NAME = get("menu.solve.solve");
-    public final ObservableStringValue SOLVE_CONFIG_NAME = get("menu.solve.config");
+    public final ObservableStringValue SOLVE_SELECT_SOLVERS_NAME = get("menu.solve.solvers");
+    public final ObservableStringValue SOLVE_SELECT_REASONER_NAME = get("menu.solve.solvers.reason");
+    public final ObservableStringValue SOLVE_SELECT_BACKTRACKER_NAME = get("menu.solve.solvers.backtrack");
     public final ObservableStringValue FC_LOAD_PUZZLE_TITLE = get("fc.puzzle.load.title");
+    public final ObservableStringValue FC_SAVE_PUZZLE_TITLE = get("fc.puzzle.save.title");
     public final ObservableStringValue FC_FILETYPE_TEXT = get("fc.types.txt");
     public final ObservableStringValue ERROR_TITLE = get("error.title");
     public final ObservableStringValue ERROR_PUZZLE_SYNTAX_MESSAGE = get("error.puzzle.syntax.message");

@@ -29,7 +29,6 @@ import puzzlesolver.solvers.Solver;
 import puzzlesolver.solvers.SolverFactory;
 import puzzlesolver.ui.ExceptionAlertFactory;
 import puzzlesolver.ui.LocaleSelector;
-import puzzlesolver.ui.SolverConfiguration;
 
 import java.io.*;
 import java.util.Locale;
@@ -115,17 +114,18 @@ public final class Main extends Application {
         redoAllMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_ALL_NAME);
         MenuItem solvePuzzleMenuItem = new MenuItem();
         solvePuzzleMenuItem.textProperty().bind(GUIStrings.SOLVE_SOLVE_NAME);
-        MenuItem modifySolverMenuItem = new MenuItem();
-        modifySolverMenuItem.textProperty().bind(GUIStrings.SOLVE_CONFIG_NAME);
-        Menu solverConfSubMenu = new Menu("test");
-        CheckMenuItem reasonToggleItem = new CheckMenuItem("Reasoning");
-        CheckMenuItem backtrackToggleItem = new CheckMenuItem("Backtracking");
+        Menu solverConfSubMenu = new Menu();
+        solverConfSubMenu.textProperty().bind(GUIStrings.SOLVE_SELECT_SOLVERS_NAME);
+        CheckMenuItem reasonToggleItem = new CheckMenuItem();
+        reasonToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_REASONER_NAME);
+        CheckMenuItem backtrackToggleItem = new CheckMenuItem();
+        backtrackToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_BACKTRACKER_NAME);
         MenuItem localeMenuItem = new MenuItem("choose locale...");
 
         // Put menu items in their spots
         fileMenu.getItems().addAll(createPuzzleMenuItem, loadPuzzleMenuItem, savePuzzleMenuItem, closePuzzleMenuItem);
         editMenu.getItems().addAll(undoMenuItem, redoMenuItem, undoAllMenuItem, redoAllMenuItem);
-        puzzleMenu.getItems().addAll(solvePuzzleMenuItem, modifySolverMenuItem, solverConfSubMenu);
+        puzzleMenu.getItems().addAll(solvePuzzleMenuItem, solverConfSubMenu);
         settingsMenu.getItems().addAll(localeMenuItem);
         solverConfSubMenu.getItems().addAll(reasonToggleItem, backtrackToggleItem);
 
@@ -176,16 +176,18 @@ public final class Main extends Application {
         savePuzzleMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             FileChooser fc = new FileChooser();
-            fc.setTitle("Save puzzle");
+            fc.setTitle(GUIStrings.FC_SAVE_PUZZLE_TITLE.getValue());
+            fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
+            File lastFolder = Config.getInstance().lastFolderProperty().getValue();
             fc.setInitialDirectory(
-                    FileSystem.WORKING_FOLDER
-                    //        .toPath().resolve("puzzles").toFile()
+                    lastFolder.exists() && lastFolder.isDirectory() ? lastFolder : FileSystem.DEFAULT_PUZZLES_FOLDER
             );
             fc.getExtensionFilters().add(new ExtensionFilter(GUIStrings.FC_FILETYPE_TEXT.getValue(), EXT_TXT));
             File selected = fc.showSaveDialog(stage);
             if (selected == null) {
                 return;
             }
+            Config.getInstance().lastFolderProperty().setValue(selected.getParentFile());
             try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(selected)))) {
                 writer.print(puzzle.getValue().encodeCurrentState());
                 writer.flush();
@@ -219,10 +221,6 @@ public final class Main extends Application {
             Puzzle<?> puzzle = Main.puzzle.getValue();
             Solver s = solverFactory.withPuzzle(puzzle).build();
             s.solve(comms);
-        });
-        modifySolverMenuItem.setOnAction(e -> {
-            Stage sConfiguration = new SolverConfiguration(solverFactory);
-            sConfiguration.showAndWait();
         });
         localeMenuItem.setOnAction(e -> {
             Dialog<Locale> selector = new LocaleSelector();
