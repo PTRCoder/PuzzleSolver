@@ -12,5 +12,7 @@ module puzzlesolver {
     requires tools.jackson.databind;
     requires tools.jackson.core;
 
+    opens puzzlesolver to tools.jackson.databind;
+
     exports puzzlesolver;
 }

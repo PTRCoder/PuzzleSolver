@@ -19,7 +19,7 @@ public class ConfigPojo {
     private static final TomlMapper MAPPER = new TomlMapper();
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 400;
-    public static final String DEFAULT_PUZZLES_FOLDER = FileSystem.DEFAULT_PUZZLES_FOLDER.toString();
+    private static final String DEFAULT_PUZZLES_FOLDER = FileSystem.DEFAULT_PUZZLES_FOLDER.toString();
 
     @Builder.Default
     boolean backtracking = true;
