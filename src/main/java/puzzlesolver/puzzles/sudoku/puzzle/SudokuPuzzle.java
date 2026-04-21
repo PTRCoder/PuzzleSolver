@@ -1,7 +1,7 @@
 package puzzlesolver.puzzles.sudoku.puzzle;
 
+import javafx.scene.layout.GridPane;
 import lombok.Value;
-import org.controlsfx.control.GridView;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Puzzle;
@@ -21,7 +21,7 @@ public class SudokuPuzzle implements Puzzle<HexValue> {
     private static int cachedSize;
 
     SudokuGrid grid;
-    GridView<SudokuCell> view;
+    GridPane view;
 
     public SudokuPuzzle(Scanner sc) throws InvalidPuzzleSyntaxException {
         this.grid = new SudokuGrid(sc);

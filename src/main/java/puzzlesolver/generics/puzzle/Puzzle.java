@@ -1,19 +1,14 @@
 package puzzlesolver.generics.puzzle;
 
-import javafx.scene.control.Label;
-import org.controlsfx.control.GridView;
+import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NonNls;
 import puzzlesolver.generics.reasoners.Reasoner;
 
 public interface Puzzle<T extends PuzzleValue> {
     Grid<T> getGrid();
 
-    default GridView<? extends Cell<T>> getView() {
+    default GridPane getView() {
         throw new UnsupportedOperationException();
-    }
-
-    default void print(Label parent) {
-        this.getGrid().print(parent);
     }
 
     default boolean isFinished() {

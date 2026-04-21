@@ -11,11 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.controlsfx.control.GridView;
 import org.jetbrains.annotations.NonNls;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.commands.CompoundCommand;
@@ -47,8 +48,8 @@ public final class Main extends Application {
     private static final ObservableBooleanValue noPuzzle = Bindings.isNull(puzzle);
     private static final CompoundCommand comms = new CompoundCommand();
     private static final SolverFactory solverFactory = new SolverFactory();
-    private static final ObservableValue<GridView<?>> gridProperty = puzzle.map(
-            p -> p != null ? p.getView() : new GridView<>()
+    private static final ObservableValue<GridPane> gridProperty = puzzle.map(
+            p -> p != null ? p.getView() : new GridPane()
     );
 
     @Override
@@ -67,14 +68,20 @@ public final class Main extends Application {
         menuBar.setUseSystemMenuBar(true);
         root.getChildren().add(menuBar);
 
-        // Create text area
-        Label text = new Label();
-        text.setId("puzzle-text");
-        text.setMinHeight(150);
+        // Create content area
+        HBox content = new HBox();
+        content.setId("content");
+        root.getChildren().add(content);
+
+        // Create puzzle area
+        VBox puzzleArea = new VBox();
+        puzzleArea.setId("puzzle-area");
+        content.getChildren().add(puzzleArea);
+
+        // Add grid
         Label grid = new Label();
         grid.graphicProperty().bind(gridProperty);
-        root.getChildren().add(text);
-        root.getChildren().add(grid);
+        puzzleArea.getChildren().add(grid);
 
         // Create menus
         Menu fileMenu = new Menu();
@@ -159,8 +166,6 @@ public final class Main extends Application {
                 puzzle.setValue(PuzzleFactory.create(sc));
                 assert puzzle.getValue() != null;
                 comms.clear();
-                text.setText("");
-                puzzle.getValue().print(text);
             }
             catch (Exception err) {
                 Alert d = ExceptionAlertFactory.getInstance(err);
@@ -191,40 +196,29 @@ public final class Main extends Application {
         });
         closePuzzleMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
-            text.setText("");
             puzzle.setValue(null);
         });
         undoMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             comms.undo();
-            text.setText("");
-            puzzle.getValue().print(text);
         });
         redoMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             comms.apply();
-            text.setText("");
-            puzzle.getValue().print(text);
         });
         undoAllMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             comms.undoAll();
-            text.setText("");
-            puzzle.getValue().print(text);
         });
         redoAllMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             comms.applyAll();
-            text.setText("");
-            puzzle.getValue().print(text);
         });
         solvePuzzleMenuItem.setOnAction(e -> {
             assert puzzle.getValue() != null;
             Puzzle<?> puzzle = Main.puzzle.getValue();
             Solver s = solverFactory.withPuzzle(puzzle).build();
             s.solve(comms);
-            text.setText("");
-            puzzle.print(text);
         });
         modifySolverMenuItem.setOnAction(e -> {
             Stage sConfiguration = new SolverConfiguration(solverFactory);

@@ -18,7 +18,7 @@ public enum HexValue implements PuzzleValue {
 
     @Override
     public char toChar() {
-        return Integer.toHexString(this.ordinal()).charAt(0);
+        return this == EMPTY ? ' ' : Integer.toHexString(this.ordinal()).charAt(0);
     }
 
     public static HexValue decode(char c) throws IllegalArgumentException {

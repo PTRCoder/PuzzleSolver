@@ -1,16 +1,29 @@
 #puzzle-text {
-    -fx-font-family: 'monospaced';
+    -fx-font-family: "monospaced";
 }
 
-.grid-cell {
-     -fx-border-color: #cccccc;
-     -fx-border-width: 1;
-     -fx-alignment: center;
+#content {
+    -fx-alignment: center;
+}
+
+#puzzle-area {
+    -fx-alignment: center;
+    -fx-padding: 10;
 }
 
 .sudoku-grid {
-    -fx-cell-height: 60;
-    -fx-cell-width: 60;
-    -fx-vertical-cell-spacing: 0;
-    -fx-horizontal-cell-spacing: 0;
+    -fx-grid-lines-visible: true;
+    -fx-alignment: center;
+    -fx-valignment: center;
+    -fx-halignment: center;
+}
+
+.sudoku-cell {
+    -fx-alignment: center;
+    -fx-font-size: 30;
+    -fx-font-family: "arial";
+    -fx-min-width: 60;
+    -fx-pref-width: 60;
+    -fx-min-height: 60;
+    -fx-pref-height: 60;
 }

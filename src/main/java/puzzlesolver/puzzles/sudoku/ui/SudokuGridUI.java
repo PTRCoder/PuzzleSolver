@@ -1,9 +1,10 @@
 package puzzlesolver.puzzles.sudoku.ui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.shape.Line;
 import lombok.extern.slf4j.Slf4j;
-import org.controlsfx.control.GridView;
 import org.jetbrains.annotations.NonNls;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuCell;
 import puzzlesolver.puzzles.sudoku.puzzle.SudokuGrid;
@@ -11,8 +12,14 @@ import puzzlesolver.puzzles.sudoku.puzzle.SudokuGrid;
 import java.util.List;
 
 @Slf4j
-public final class SudokuGridUI extends GridView<SudokuCell> {
+public final class SudokuGridUI extends GridPane {
     private static final @NonNls String CSS_CLASS = "sudoku-grid";
+    private static final int CELL_SIZE = 60;
+    private static final int BORDER_WIDTH = 6;
+    private static final int HLINE_OFFSET = -(CELL_SIZE / 2 + 1);
+    private static final int HLINE_OFFSET2 = CELL_SIZE / 2 - 1;
+    private static final int VLINE_OFFSET = -(BORDER_WIDTH / 2);
+    private static final int VLINE_OFFSET2 = BORDER_WIDTH - BORDER_WIDTH / 2;
 
     public SudokuGridUI(SudokuGrid data) {
         super();
@@ -20,18 +27,51 @@ public final class SudokuGridUI extends GridView<SudokuCell> {
         this.getStyleClass().add(CSS_CLASS);
         this.applyCss();
 
-        double w = data.getWidth() * (this.getCellWidth() + 2);
-        double h = data.getHeight() * (this.getCellHeight() + 2);
-        this.setPrefWidth(w);
-        this.setMinWidth(w);
-        this.setPrefHeight(h);
-        this.setMinHeight(h);
-        log.info(this.getStyleClass().toString());
-        log.info(this.getCssMetaData().toString());
-        log.info("w: {}, h: {}", this.getCellWidth(), this.getCellHeight());
-        ObservableList<SudokuCell> values =
-                FXCollections.observableList(data.getCells().stream().flatMap(List::stream).toList());
-        this.setCellFactory(g -> new SudokuCellUI());
-        this.setItems(values);
+        ColumnConstraints cCons = new ColumnConstraints(CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        RowConstraints rCons = new RowConstraints(CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+        int size = data.getWidth();
+        int sqrt = (int) Math.sqrt(size);
+
+        List<List<SudokuCell>> cells = data.getCells();
+
+        for (int i = 0; i < size; i++) {
+            this.getColumnConstraints().add(cCons);
+            this.getRowConstraints().add(rCons);
+            for (int j = 0; j < size; j++) {
+                this.add(new SudokuCellUI(cells.get(i).get(j)), i, j);
+            }
+        }
+
+        for (int i = 0; i < sqrt; i++) {
+            this.add(createVLine(VLINE_OFFSET), i * sqrt, sqrt + 1);
+            this.add(createHLine(HLINE_OFFSET), 0, i * sqrt);
+        }
+        this.add(createVLine(VLINE_OFFSET2), size - 1, sqrt + 1);
+        this.add(createHLine(HLINE_OFFSET2), 0, size - 1);
+    }
+
+    private Line createVLine(int translate) {
+        Line line = new Line();
+        line.startXProperty().setValue(0);
+        line.startYProperty().setValue(1);
+        line.endXProperty().setValue(0);
+        line.endYProperty().bind(this.heightProperty());
+        line.setTranslateX(translate);
+        line.setTranslateY(-1);
+        line.setStrokeWidth(6);
+        return line;
+    }
+
+    private Line createHLine(int translate) {
+        Line line = new Line();
+        line.startXProperty().setValue(0);
+        line.startYProperty().setValue(0);
+        line.endYProperty().setValue(0);
+        line.endXProperty().bind(this.heightProperty());
+        line.setTranslateY(translate);
+        line.setTranslateX(-3);
+        line.setStrokeWidth(BORDER_WIDTH);
+        return line;
     }
 }
