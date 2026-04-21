@@ -65,8 +65,6 @@ public interface Grid<T extends PuzzleValue> extends Iterable<Cell<T>> {
         return new GridIterator<>(getCells());
     }
 
-    void print(Label parent);
-
     List<? extends Group<T>> getGroups();
 
 

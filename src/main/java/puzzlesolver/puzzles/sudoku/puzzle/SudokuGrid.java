@@ -2,7 +2,6 @@ package puzzlesolver.puzzles.sudoku.puzzle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
@@ -10,20 +9,11 @@ import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.HexValue;
 import puzzlesolver.generics.puzzle.Position;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
 import java.util.*;
 
 @Value
 public class SudokuGrid implements Grid<HexValue> {
-    private static final PuzzlePrinter<HexValue> printer = new PuzzlePrinter<>();
-
-    static {
-        printer.setToString(HexValue::toText);
-        printer.setUseBorder(true);
-        printer.setUseSpaces(true);
-        printer.setConnect(false);
-    }
 
     @Getter(AccessLevel.NONE)
     int size;
@@ -120,14 +110,6 @@ public class SudokuGrid implements Grid<HexValue> {
     @Override
     public int getWidth() {
         return size;
-    }
-
-    @Override
-    public void print(Label parent) {
-        int sqrt = (int) Math.sqrt(size);
-        printer.setVBlockSize(sqrt);
-        printer.setHBlockSize(sqrt);
-        printer.print(this, parent);
     }
 
     @Override

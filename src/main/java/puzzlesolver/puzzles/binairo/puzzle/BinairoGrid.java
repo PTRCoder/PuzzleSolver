@@ -1,6 +1,5 @@
 package puzzlesolver.puzzles.binairo.puzzle;
 
-import javafx.scene.control.Label;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
@@ -8,22 +7,11 @@ import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.BinaryValue;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Position;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
 import java.util.*;
 
 @Value
 public class BinairoGrid implements Grid<BinaryValue> {
-    private static final PuzzlePrinter<BinaryValue> printer = new PuzzlePrinter<>();
-
-    static {
-        printer.setConnect(false);
-        printer.setUseSpaces(false);
-        printer.setToString(x -> Character.toString(x.asChar()));
-        printer.setVBlockSize(0);
-        printer.setHBlockSize(0);
-        printer.setUseBorder(true);
-    }
 
     @Getter(AccessLevel.NONE)
     int size;
@@ -99,11 +87,6 @@ public class BinairoGrid implements Grid<BinaryValue> {
     @Override
     public boolean validate() {
         return false;
-    }
-
-    @Override
-    public void print(Label parent) {
-        printer.print(this, parent);
     }
 
     @Override

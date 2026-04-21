@@ -1,12 +1,10 @@
 package puzzlesolver.puzzles.kakurasu.puzzle;
 
-import javafx.scene.control.Label;
 import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Grid;
 import puzzlesolver.generics.puzzle.Position;
-import puzzlesolver.generics.puzzle.PuzzlePrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +13,6 @@ import java.util.Scanner;
 
 @Value
 public class KakurasuGrid implements Grid<FillValue> {
-    private static final PuzzlePrinter<FillValue> printer = new PuzzlePrinter<>();
-
-    static {
-        printer.setVBlockSize(0);
-        printer.setHBlockSize(0);
-        printer.setConnect(false);
-        printer.setUseBorder(true);
-        printer.setUseSpaces(false);
-        printer.setToString(x -> Character.toString(x.toChar()));
-    }
 
     int width;
     int height;
@@ -78,11 +66,6 @@ public class KakurasuGrid implements Grid<FillValue> {
         catch (NoSuchElementException e) {
             throw InvalidPuzzleSyntaxException.notEnough(KakurasuPuzzle.class, e);
         }
-    }
-
-    @Override
-    public void print(Label parent) {
-        printer.print(this, parent);
     }
 
     @Override

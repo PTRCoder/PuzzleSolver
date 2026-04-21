@@ -1,6 +1,5 @@
 package puzzlesolver.puzzles.starbattle.puzzle;
 
-import javafx.scene.control.Label;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
@@ -11,16 +10,6 @@ import java.util.*;
 
 @Value
 public class StarBattleGrid implements Grid<FillValue> {
-    private static final PuzzlePrinter<FillValue> printer = new PuzzlePrinter<>();
-
-    static {
-        printer.setToString(FillValue::toText);
-        printer.setUseBorder(true);
-        printer.setUseSpaces(true);
-        printer.setConnect(false);
-    }
-
-    List<List<StarBattleCell>> cells;
     List<StarBattleGroup> rows;
     List<StarBattleGroup> cols;
     List<AbstractStarBattleGroup> groups;
@@ -108,11 +97,6 @@ public class StarBattleGrid implements Grid<FillValue> {
     @Override
     public int getHeight() {
         return size;
-    }
-
-    @Override
-    public void print(Label parent) {
-        printer.print(this, parent);
     }
 
     @Override

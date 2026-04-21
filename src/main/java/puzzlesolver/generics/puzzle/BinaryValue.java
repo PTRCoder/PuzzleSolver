@@ -33,15 +33,6 @@ public enum BinaryValue implements PuzzleValue {
         };
     }
 
-    public static BinaryValue fromChar(char c) throws IllegalArgumentException {
-        return switch (c) {
-            case '0', 'W' -> WHITE;
-            case '1', 'B' -> BLACK;
-            case 'E', '-' -> EMPTY;
-            default -> throw new IllegalArgumentException();
-        };
-    }
-
     public static BinaryValue decode(char c) {
         return switch (c) {
             case '0', 'W' -> WHITE;
