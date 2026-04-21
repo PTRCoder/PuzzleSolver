@@ -18,12 +18,13 @@ public record BacktrackSolver<T extends PuzzleValue>(Puzzle<T> puzzle) implement
 
     @Override
     public boolean solve(CompoundCommand comms) {
-        log.info(LogStrings.SOLVER_START.get(), this.getClass());
+        log.info(LogStrings.SOLVER_START.get(), this.getClass().getSimpleName());
         Grid<T> grid = puzzle.getGrid();
         List<Cell<T>> cells = new ArrayList<>();
         grid.iterator().forEachRemaining(cells::add);
         boolean result = solve(comms, cells, 0);
-        log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(), this.getClass());
+        log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(),
+                this.getClass().getSimpleName());
         return result;
     }
 

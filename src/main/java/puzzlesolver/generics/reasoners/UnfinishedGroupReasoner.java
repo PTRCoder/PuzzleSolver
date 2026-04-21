@@ -14,19 +14,19 @@ public abstract class UnfinishedGroupReasoner<T extends PuzzleValue> implements 
 
     @Override
     public boolean apply(Puzzle<T> puzzle, CompoundCommand comms) {
-        log.info(LogStrings.REASONER_START.get(), getClass());
+        log.info(LogStrings.REASONER_START.get(), this.getClass().getSimpleName());
         long t0 = System.nanoTime();
         for (Group<T> g : puzzle.getGrid().getGroups()) {
             if (g.isFinished())
                 continue;
             if (applyToGroup(g, comms)) {
                 log.info(Long.toString(System.nanoTime() - t0));
-                log.info(LogStrings.REASONER_SUCCESS.get(), getClass());
+                log.info(LogStrings.REASONER_SUCCESS.get(), this.getClass().getSimpleName());
                 return true;
             }
         }
         log.info(Long.toString(System.nanoTime() - t0));
-        log.info(LogStrings.REASONER_FAIL.get(), getClass());
+        log.info(LogStrings.REASONER_FAIL.get(), this.getClass().getSimpleName());
         return false;
     }
 

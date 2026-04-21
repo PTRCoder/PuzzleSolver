@@ -11,14 +11,14 @@ import java.util.Collection;
 public record CompositionSolver(Puzzle<?> puzzle, Collection<Solver> solvers) implements Solver {
     @Override
     public boolean solve(CompoundCommand commands) {
-        log.info(LogStrings.SOLVER_START.get(), this.getClass());
+        log.info(LogStrings.SOLVER_START.get(), this.getClass().getSimpleName());
         for (Solver solver : solvers) {
             if (solver.solve(commands)) {
-                log.info(LogStrings.SOLVER_SUCCESS.get(), this.getClass());
+                log.info(LogStrings.SOLVER_SUCCESS.get(), this.getClass().getSimpleName());
                 return true;
             }
         }
-        log.info(LogStrings.SOLVER_FAIL.get(), this.getClass());
+        log.info(LogStrings.SOLVER_FAIL.get(), this.getClass().getSimpleName());
         return false;
     }
 }

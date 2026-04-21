@@ -16,10 +16,11 @@ public record ReasonSolver<T extends PuzzleValue>(Puzzle<T> puzzle, Reasoner<T> 
 
     @Override
     public boolean solve(CompoundCommand commands) {
-        log.info(LogStrings.SOLVER_START.get(), this.getClass());
+        log.info(LogStrings.SOLVER_START.get(), this.getClass().getSimpleName());
         reasoner.apply(puzzle, commands);
         boolean result = puzzle.isFinished();
-        log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(), this.getClass());
+        log.info(result ? LogStrings.SOLVER_SUCCESS.get() : LogStrings.SOLVER_FAIL.get(),
+                this.getClass().getSimpleName());
         return result;
     }
 }
