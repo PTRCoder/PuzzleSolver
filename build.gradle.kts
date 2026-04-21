@@ -17,21 +17,15 @@ repositories {
 }
 
 dependencies {
-    // Source: https://mvnrepository.com/artifact/org.jspecify/jspecify
     compileOnly(libs.jspecify.jspecify)
-    // Source: https://mvnrepository.com/artifact/org.jetbrains/annotations
     compileOnly(libs.jetbrains.annotations)
-    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     compileOnly(libs.slf4j.api)
 
-    // Source: https://mvnrepository.com/artifact/org.controlsfx/controlsfx
-    implementation(libs.controlsfx.controlsfx)
     implementation(libs.jackson.toml)
     implementation(libs.jackson.core)
     implementation(libs.jackson.databind)
     implementation(libs.jackson.base)
 
-    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14
     runtimeOnly(libs.slf4j.logback)
 
     testImplementation(libs.junit.jupiter.api)
@@ -83,15 +77,3 @@ tasks.register<SevenZip>("artifact") {
 tasks.test {
     useJUnitPlatform()
 }
-
-//checkerFramework {
-//    version = "3.53.1"
-//    checkers = listOf(
-//        "org.checkerframework.checker.nullness.NullnessChecker",
-//        "org.checkerframework.checker.interning.InterningChecker",
-//        "org.checkerframework.checker.index.IndexChecker",
-//        "org.checkerframework.checker.i18n.I18nChecker",
-//        "org.checkerframework.framework.util.PurityChecker"
-//        
-//    )
-//}

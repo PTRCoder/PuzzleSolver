@@ -5,11 +5,9 @@ jspecify = "1.0.0"
 jetbrains = "26.1.0"
 slf4j = "2.0.17"
 logback = "1.5.32"
-controlsfx = "11.2.3"
 javafxPlugin = "0.1.0"
 jlinkPlugin = "4.0.0"
 freefairPlugin = "9.2.0"
-checkerPlugin = "1.0.2"
 jackson = "3.1.1"
 
 [libraries]
@@ -19,9 +17,7 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref = "junit-platform" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
-slf4j-jdk14 = { module = "org.slf4j:slf4j-jdk14", version.ref = "slf4j" }
 slf4j-logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-controlsfx-controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" }
 jackson-core = { module = "tools.jackson.core:jackson-core", version.ref = "jackson" }
 jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-toml = { module = "tools.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }
@@ -32,4 +28,3 @@ lombok = { id = "io.freefair.lombok", version.ref = "freefairPlugin" }
 javafx = { id = "org.openjfx.javafxplugin", version.ref = "javafxPlugin" }
 jlink = { id = "org.beryx.jlink", version.ref = "jlinkPlugin" }
 sevenZ = { id = "io.freefair.compress.7z", version.ref = "freefairPlugin" }
-checker = { id = "org.checkerframework", version.ref = "checkerPlugin" } 
