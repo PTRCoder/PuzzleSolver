@@ -22,7 +22,7 @@ public class ExceptionAlertFactory {
             case FileNotFoundException ignored -> new Alert(
                     Alert.AlertType.ERROR, GUIStrings.ERROR_PUZZLE_FILE_MESSAGE.get(), ButtonType.CLOSE
             );
-            default -> throw new UnsupportedOperationException();
+            default -> throw new UnsupportedOperationException(e);
         };
     }
 }
