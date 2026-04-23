@@ -1,49 +1,35 @@
 package puzzlesolver.solvers;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
+import lombok.experimental.Accessors;
 import org.jspecify.annotations.Nullable;
 import puzzlesolver.generics.puzzle.Puzzle;
 
 import java.util.List;
 
-@EqualsAndHashCode
-@ToString
-public final class SolverFactory {
-    @Getter
-    @Nullable
-    private Puzzle<?> puzzle;
-    private final BooleanProperty useReasoner = new SimpleBooleanProperty(false);
-    private final BooleanProperty useBacktrack = new SimpleBooleanProperty(true);
-
-    public BooleanProperty reasonerProperty() {
-        return useReasoner;
-    }
-
-    public BooleanProperty backtrackProperty() {
-        return useBacktrack;
-    }
-
-    public SolverFactory withPuzzle(Puzzle<?> puzzle) {
-        this.puzzle = puzzle;
-        return this;
-    }
+@Value
+@Accessors(fluent = true)
+public class SolverFactory {
+    Property<@Nullable Puzzle<?>> puzzle;
+    BooleanProperty reasonerProperty = new SimpleBooleanProperty(false);
+    BooleanProperty backtrackProperty = new SimpleBooleanProperty(true);
 
     public Solver build() {
-        boolean bt = useBacktrack.get();
-        boolean r = useReasoner.get();
-        if (puzzle == null || !bt && !r)
+        boolean bt = backtrackProperty.get();
+        boolean r = reasonerProperty.get();
+        Puzzle<?> p = puzzle.getValue();
+        if (p == null || !bt && !r)
             throw new IllegalStateException();
         if (!r)
-            return new BacktrackSolver<>(puzzle);
-        Solver reasonSolver = new ReasonSolver<>(puzzle);
+            return new BacktrackSolver<>(p);
+        Solver reasonSolver = new ReasonSolver<>(p);
         if (!bt)
             return reasonSolver;
-        return new CompositionSolver(puzzle,
-                List.of(reasonSolver, new BacktrackSolver<>(puzzle))
+        return new CompositionSolver(p,
+                List.of(reasonSolver, new BacktrackSolver<>(p))
         );
     }
 

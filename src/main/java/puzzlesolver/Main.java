@@ -6,6 +6,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -46,13 +47,14 @@ public final class Main extends Application {
     private static final ObjectProperty<@Nullable Puzzle<?>> puzzle = new SimpleObjectProperty<>();
     private static final ObservableBooleanValue noPuzzle = Bindings.isNull(puzzle);
     private static final CompoundCommand comms = new CompoundCommand();
-    private static final SolverFactory solverFactory = new SolverFactory();
+    private static final SolverFactory solverFactory = new SolverFactory(puzzle);
     private static final ObservableValue<GridPane> gridProperty = puzzle.map(
             p -> p != null ? p.getView() : new GridPane()
     );
 
     @Override
     public void start(Stage stage) {
+        log.debug("Started app in debug mode");
         // Root VBox
         VBox root = new VBox();
 
@@ -84,43 +86,45 @@ public final class Main extends Application {
 
         // Create menus
         Menu fileMenu = new Menu();
-        fileMenu.textProperty().bind(GUIStrings.FILE_MENU_NAME);
         Menu editMenu = new Menu();
-        editMenu.textProperty().bind(GUIStrings.EDIT_MENU_NAME);
         Menu puzzleMenu = new Menu();
-        puzzleMenu.textProperty().bind(GUIStrings.PUZZLE_MENU_NAME);
         Menu settingsMenu = new Menu();
-        settingsMenu.textProperty().bind(GUIStrings.SETTINGS_MENU_NAME);
 
         // Put menus in their spots
         menuBar.getMenus().addAll(fileMenu, editMenu, puzzleMenu, settingsMenu);
 
         // Create menu items
         MenuItem createPuzzleMenuItem = new MenuItem();
-        createPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_NEW_NAME);
         MenuItem loadPuzzleMenuItem = new MenuItem();
-        loadPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_OPEN_NAME);
         MenuItem savePuzzleMenuItem = new MenuItem();
-        savePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_SAVE_NAME);
         MenuItem closePuzzleMenuItem = new MenuItem();
-        closePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_CLOSE_NAME);
         MenuItem undoMenuItem = new MenuItem();
-        undoMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_NAME);
         MenuItem redoMenuItem = new MenuItem();
-        redoMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_NAME);
         MenuItem undoAllMenuItem = new MenuItem();
-        undoAllMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_ALL_NAME);
         MenuItem redoAllMenuItem = new MenuItem();
-        redoAllMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_ALL_NAME);
         MenuItem solvePuzzleMenuItem = new MenuItem();
-        solvePuzzleMenuItem.textProperty().bind(GUIStrings.SOLVE_SOLVE_NAME);
         Menu solverConfSubMenu = new Menu();
-        solverConfSubMenu.textProperty().bind(GUIStrings.SOLVE_SELECT_SOLVERS_NAME);
         CheckMenuItem reasonToggleItem = new CheckMenuItem();
-        reasonToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_REASONER_NAME);
         CheckMenuItem backtrackToggleItem = new CheckMenuItem();
-        backtrackToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_BACKTRACKER_NAME);
         MenuItem localeMenuItem = new MenuItem("choose locale...");
+
+        // Bind text properties
+        fileMenu.textProperty().bind(GUIStrings.FILE_MENU_NAME);
+        editMenu.textProperty().bind(GUIStrings.EDIT_MENU_NAME);
+        puzzleMenu.textProperty().bind(GUIStrings.PUZZLE_MENU_NAME);
+        settingsMenu.textProperty().bind(GUIStrings.SETTINGS_MENU_NAME);
+        createPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_NEW_NAME);
+        loadPuzzleMenuItem.textProperty().bind(GUIStrings.FILE_OPEN_NAME);
+        savePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_SAVE_NAME);
+        closePuzzleMenuItem.textProperty().bind(GUIStrings.FILE_CLOSE_NAME);
+        undoMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_NAME);
+        redoMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_NAME);
+        undoAllMenuItem.textProperty().bind(GUIStrings.EDIT_UNDO_ALL_NAME);
+        redoAllMenuItem.textProperty().bind(GUIStrings.EDIT_REDO_ALL_NAME);
+        solvePuzzleMenuItem.textProperty().bind(GUIStrings.SOLVE_SOLVE_NAME);
+        solverConfSubMenu.textProperty().bind(GUIStrings.SOLVE_SELECT_SOLVERS_NAME);
+        reasonToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_REASONER_NAME);
+        backtrackToggleItem.textProperty().bind(GUIStrings.SOLVE_SELECT_BACKTRACKER_NAME);
 
         // Put menu items in their spots
         fileMenu.getItems().addAll(createPuzzleMenuItem, loadPuzzleMenuItem, savePuzzleMenuItem, closePuzzleMenuItem);
@@ -164,10 +168,11 @@ public final class Main extends Application {
             try {
                 Scanner sc = new Scanner(selectedFile);
                 puzzle.setValue(PuzzleFactory.create(sc));
-                assert puzzle.getValue() != null;
                 comms.clear();
+                log.info("Puzzle has been set");
             }
             catch (Exception err) {
+                log.error(err.getLocalizedMessage());
                 Alert d = ExceptionAlertFactory.getInstance(err);
                 d.setTitle(GUIStrings.ERROR_TITLE.getValue());
                 d.show();
@@ -196,38 +201,15 @@ public final class Main extends Application {
                 log.error(err.getLocalizedMessage());
             }
         });
-        closePuzzleMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            puzzle.setValue(null);
-        });
-        undoMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            comms.undo();
-        });
-        redoMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            comms.apply();
-        });
-        undoAllMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            comms.undoAll();
-        });
-        redoAllMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            comms.applyAll();
-        });
-        solvePuzzleMenuItem.setOnAction(e -> {
-            assert puzzle.getValue() != null;
-            Puzzle<?> puzzle = Main.puzzle.getValue();
-            Solver s = solverFactory.withPuzzle(puzzle).build();
-            s.solve(comms);
-        });
-        localeMenuItem.setOnAction(e -> {
-            Dialog<Locale> selector = new LocaleSelector();
-            Optional<Locale> newLocale = selector.showAndWait();
-            newLocale.ifPresent(LocaleManager.LOCALE_PROPERTY::setValue);
-        });
+        closePuzzleMenuItem.setOnAction(Main::closePuzzleMenuItemAction);
+        undoMenuItem.setOnAction(Main::undoMenuItemAction);
+        redoMenuItem.setOnAction(Main::redoMenuItemAction);
+        undoAllMenuItem.setOnAction(Main::undoAllMenuItemAction);
+        redoAllMenuItem.setOnAction(Main::redoAllMenuItemAction);
+        solvePuzzleMenuItem.setOnAction(Main::solvePuzzleMenuItemAction);
+        localeMenuItem.setOnAction(Main::localeMenuItemAction);
 
+        // Bind solverFactory properties
         solverFactory.reasonerProperty().bind(reasonToggleItem.selectedProperty());
         solverFactory.backtrackProperty().bind(backtrackToggleItem.selectedProperty());
 
@@ -269,5 +251,47 @@ public final class Main extends Application {
     public void stop() throws Exception {
         super.stop();
         Config.saveInstance();
+    }
+
+    private static void undoMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        comms.undo();
+        log.trace("Undone action");
+    }
+
+    private static void undoAllMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        comms.undoAll();
+        log.trace("Undone all actions");
+    }
+
+    private static void redoMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        comms.apply();
+        log.trace("Redone action");
+    }
+
+    private static void redoAllMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        comms.applyAll();
+        log.trace("Redone all actions");
+    }
+
+    private static void solvePuzzleMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        Solver s = solverFactory.build();
+        s.solve(comms);
+    }
+
+    private static void closePuzzleMenuItemAction(ActionEvent e) {
+        assert puzzle.getValue() != null;
+        puzzle.setValue(null);
+        log.info("Puzzle has been closed");
+    }
+
+    private static void localeMenuItemAction(ActionEvent e) {
+        Dialog<Locale> selector = new LocaleSelector();
+        Optional<Locale> newLocale = selector.showAndWait();
+        newLocale.ifPresent(LocaleManager.LOCALE_PROPERTY::setValue);
     }
 }
