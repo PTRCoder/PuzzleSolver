@@ -1,18 +1,31 @@
 <configuration>
+    <property name="FILE_LOG_PATTERN1"
+              value="%boldGreen(%d{YYYY/MM/dd HH:mm:ss.SSS}) [%boldYellow(%thread)] %red(%logger{0}) %cyan(%M) %n"/>
+    <property name="FILE_LOG_PATTERN2"
+              value="%highlight(%-5level): %msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{YYYY/MM/dd HH:mm:ss.SSS} [%thread] %logger{0} %M %n%-5level: %msg%n"/>
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{YYYY/MM/dd HH:mm:ss.SSS} [%thread] %logger{0} %M %n%-5level: %msg%n</pattern>
+            <pattern>${FILE_LOG_PATTERN1}${FILE_LOG_PATTERN2}</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>latest.log</file>
+        <append>false</append>
         <encoder>
-            <pattern>%d{YYYY/MM/dd HH:mm:ss.SSS} [%thread] %logger{0} %M %n%-5level: %msg%n</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
     </appender>
 
-    <root level="debug">
+    <root level="trace">
         <appender-ref ref="STDERR"/>
         <appender-ref ref="FILE"/>
     </root>

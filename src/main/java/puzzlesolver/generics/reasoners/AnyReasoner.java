@@ -12,14 +12,14 @@ import java.util.List;
 public record AnyReasoner<T extends PuzzleValue>(List<Reasoner<T>> reasoners) implements Reasoner<T> {
     @Override
     public boolean apply(Puzzle<T> puzzle, CompoundCommand comms) {
-        log.info(LogStrings.REASONER_START.get(), this.getClass().getSimpleName());
+        log.trace(LogStrings.REASONER_START.get(), this.getClass().getSimpleName());
         for (Reasoner<T> r : reasoners) {
             if (r.apply(puzzle, comms)) {
-                log.info(LogStrings.REASONER_SUCCESS.get(), this.getClass().getSimpleName());
+                log.trace(LogStrings.REASONER_SUCCESS.get(), this.getClass().getSimpleName());
                 return true;
             }
         }
-        log.info(LogStrings.REASONER_FAIL.get(), this.getClass().getSimpleName());
+        log.trace(LogStrings.REASONER_FAIL.get(), this.getClass().getSimpleName());
         return false;
     }
 
