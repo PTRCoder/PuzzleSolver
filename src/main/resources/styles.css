@@ -27,3 +27,24 @@
     -fx-min-height: 60;
     -fx-pref-height: 60;
 }
+
+.kakurasu-grid {
+    -fx-grid-lines-visible: true;
+    -fx-alignment: center;
+    -fx-valignment: center;
+    -fx-halignment: center;
+    -fx-padding: 0;
+    -fx-vgap: 0;
+    -fx-hgap: 0;
+}
+
+.kakurasu-cell {
+    -fx-alignment: center;
+    -fx-min-width: 30;
+    -fx-pref-width: 30;
+    -fx-min-height: 30;
+    -fx-pref-height: 30;
+    -fx-padding: 0;
+    -fx-border: 2;
+    -fx-border-color: "red";
+}

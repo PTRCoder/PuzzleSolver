@@ -6,6 +6,7 @@ import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Puzzle;
 import puzzlesolver.generics.reasoners.Reasoner;
 import puzzlesolver.puzzles.kakurasu.reasoners.SimpleKakurasuReasoner;
+import puzzlesolver.puzzles.kakurasu.ui.KakurasuGridUI;
 
 import java.util.Scanner;
 
@@ -13,9 +14,11 @@ import java.util.Scanner;
 public class KakurasuPuzzle implements Puzzle<FillValue> {
     private static final Reasoner<FillValue> DEFAULT_REASONER = new SimpleKakurasuReasoner();
     KakurasuGrid grid;
+    KakurasuGridUI view;
 
     public KakurasuPuzzle(Scanner sc) throws InvalidPuzzleSyntaxException {
         this.grid = new KakurasuGrid(sc);
+        this.view = new KakurasuGridUI(grid);
     }
 
     @Override
