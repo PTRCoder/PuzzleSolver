@@ -29,7 +29,6 @@
 }
 
 .kakurasu-grid {
-    -fx-grid-lines-visible: true;
     -fx-alignment: center;
     -fx-valignment: center;
     -fx-halignment: center;
@@ -41,10 +40,23 @@
 .kakurasu-cell {
     -fx-alignment: center;
     -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-padding: 0;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-border-color: "black";
+}
+
+.line-label {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+.kakurasu-label {
+    -fx-alignment: center;
+    -fx-min-width: 30;
     -fx-pref-width: 30;
     -fx-min-height: 30;
     -fx-pref-height: 30;
     -fx-padding: 0;
-    -fx-border: 2;
-    -fx-border-color: "red";
 }

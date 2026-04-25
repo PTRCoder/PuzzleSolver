@@ -17,6 +17,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
 import puzzlesolver.generics.puzzle.FillValue;
 
 @EqualsAndHashCode(callSuper = true)
@@ -36,7 +37,7 @@ public abstract class FillValueCellUI extends Labeled {
         this.editableProperty().setValue(true);
     }
 
-    protected abstract Node conversion(FillValue value);
+    protected abstract @Nullable Node conversion(FillValue value);
 
     private void input(MouseEvent e) {
         if (editableProperty().get()) {

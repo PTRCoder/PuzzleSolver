@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -57,6 +58,7 @@ public final class Main extends Application {
         log.debug("Started app in debug mode");
         // Root VBox
         VBox root = new VBox();
+        root.setSpacing(10);
 
         // Create scene and update stage
         Scene scene = new Scene(root);
@@ -242,6 +244,8 @@ public final class Main extends Application {
         Config.getInstance().maximizedProperty().bind(stage.maximizedProperty());
         Config.getInstance().windowWidthProperty().bind(stage.widthProperty().when(stage.maximizedProperty().not()));
         Config.getInstance().windowHeightProperty().bind(stage.heightProperty().when(stage.maximizedProperty().not()));
+
+        VBox.setVgrow(content, Priority.ALWAYS);
 
         // Finish up
         stage.show();

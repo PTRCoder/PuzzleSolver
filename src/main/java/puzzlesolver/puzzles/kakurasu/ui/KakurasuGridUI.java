@@ -8,25 +8,31 @@ import org.jetbrains.annotations.NonNls;
 import puzzlesolver.generics.puzzle.Position;
 import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuCell;
 import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuGrid;
+import puzzlesolver.puzzles.kakurasu.puzzle.KakurasuGroup;
+import puzzlesolver.ui.LineLabel;
 
 import java.util.Collection;
 
 @Slf4j
 public final class KakurasuGridUI extends GridPane {
     private static final @NonNls String CSS_CLASS = "kakurasu-grid";
-    private static final int CELL_SIZE = 30;
+    private static final @NonNls String LABEL_CSS_CLASS = "kakurasu-label";
+    private static final double CELL_MIN_SIZE = 30;
 
     public KakurasuGridUI(KakurasuGrid data) {
         super();
-        this.getStyleClass().clear();
         this.getStyleClass().add(CSS_CLASS);
-        this.applyCss();
 
-        ColumnConstraints cCons = new ColumnConstraints(CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        RowConstraints rCons = new RowConstraints(CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        int w = data.getWidth() + 1;
+        int h = data.getHeight() + 1;
 
-        int w = data.getWidth();
-        int h = data.getHeight();
+        this.minHeightProperty().set(h * CELL_MIN_SIZE);
+        this.maxHeightProperty().set(w * CELL_MIN_SIZE);
+
+        double cellMaxSize = Math.min(this.getMaxHeight() / h, this.getMaxWidth() / w);
+
+        ColumnConstraints cCons = new ColumnConstraints(CELL_MIN_SIZE, cellMaxSize, cellMaxSize);
+        RowConstraints rCons = new RowConstraints(CELL_MIN_SIZE, cellMaxSize, cellMaxSize);
 
         Collection<KakurasuCell> cells = data.getCells();
 
@@ -41,6 +47,17 @@ public final class KakurasuGridUI extends GridPane {
             this.add(new KakurasuCellUI(cell), pos.x(), pos.y());
         }
 
-        this.setGridLinesVisible(true);
+        int i = 0;
+        for (KakurasuGroup group : data.getCols()) {
+            LineLabel label = new LineLabel(group.getSum());
+            label.getStyleClass().add(LABEL_CSS_CLASS);
+            this.add(label, i++, h - 1);
+        }
+        i = 0;
+        for (KakurasuGroup group : data.getRows()) {
+            LineLabel label = new LineLabel(group.getSum());
+            label.getStyleClass().add(LABEL_CSS_CLASS);
+            this.add(label, w - 1, i++);
+        }
     }
 }
