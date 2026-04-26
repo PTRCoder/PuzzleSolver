@@ -18,7 +18,7 @@ public class SmallReasoner extends UnfinishedGroupReasoner<FillValue> {
     public boolean applyToGroup(Group<FillValue> group, CompoundCommand comms) {
         KakurasuGroup g = (KakurasuGroup) group;
         int goal = g.getSum();
-        int current = g.computeSum();
+        int current = g.currentSumProperty().get();
         int todo = goal - current;
         List<KakurasuCell> cells = g.getCells();
         List<Command> commands = new LinkedList<>();

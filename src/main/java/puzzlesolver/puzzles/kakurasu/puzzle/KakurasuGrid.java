@@ -1,5 +1,7 @@
 package puzzlesolver.puzzles.kakurasu.puzzle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import lombok.Value;
 import puzzlesolver.exceptions.InvalidPuzzleSyntaxException;
 import puzzlesolver.generics.puzzle.FillValue;
@@ -32,7 +34,7 @@ public class KakurasuGrid implements Grid<FillValue> {
             // fill cells and rows
             for (int i = 0; i < height; i++) {
                 int sum = sc.nextInt();
-                List<KakurasuCell> row = new ArrayList<>();
+                ObservableList<KakurasuCell> row = FXCollections.observableArrayList();
                 KakurasuGroup g = new KakurasuGroup(sum, row);
                 rows.add(g);
                 for (int j = 0; j < width; j++) {
@@ -46,7 +48,7 @@ public class KakurasuGrid implements Grid<FillValue> {
             // fill cols
             for (int i = 0; i < height; i++) {
                 int sum = sc.nextInt();
-                List<KakurasuCell> col = new ArrayList<>();
+                ObservableList<KakurasuCell> col = FXCollections.observableArrayList();
                 KakurasuGroup g = new KakurasuGroup(sum, col);
                 cols.add(g);
                 for (int j = 0; j < width; j++) {

@@ -4,31 +4,40 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.experimental.Accessors;
 import puzzlesolver.generics.puzzle.*;
+import puzzlesolver.util.ListBindings;
+import puzzlesolver.util.LogicBindings;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Getter
+@Value
 public class KakurasuCell implements Cell<FillValue> {
     @Accessors(fluent = true)
-    private final BooleanProperty lockedProperty = new SimpleBooleanProperty();
+    BooleanProperty lockedProperty = new SimpleBooleanProperty();
     @Accessors(fluent = true)
-    private final LockableProperty<FillValue> valueProperty =
+    LockableProperty<FillValue> valueProperty =
             new LockableProperty<>(FillValue.EMPTY, lockedProperty);
     @Accessors(fluent = true)
-    private final ListProperty<Group<FillValue>> groupsProperty =
+    ListProperty<Group<FillValue>> groupsProperty =
             new SimpleListProperty<>(FXCollections.observableList(new LinkedList<>()));
-    private final KakurasuGrid grid;
-    private final Position position;
+    @Accessors(fluent = true)
+    ObservableBooleanValue validProperty =
+            LogicBindings.forall(ListBindings.mapEach(groupsProperty, g -> ((KakurasuGroup) g).validProperty()));
+    KakurasuGrid grid;
+    Position position;
 
     @Override
     public List<FillValue> getAllowedValues() {
         return List.of(FillValue.FILLED, FillValue.CROSSED);
+    }
+
+    @Override
+    public boolean isValid() {
+        return validProperty.get();
     }
 }

@@ -17,8 +17,8 @@ public class EqualityReasoner extends UnfinishedGroupReasoner<FillValue> {
     @Override
     public boolean applyToGroup(Group<FillValue> group, CompoundCommand comms) {
         KakurasuGroup g = (KakurasuGroup) group;
-        int max = g.computeMaxSum();
-        int current = g.computeSum();
+        int max = g.maxSumProperty().get();
+        int current = g.currentSumProperty().get();
         int goal = g.getSum();
         List<Command> commands = new LinkedList<>();
         Command mc = new MultiCommand(commands);

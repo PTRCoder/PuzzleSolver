@@ -20,7 +20,7 @@ public class SubsetReasoner extends UnfinishedGroupReasoner<FillValue> {
     @Override
     public boolean applyToGroup(Group<FillValue> group, CompoundCommand comms) {
         KakurasuGroup g = (KakurasuGroup) group;
-        int remaining = g.getSum() - g.computeSum();
+        int remaining = g.getSum() - g.currentSumProperty().get();
         List<KakurasuCell> cells = g.getCells();
         List<Integer> emptyCells = IntStream.range(0, cells.size())
                 .filter(x -> cells.get(x).isEmpty()).boxed().toList();

@@ -17,7 +17,7 @@ public class BigReasoner extends UnfinishedGroupReasoner<FillValue> {
     @Override
     public boolean applyToGroup(Group<FillValue> group, CompoundCommand comms) {
         KakurasuGroup g = (KakurasuGroup) group;
-        int max = g.computeMaxSum();
+        int max = g.maxSumProperty().get();
         int goal = g.getSum();
         int diff = max - goal;
         int n = g.getSize();
