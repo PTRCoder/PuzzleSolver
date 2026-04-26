@@ -54,9 +54,6 @@ public class KakurasuGroup implements Group<FillValue> {
                             else if (o == FillValue.CROSSED) {
                                 maxSum.set(maxSum.get() + weight);
                             }
-//                            log.debug("goal: {}, current: {}, max: {}, computed: ({}, {})",
-//                                    sum, currentSum.get(), maxSum.get(),
-//                                    computeSum(), computeMaxSum());
                         });
                         maxSum.set(maxSum.get() + weight);
                     }

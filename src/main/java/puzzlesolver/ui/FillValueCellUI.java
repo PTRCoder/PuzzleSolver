@@ -61,7 +61,6 @@ public abstract class FillValueCellUI extends Labeled {
     private void input(MouseEvent e) {
         if (editableProperty().get()) {
             MouseButton mb = e.getButton();
-            log.debug("{}", mb);
             FillValue old = valueProperty().getValue();
             FillValue n;
             switch (mb) {
@@ -77,7 +76,6 @@ public abstract class FillValueCellUI extends Labeled {
     private void inputDrag(MouseEvent e) {
         FillValue rep = replacement.get();
         if (editableProperty().get() && rep != null) {
-            log.debug("{}", rep);
             valueProperty().setValue(rep);
         }
     }

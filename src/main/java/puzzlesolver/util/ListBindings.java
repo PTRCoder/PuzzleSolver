@@ -22,11 +22,9 @@ public class ListBindings {
         for (var x : in) {
             out.add(func.apply(x));
         }
-//        log.debug("in_size: {}, out_size: {}", in.size(), out.size());
         // add listchangelistener
         in.addListener((ListChangeListener<? super I>) c -> {
             while (c.next()) {
-//                log.debug("PRE: {in: {}, out: {}, added: {}, removed: {}})", in.size(), out.size(), c.getAddedSize(), c.getRemovedSize());
                 if (c.wasPermutated()) {
                     List<O> old = new ArrayList<>(out.subList(c.getFrom(), c.getTo()));
                     for (int i = c.getFrom(); i < c.getTo(); i++) {
@@ -47,7 +45,6 @@ public class ListBindings {
                         out.addAll(i, c.getAddedSubList().stream().map(func).toList());
                     // index should never be > out.size()
                 }
-//                log.debug("POST: {in: {}, out: {}})", in.size(), out.size(), c.getAddedSize(), c.getRemovedSize());
             }
         });
         return out;
