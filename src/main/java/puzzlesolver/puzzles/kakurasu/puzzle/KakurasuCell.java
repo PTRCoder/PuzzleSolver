@@ -1,5 +1,6 @@
 package puzzlesolver.puzzles.kakurasu.puzzle;
 
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,6 +29,8 @@ public class KakurasuCell implements Cell<FillValue> {
     @Accessors(fluent = true)
     ObservableBooleanValue validProperty =
             LogicBindings.forall(ListBindings.mapEach(groupsProperty, g -> ((KakurasuGroup) g).validProperty()));
+    @Accessors(fluent = true)
+    ObservableBooleanValue emptyProperty = BooleanExpression.booleanExpression(valueProperty.map(FillValue::isEmpty));
     KakurasuGrid grid;
     Position position;
 

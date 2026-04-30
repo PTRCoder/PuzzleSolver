@@ -12,9 +12,10 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import puzzlesolver.generics.puzzle.FillValue;
 import puzzlesolver.generics.puzzle.Group;
+import puzzlesolver.util.ListBindings;
+import puzzlesolver.util.LogicBindings;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Slf4j
 @Value
@@ -27,6 +28,8 @@ public class KakurasuGroup implements Group<FillValue> {
     ReadOnlyIntegerProperty maxSumProperty;
     @Accessors(fluent = true)
     ReadOnlyBooleanProperty validProperty;
+    @Accessors(fluent = true)
+    ReadOnlyBooleanProperty finishedProperty;
 
     public KakurasuGroup(int sum, ObservableList<KakurasuCell> cells) {
         this.sum = sum;
@@ -66,23 +69,16 @@ public class KakurasuGroup implements Group<FillValue> {
                 maxSumProperty.greaterThanOrEqualTo(sum)
         ));
         this.validProperty = validWrapper.getReadOnlyProperty();
+        ReadOnlyBooleanWrapper finishedWrapper = new ReadOnlyBooleanWrapper();
+        finishedWrapper.bind(
+                LogicBindings.forall(ListBindings.mapEach(cells, c -> Bindings.not(c.emptyProperty())))
+        );
+        this.finishedProperty = finishedWrapper.getReadOnlyProperty();
     }
 
     @Override
     public boolean validate() {
         return validProperty.get();
-    }
-
-    private int computeSum() {
-        return IntStream.range(0, cells.size())
-                .map(k -> cells.get(k).getValue() == FillValue.FILLED ? k + 1 : 0)
-                .sum();
-    }
-
-    private int computeMaxSum() {
-        return IntStream.range(0, cells.size())
-                .map(k -> cells.get(k).getValue() != FillValue.CROSSED ? k + 1 : 0)
-                .sum();
     }
 
     @Override

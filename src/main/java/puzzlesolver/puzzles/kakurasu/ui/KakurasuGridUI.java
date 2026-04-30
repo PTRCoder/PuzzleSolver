@@ -1,8 +1,11 @@
 package puzzlesolver.puzzles.kakurasu.ui;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NonNls;
 import puzzlesolver.generics.puzzle.Position;
@@ -50,14 +53,25 @@ public final class KakurasuGridUI extends GridPane {
         int i = 0;
         for (KakurasuGroup group : data.getCols()) {
             LineLabel label = new LineLabel(group.getSum());
+            label.textFillProperty().bind(createLabelPaint(group));
             label.getStyleClass().add(LABEL_CSS_CLASS);
             this.add(label, i++, h - 1);
         }
         i = 0;
         for (KakurasuGroup group : data.getRows()) {
             LineLabel label = new LineLabel(group.getSum());
+            label.textFillProperty().bind(createLabelPaint(group));
             label.getStyleClass().add(LABEL_CSS_CLASS);
             this.add(label, w - 1, i++);
         }
+    }
+
+    private static ObservableValue<Color> createLabelPaint(KakurasuGroup group) {
+        return Bindings.when(group.validProperty())
+                .then(
+                        Bindings.when(group.finishedProperty())
+                                .then(Color.LIGHTGRAY)
+                                .otherwise(Color.BLUE)
+                ).otherwise(Color.RED);
     }
 }

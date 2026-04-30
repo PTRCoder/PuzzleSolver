@@ -1,8 +1,6 @@
 package puzzlesolver.puzzles.kakurasu.ui;
 
 import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -17,14 +15,12 @@ public class KakurasuCellUI extends FillValueCellUI {
     private static final @NonNls String CSS = "kakurasu-cell";
     private static final int CROSSED_OFFSET = 10;
     private static final double CROSSED_WIDTH = 3;
-    private static final Background BG_INVALID = new Background(new BackgroundFill(Color.YELLOW, null, null));
 
     public KakurasuCellUI(KakurasuCell data) {
         super();
         this.getStyleClass().add(CSS);
 
         this.valueProperty().bindBidirectional(data.valueProperty());
-        this.backgroundProperty().bind(data.validProperty().map(x -> x ? null : BG_INVALID));
         this.editableProperty().bind(data.lockedProperty().not());
     }
 
