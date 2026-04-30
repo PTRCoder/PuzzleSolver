@@ -18,46 +18,45 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      SHOULD_RUN: 'true'
     steps:
       - uses: actions/checkout@v6
-        if: ${{ env.SHOULD_RUN == 'true'}}
       - name: Set up JDK 21
         uses: actions/setup-java@v5
-        if: ${{ env.SHOULD_RUN == 'true'}}
         with:
           java-version: '21'
           distribution: 'oracle'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: enhanced
       - name: Build with Gradle Wrapper
         run: chmod +x gradlew && ./gradlew jpackageImage
-      - name: Upload Artifacts
+      - name: Create tarball
+        run: tar -cvf PuzzleSolver-linux.tar.gz build/jpackage/PuzzleSolver
+      - name: Upload tar
+        uses: actions/upload-artifact@v7
+        with:
+          path: PuzzleSolver-linux.tar.gz
+          archive: false
+      - name: Upload zip
         uses: actions/upload-artifact@v7
         with:
           path: build/jpackage/PuzzleSolver
-          name: PuzzleSolver-linux
+          name: PuzzleSolver-linux.zip
 
   windows:
     runs-on: windows-latest
     permissions:
       contents: read
-    env:
-      SHOULD_RUN: 'true'
     steps:
       - uses: actions/checkout@v6
-        if: ${{ env.SHOULD_RUN == 'true'}}
       - name: Set up JDK 21
         uses: actions/setup-java@v5
-        if: ${{ env.SHOULD_RUN == 'true'}}
         with:
           java-version: '21'
           distribution: 'oracle'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: enhanced
       - name: Build with Gradle Wrapper
@@ -66,47 +65,4 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           path: build/jpackage/PuzzleSolver
-          name: PuzzleSolver-win
-  
-  macos:
-    runs-on: macos-latest
-    permissions:
-      contents: read
-    env:
-      SHOULD_RUN: 'true'
-    steps:
-      - uses: actions/checkout@v6
-        if: ${{ env.SHOULD_RUN == 'true'}}
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
-        if: ${{ env.SHOULD_RUN == 'true'}}
-        with:
-          java-version: '21'
-          distribution: 'oracle'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-        with:
-          cache-provider: enhanced
-      - name: Build with Gradle Wrapper
-        run: chmod +x gradlew && ./gradlew jpackageImage
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          path: build/jpackage/PuzzleSolver
-          name: PuzzleSolver-macos
-  
-  dependency-submission:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
-        with:
-          java-version: '21'
-          distribution: 'oracle'
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v6
-        with:
-          cache-provider: enhanced
+          name: PuzzleSolver-windows.zip
