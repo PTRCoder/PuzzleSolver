@@ -9,15 +9,18 @@ name: Build
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ '*' ]
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+      - '[0-9]*.[0-9]*.[0-9]*-*'
+      - '[0-9]*.[0-9]*.[0-9]*\+*'
+      - '[0-9]*.[0-9]*.[0-9]*-*\+*'
   pull_request:
-    branches: [ "main" ]
+    branches: [ 'main' ]
 
 jobs:
   linux-x86_64:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 21
@@ -32,7 +35,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: chmod +x gradlew && ./gradlew jpackageImage
       - name: Create tarball
-        run: tar -cvf PuzzleSolver-linux.tar.gz build/jpackage/PuzzleSolver
+        run: chmod +x build/jpackage/PuzzleSolver/bin/PuzzleSolver && tar -cvf PuzzleSolver-linux.tar.gz build/jpackage/PuzzleSolver
       - name: Upload tar
         uses: actions/upload-artifact@v7
         with:
@@ -46,8 +49,6 @@ jobs:
 
   windows:
     runs-on: windows-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 21
@@ -66,3 +67,34 @@ jobs:
         with:
           path: build/jpackage/PuzzleSolver
           name: PuzzleSolver-windows.zip
+
+  release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [ 'windows', 'linux-x86_64' ]
+    env:
+      VERSION: ${{ github.ref_name }}
+    steps:
+      - name: Download the artifacts
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+          skip-decompress: true
+      - name: Version Artifacts
+        run: |
+          for file in PuzzleSolver-*; do
+            name="${file}"
+            name="${name%.tar.gz}"
+            name="${name%.zip}"
+            ext="${file#$name}"
+            newfile="$name-${{ env.VERSION }}$ext"
+            echo "$file->$newfile"
+            mv "$file" "$newfile"
+          done
+          dir
+      - name: Release Artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: PuzzleSolver-*.zip, PuzzleSolver-*.tar.gz
+          name: Release ${{ env.VERSION }}
